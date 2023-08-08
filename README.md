@@ -84,6 +84,10 @@ npm run dev
 
 Por último, abre el navegador de tu preferencia y ve a la dirección que te indique la segunda terminal.
 
+## Estado del proyecto
+
+Este proyecto se encuentra en su fase inicial.
+
 ## Autores
 
 Este proyecto está hecho por los alumnos:
