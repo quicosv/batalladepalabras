@@ -1,14 +1,23 @@
 {
-	"name": "noderestserver",
-	"version": "1.0.0",
-	"description": "",
+	"name": "servidorbatalladepalabras",
+	"version": "1.0.0.0",
+	"description": "Servidor del juego Batalla de palabras",
 	"main": "index.js",
 	"scripts": {
 		"start": "start /b tsc -w & nodemon dist/index.js",
 		"lint": "eslint . --ext .ts"
 	},
-	"keywords": [],
-	"author": "",
+	"keywords": [
+		"palabras",
+		"batalla",
+		"duelo",
+		"juego",
+		"ahorcado",
+		"parejas",
+		"tiempo",
+		"real"
+	],
+	"author": "Quico Saval Vicente, Bilal Lahsen Chergui, Javier Goñi López",
 	"license": "ISC",
 	"devDependencies": {
 		"@types/bcryptjs": "^2.4.2",

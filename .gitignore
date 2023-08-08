@@ -1,4 +1,4 @@
-# Logs
+# Logs of frontend
 frontend/logs
 frontend/*.log
 frontend/npm-debug.log*
@@ -6,25 +6,41 @@ frontend/yarn-debug.log*
 frontend/yarn-error.log*
 frontend/pnpm-debug.log*
 frontend/lerna-debug.log*
-
 frontend/node_modules
 frontend/dist
-frotnend/dist-ssr
+frontend/dist-ssr
 frontend/*.local
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# Editor directories and files of Front-End
+frontend/.vscode/*
+frontend/!.vscode/extensions.json
+frontend/.idea
+frontend/.DS_Store
+frontend/*.suo
+frontend/*.ntvs*
+frontend/*.njsproj
+frontend/*.sln
+frontend/*.sw?
 
 # Back-End
-
 backend/node_modules
 backend/dist
 backend/.env
+backend/logs
+backend/*.log
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/pnpm-debug.log*
+backend/lerna-debug.log*
+backend/dist-ssr
+backend/*.local
+backend/.vscode/*
+backend/!.vscode/extensions.json
+backend/.idea
+backend/.DS_Store
+backend/*.suo
+backend/*.ntvs*
+backend/*.njsproj
+backend/*.sln
+backend/*.sw?
