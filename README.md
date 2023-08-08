@@ -2,6 +2,15 @@
 
 Bienvenidos al código del repo batalladepalabras, el proyecto final de clase de una aplicación que nos permite jugar contra cualquier otro usuario.
 
+## Índice
+
+- [Descripción](#descripción)
+- [Tecnologías utilizadas](#tecnologías-utilizadas)
+- [Instalación](#instalación)
+- [Ejecución](#ejecución)
+- [Estado del proyecto](#estado-del-proyecto)
+- [Autores](#autores)
+
 ## Descripción
 
 El objetivo de este proyecto es crear una aplicación full-stack que combine todo lo aprendido en los cursos [Desarrollador/a Javascript - React](https://insertaonce.arelance.com/course/view.php?id=30) y [curso Desarrollador/a Back-End Node.JS.](https://insertaonce.arelance.com/course/view.php?id=32)
