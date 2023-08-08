@@ -1,10 +1,19 @@
-# ¡Jotaqube! Comparte tu experiencia
+# Batalla de palabras
 
-Bienvenidos al código del repo Jotaqube, un proyecto de clase de una aplicación que nos permite compartir código unos con otros, ¡gratis y de forma accesible!
+Bienvenidos al código del repo batalladepalabras, el proyecto final de clase de una aplicación que nos permite jugar contra cualquier otro usuario.
+
+## Índice
+
+- [Descripción](#descripción)
+- [Tecnologías utilizadas](#tecnologías-utilizadas)
+- [Instalación](#instalación)
+- [Ejecución](#ejecución)
+- [Estado del proyecto](#estado-del-proyecto)
+- [Autores](#autores)
 
 ## Descripción
 
-El objetivo de este proyecto es completar una tarea del [curso Desarrollador/a Back-End Node.JS](https://insertaonce.arelance.com/course/view.php?id=32) que consiste en hacer una aplicación inspirada en [Código JL.](https://codigojl.web.app)
+El objetivo de este proyecto es crear una aplicación full-stack que combine todo lo aprendido en los cursos [Desarrollador/a Javascript - React](https://insertaonce.arelance.com/course/view.php?id=30) y [curso Desarrollador/a Back-End Node.JS.](https://insertaonce.arelance.com/course/view.php?id=32)
 
 ## Tecnologías utilizadas
 
@@ -22,17 +31,12 @@ En este repositorio se encuentra:
 
 - Una carpeta backend con el código del servidor.
 - Una carpeta frontend con el código del cliente.
-- Un archivo basededatos.sql que contiene las instrucciones necesarias para poner en marcha la base de datos.
 
 ### Instalación de la base de datos
 
-Arranca una terminal en la carpeta raíz del proyecto y ejecuta:
+dentro de la carpeta backend encontrarás una carpeta llamada sql que contiene todo lo necesario para instalar la base de datos.
 
-`mysql -uroot -p`
-
-A continuación tendrás que poner la contraseña del usuario root en tu instalación de mysql. Una vez hecho esto deberás ejecutar el script:
-
-`source basededatos.sql;`
+Arranca una terminal en esa carpeta, conéctate a mysql como se indica en el primer comentario de palabras.sql y luego podrás ejecutar `source palabras.sql;`.
 
 ### Puesta a punto del servidor
 
@@ -87,14 +91,18 @@ cd frontend
 npm run dev
 ```
 
-Por último, abre el navegador de tu preferencia y ve a la dirección `http://localhost:5173`.
+Por último, abre el navegador de tu preferencia y ve a la dirección que te indique la segunda terminal.
+
+## Estado del proyecto
+
+Este proyecto se encuentra en su fase inicial.
 
 ## Autores
 
 Este proyecto está hecho por los alumnos:
 
 - [Bilal Lahsen Chergui](https://github.com/Mskenmasters)
-- [javier Goñi López](https://github.com/dinoscor)
+- [Javier Goñi López](https://github.com/dinoscor)
 - [Quico Saval Vicente](https://github.com/quicosv)
 
 Agradecemos las explicaciones teóricas, la resolución de dudas y el soporte a nivel visual de nuestro profesor [Juan Luis Ochoa.](https://github.com/jlochoa)
