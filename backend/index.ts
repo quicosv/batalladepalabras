@@ -5,9 +5,8 @@ import cors from 'cors';
 import { dbConnection } from './database/config';
 import { routerAuth } from './routes/routerAuth';
 import { routerUsuarios } from './routes/routerUsuarios';
-import { routerCursos } from './routes/routerCursos';
 import { Server, Socket } from 'socket.io';
-import { UsuariosConectadosLista } from './classes/usuariosConectadosLista';
+import { routerPalabras } from './routes/routerPalabras';
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -23,7 +22,7 @@ app.use(express.json());
 
 app.use('/api/auth', routerAuth);
 app.use('/api/usuarios', routerUsuarios);
-app.use('/api/cursos', routerCursos);
+app.use('/api/palabras', routerPalabras);
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
