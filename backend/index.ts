@@ -1,13 +1,13 @@
-import express from "express";
-import { Express } from "express";
-import http from "http";
-import cors from "cors";
-import { dbConnection } from "./database/config";
-import { routerAuth } from "./routes/routerAuth";
-import { routerUsuarios } from "./routes/routerUsuarios";
-import { routerCursos } from "./routes/routerCursos";
-import { Server, Socket } from "socket.io";
-import { UsuariosConectadosLista } from "./classes/usuariosConectadosLista";
+<<<<<<< HEAD
+import express from 'express';
+import { Express } from 'express';
+import http from 'http';
+import cors from 'cors';
+import { dbConnection } from './database/config';
+import { routerAuth } from './routes/routerAuth';
+import { routerUsuarios } from './routes/routerUsuarios';
+import { Server, Socket } from 'socket.io';
+import { routerPalabras } from './routes/routerPalabras';
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -21,9 +21,9 @@ app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", routerAuth);
-app.use("/api/usuarios", routerUsuarios);
-app.use("/api/cursos", routerCursos);
+app.use('/api/auth', routerAuth);
+app.use('/api/usuarios', routerUsuarios);
+app.use('/api/palabras', routerPalabras);
 
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
