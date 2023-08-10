@@ -1,0 +1,1 @@
+const aplicacion = 'Batalla de palabras';
