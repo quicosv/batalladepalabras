@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import express from 'express';
 import { Express } from 'express';
 import http from 'http';
@@ -16,7 +17,7 @@ const usuariosConectados = new UsuariosConectadosLista();
 dbConnection();
 
 // Middlewares
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
 
@@ -27,41 +28,52 @@ app.use('/api/palabras', routerPalabras);
 const httpServer = http.createServer(app);
 const io = new Server(httpServer);
 
-io.on('connection', (socket: Socket) => {
+io.on("connection", (socket: Socket) => {
 	console.log(socket.id);
-	console.log('Cliente conectado');
+	console.log("Cliente conectado");
 
-	usuariosConectados.addUsuario(socket.handshake.query['email']?.toString(), socket.id);
+	usuariosConectados.addUsuario(
+		socket.handshake.query["email"]?.toString(),
+		socket.id
+	);
 
-	io.sockets.emit('usuarios-conectados', usuariosConectados.getUsuarios());
+	io.sockets.emit("usuarios-conectados", usuariosConectados.getUsuarios());
 
-	socket.on('disconnect', () => {
+	socket.on("disconnect", () => {
 		const sala = usuariosConectados.getSalaUsuario(socket.id);
 		usuariosConectados.removeUsuario(socket.id);
-		io.emit('usuarios-conectados', usuariosConectados.getUsuarios());
-		io.to(sala).emit('usuarios-conectados-a-sala', usuariosConectados.getUsuariosDeSala(sala));
+		io.emit("usuarios-conectados", usuariosConectados.getUsuarios());
+		io.to(sala).emit(
+			"usuarios-conectados-a-sala",
+			usuariosConectados.getUsuariosDeSala(sala)
+		);
 	});
 
-	socket.on('desconectar', (data: { email: string }) => {
+	socket.on("desconectar", (data: { email: string }) => {
 		usuariosConectados.removeUsuarioCerrarSesion(data.email);
 		socket.disconnect();
-		io.emit('usuarios-conectados', usuariosConectados.getUsuarios());
+		io.emit("usuarios-conectados", usuariosConectados.getUsuarios());
 	});
 
-	socket.on('conectar-a-sala', (data: { email: string; sala: string }) => {
+	socket.on("conectar-a-sala", (data: { email: string; sala: string }) => {
 		usuariosConectados.addToSala(data.email, data.sala);
 		socket.join(data.sala);
 
-		io.to(data.sala).emit('usuarios-conectados-a-sala', usuariosConectados.getUsuariosDeSala(data.sala));
+		io.to(data.sala).emit(
+			"usuarios-conectados-a-sala",
+			usuariosConectados.getUsuariosDeSala(data.sala)
+		);
 	});
 
-	socket.on('desconectar-de-sala', (data: { email: string; sala: string }) => {
-		usuariosConectados.addToSala(data.email, '');
+	socket.on("desconectar-de-sala", (data: { email: string; sala: string }) => {
+		usuariosConectados.addToSala(data.email, "");
 		socket.leave(data.sala);
 
-		io.to(data.sala).emit('usuarios-conectados-a-sala', usuariosConectados.getUsuariosDeSala(data.sala));
+		io.to(data.sala).emit(
+			"usuarios-conectados-a-sala",
+			usuariosConectados.getUsuariosDeSala(data.sala)
+		);
 	});
-
 });
 
 // Puesta en marcha
