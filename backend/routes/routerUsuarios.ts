@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { insertUsuario } from '../controllers/usuariosController';
+import { insertJugador } from '../controllers/jugadoresController';
 import { check } from 'express-validator';
 import { emailExiste } from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
@@ -15,5 +15,5 @@ routerUsuarios.post(
     check('email').custom(emailExiste),
     validarCampos
   ],
-  insertUsuario
+  insertJugador
 );

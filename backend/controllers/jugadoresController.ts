@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { Usuario } from '../models/usuario';
 import bcryptjs from 'bcryptjs';
 import { generarJWT } from '../helpers/generarJWT';
+import { Jugador } from '../models/jugador';
 
-export const insertUsuario = async (req: Request, res: Response) => {
+export const insertJugador = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
@@ -12,14 +12,14 @@ export const insertUsuario = async (req: Request, res: Response) => {
 
     const token = await generarJWT(email);
 
-    const usuario = await Usuario.create({
+    const jugador = await Jugador.create({
       email,
       password: passwordEncriptado,
       token: token as string
     });
 
     res.status(200).json({
-      email: usuario.dataValues.email,
+      email: jugador.dataValues.email,
       token
     });
   } catch (error) {
