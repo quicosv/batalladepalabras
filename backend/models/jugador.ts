@@ -1,14 +1,14 @@
 import { DataTypes, Model } from 'sequelize';
 import { db } from '../database/config';
 
-interface UsuarioAttributes {
+interface JugadorAttributes {
   email: string;
   password: string;
   token: string;
 }
 
-export const Usuario = db.define<Model<UsuarioAttributes>>(
-  'Usuario',
+export const Jugador = db.define<Model<JugadorAttributes>>(
+  'Jugador',
   {
     email: {
       type: DataTypes.STRING(100),
@@ -26,6 +26,6 @@ export const Usuario = db.define<Model<UsuarioAttributes>>(
     }
   },
   {
-    tableName: 'usuarios'
+    tableName: 'jugadores'
   }
 );
