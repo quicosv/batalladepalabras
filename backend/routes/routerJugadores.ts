@@ -4,9 +4,9 @@ import { check } from 'express-validator';
 import { emailExiste } from '../helpers/dbValidators';
 import { validarCampos } from '../middlewares/validarCampos';
 
-export const routerUsuarios = Router();
+export const routerJugadores = Router();
 
-routerUsuarios.post(
+routerJugadores.post(
   '/',
   [
     check('email', 'El email es obligatorio').not().isEmpty(),
