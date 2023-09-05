@@ -8,13 +8,27 @@ set
 
 drop database if exists batalladepalabras;
 
-create batalladepalabras;
+show warnings;
+
+create database batalladepalabras;
+
+-- Modificamos la codificación de la base de datos a UTF8
+ALTER DATABASE batalladepalabras CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 use batalladepalabras;
 
-create table palabras (palabra varchar(25) not null primary key);
+create table palabras (
+	idpalabra int UNSIGNED NOT NULL AUTO_INCREMENT primary key,
+	palabra varchar(30) not null
+);
 
-load data local infile 'palabras.txt' into table palabras lines terminated by '\n';
+ALTER TABLE
+	palabras CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- load data local infile 'palabras.txt' into table palabras lines terminated by '\n';
+LOAD DATA LOCAL INFILE 'palabras.txt' INTO TABLE palabras LINES TERMINATED BY '\n' (palabra);
+
+show warnings;
 
 create table usuarios (
 	email varchar(100) not null primary key,
