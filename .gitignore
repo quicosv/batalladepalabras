@@ -21,6 +21,7 @@ frontend/*.ntvs*
 frontend/*.njsproj
 frontend/*.sln
 frontend/*.sw?
+frontend/.env
 
 # Back-End
 backend/node_modules
