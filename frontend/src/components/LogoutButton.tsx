@@ -19,11 +19,8 @@ export const LogoutButton = () => {
 
   return (
     <>
-      <span>
-        Bienvenido, <b>{usuarioInfo.email} </b>
-      </span>
       <button className="btn btn-warning" onClick={logout}>
-        Cerrar sesión
+        Cerrar sesión de {usuarioInfo.email}
       </button>
     </>
   );
