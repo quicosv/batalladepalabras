@@ -1,19 +1,21 @@
+import { Link } from 'react-router-dom';
 import { SignInForm } from './SignInForm';
-import { SignUpForm } from './SignUpForm';
 
 export const LoginPage = () => {
   return (
     <>
-      <h1>Chat</h1>
+      <h1>Batalla de palabras</h1>
       <hr />
       <div className="row">
         <div className="col">
           <SignInForm />
         </div>
-        <div className="col">
-          <SignUpForm />
-        </div>
+        
       </div>
+	  <p>
+        ¿No tiene cuenta?{' '}
+        <Link to="/register">Regístrese</Link>
+      </p>
     </>
   );
 };
