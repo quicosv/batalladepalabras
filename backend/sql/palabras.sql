@@ -17,12 +17,16 @@ ALTER DATABASE batalladepalabras CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_c
 
 use batalladepalabras;
 
-create table palabras (palabra varchar(30) not null primary key);
+create table palabras (
+	idpalabra int UNSIGNED NOT NULL AUTO_INCREMENT primary key,
+	palabra varchar(30) not null
+);
 
 ALTER TABLE
 	palabras CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-load data local infile 'palabras.txt' into table palabras lines terminated by '\n';
+-- load data local infile 'palabras.txt' into table palabras lines terminated by '\n';
+LOAD DATA LOCAL INFILE 'palabras.txt' INTO TABLE palabras (palabra) LINES TERMINATED BY '\n';
 
 show warnings;
 
