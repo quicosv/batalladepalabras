@@ -26,7 +26,7 @@ ALTER TABLE
 	palabras CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- load data local infile 'palabras.txt' into table palabras lines terminated by '\n';
-LOAD DATA LOCAL INFILE 'palabras.txt' INTO TABLE palabras (palabra) LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE 'palabras.txt' INTO TABLE palabras LINES TERMINATED BY '\n' (palabra);
 
 show warnings;
 
