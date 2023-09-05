@@ -7,8 +7,7 @@ export const SocketStatus = ({ online }: ISocketStatusProps) => {
     <>
       <div className="alert">
         <p>
-          Service status:
-          {online ? <span className="text-success"> Online</span> : <span className="text-danger"> Offline</span>}
+          {online ? <span className="text-success">Estás conectado.</span> : <span className="text-danger">No estás conectado.</span>}
         </p>
       </div>
     </>
