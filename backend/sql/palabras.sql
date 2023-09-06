@@ -30,7 +30,7 @@ LOAD DATA LOCAL INFILE 'palabras.txt' INTO TABLE palabras LINES TERMINATED BY '\
 
 show warnings;
 
-create table usuarios (
+create table jugadores (
 	email varchar(100) not null primary key,
 	password varchar(150) not null,
 	token varchar(500) not null
