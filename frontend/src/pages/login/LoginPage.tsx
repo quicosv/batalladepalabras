@@ -14,7 +14,7 @@ export const LoginPage = () => {
       </div>
 	  <p>
         ¿No tiene cuenta?{' '}
-        <Link to="/register">Regístrese</Link>
+        <Link to="/registro">Regístrese</Link>
       </p>
     </>
   );

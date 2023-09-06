@@ -4,7 +4,7 @@ interface AhorcadoProps {
   palabraProporcionada: string;
 }
 
-export const Ahorcado: React.FC<AhorcadoProps> = ({ palabraProporcionada }) => {
+export const AhorcadoPage: React.FC<AhorcadoProps> = ({ palabraProporcionada }) => {
   const [letrasPorAdivinar, setLetrasPorAdivinar] = useState<string>('');
   const [letra, setLetra] = useState<string>('');
   const [letrasAdivinadas, setLetrasAdivinadas] = useState<string[]>([]);
