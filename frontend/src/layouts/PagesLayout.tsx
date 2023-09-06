@@ -68,17 +68,13 @@ export const PagesLayout = () => {
       <header className="container">
         <div className="row">
           <div className="col-4">
-            <h1>Chat</h1>
-          </div>
-          <div className="col-4">
-            <SocketStatus online={online} />
+            <h1>Batalla de palabras</h1>
           </div>
           <div className="col-4 mt-2">
             <LogoutButton />
           </div>
         </div>
       </header>
-      <hr />
       <main className="container">
         <div className="row">
           <div className="col">
@@ -86,6 +82,11 @@ export const PagesLayout = () => {
           </div>
         </div>
       </main>
+      <footer>
+      <div className="col-4">
+            <SocketStatus online={online} />
+          </div>
+      </footer>
     </>
   );
 };

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { Usuario } from '../models/usuario';
+import { Jugador } from '../models/jugador';
 import { generarJWT } from '../helpers/generarJWT';
 
 dotenv.config();
@@ -34,11 +34,11 @@ export const validarJWT = async (req: Request, res: Response, next: NextFunction
 const refreshJWT = async (req: Request, res: Response) => {
 	const token = req.header('x-token')!;
 	const { email } = jwt.decode(token) as jwt.JwtPayload;
-	const usuario = await Usuario.findByPk(email);
+	const jugador = await Jugador.findByPk(email);
 	try {
-		if (usuario && usuario.dataValues.token === token) {
+		if (jugador && jugador.dataValues.token === token) {
 			const newToken = await generarJWT(email);
-			await usuario.update({ ...usuario.dataValues, token: newToken as string });
+			await jugador.update({ ...jugador.dataValues, token: newToken as string });
 			res.status(200).json({
 				newToken: newToken
 			});
