@@ -6,6 +6,7 @@ import { SocketStatus } from '../components/SocketStatus';
 import { ILocalStorageInfo } from '../interfaces/localStorageInfo.interface';
 import { AppContext } from '../context/AppContext';
 import { IJugadorInfoContext } from '../interfaces/context.interface';
+import { aplicacion } from '../variables';
 
 export const PagesLayout = () => {
   const { jugadorInfo: usuarioInfo, setJugadorInfo: setUsuarioInfo } = useContext<IJugadorInfoContext>(AppContext);
@@ -68,7 +69,7 @@ export const PagesLayout = () => {
       <header className="container">
         <div className="row">
           <div className="col-4">
-            <h1>Batalla de palabras</h1>
+            <h1>{aplicacion}</h1>
           </div>
           <div className="col-4 mt-2">
             <LogoutButton />

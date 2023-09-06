@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { h1Partida, tituloPartida } from '../../variables';
 
 interface AhorcadoProps {
   palabraProporcionada: string;
@@ -58,9 +59,12 @@ export const AhorcadoPage: React.FC<AhorcadoProps> = ({ palabraProporcionada }) 
     setLetra(event.currentTarget.value.trim());
   };
 
+  useEffect(() => {
+    document.title = tituloPartida;
+  }, []);
   return (
     <>
-      <h1>Ahorcado</h1>
+      <h1>{h1Partida}</h1>
       <hr />
       <p>{letrasPorAdivinar}</p>
 
