@@ -10,7 +10,6 @@ export const LoginPage = () => {
   return (
     <>
       <h1>{h1Login}</h1>
-      <hr />
       <div className="row">
         <div className="col">
           <SignInForm />

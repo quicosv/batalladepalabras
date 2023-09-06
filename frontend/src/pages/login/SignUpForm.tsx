@@ -48,9 +48,6 @@ export const SignUpForm = () => {
 
   return (
     <>
-      <h1>Crear cuenta</h1>
-      <hr />
-
       <form onSubmit={singUp}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
