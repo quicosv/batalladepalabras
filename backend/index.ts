@@ -1,16 +1,20 @@
-import express from 'express';
-import { Express } from 'express';
-import http from 'http';
-import cors from 'cors';
-import { dbConnection } from './database/config';
-import { routerAuth } from './routes/routerAuth';
-import { routerJugadores } from './routes/routerJugadores';
-import { Server, Socket } from 'socket.io';
-import { routerPalabras } from './routes/routerPalabras';
+import express from "express";
+import { Express } from "express";
+import http from "http";
+import cors from "cors";
+import { dbConnection } from "./database/config";
+import { routerAuth } from "./routes/routerAuth";
+import { routerJugadores } from "./routes/routerJugadores";
+import { Server, Socket } from "socket.io";
+import { validarJWT, validarJWTSocket } from "./middlewares/validarJWT";
+import { routerPalabras } from "./routes/routerPalabras";
+import { routerSalas } from "./routes/routerSalas";
+import { JugadoresConectadosLista } from "./classes/jugadoresConectadosLista";
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
+const jugadoresConectados = new JugadoresConectadosLista();
 
 dbConnection();
 
@@ -19,60 +23,85 @@ app.use(express.static("public"));
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/auth', routerAuth);
-app.use('/api/jugadores', routerJugadores);
-app.use('/api/palabras', routerPalabras);
+app.use("/api/auth", routerAuth);
+app.use("/api/jugadores", routerJugadores);
+app.use("/api/palabras", routerPalabras);
+app.use("/api/salas", validarJWT, routerSalas);
 
 const httpServer = http.createServer(app);
-const io = new Server(httpServer);
+export const io = new Server(httpServer, {
+	cors: {
+		origin: "*",
+	},
+});
 
-// io.on("connection", (socket: Socket) => {
-// 	console.log(socket.id);
-// 	console.log("Cliente conectado");
+io.on("connection", (socket: Socket) => {
+	const valido = validarJWTSocket(
+		socket.handshake.query["x-token"] as string | undefined
+	); // La especificación dice que puede venir como string[], por eso la conversión con as
 
-// 	usuariosConectados.addUsuario(
-// 		socket.handshake.query["email"]?.toString(),
-// 		socket.id
-// 	);
+	if (!valido) {
+		console.log("socket no identificado");
+		return socket.disconnect();
+	}
 
-// 	io.sockets.emit("usuarios-conectados", usuariosConectados.getUsuarios());
+	console.log(socket.id);
+	console.log("Cliente conectado");
 
-// 	socket.on("disconnect", () => {
-// 		const sala = usuariosConectados.getSalaUsuario(socket.id);
-// 		usuariosConectados.removeUsuario(socket.id);
-// 		io.emit("usuarios-conectados", usuariosConectados.getUsuarios());
-// 		io.to(sala).emit(
-// 			"usuarios-conectados-a-sala",
-// 			usuariosConectados.getUsuariosDeSala(sala)
-// 		);
-// 	});
+	const email = socket.handshake.query["email"]?.toString() || "";
+	const sala = socket.handshake.query["sala"]?.toString() || "";
+	jugadoresConectados.addJugador(email, socket.id);
 
-// 	socket.on("desconectar", (data: { email: string }) => {
-// 		usuariosConectados.removeUsuarioCerrarSesion(data.email);
-// 		socket.disconnect();
-// 		io.emit("usuarios-conectados", usuariosConectados.getUsuarios());
-// 	});
+	if (sala !== "") {
+		jugadoresConectados.addToSala(email, sala);
+		socket.join(sala);
 
-// 	socket.on("conectar-a-sala", (data: { email: string; sala: string }) => {
-// 		usuariosConectados.addToSala(data.email, data.sala);
-// 		socket.join(data.sala);
+		io.to(sala).emit(
+			"jugadores-conectados-a-sala",
+			jugadoresConectados.getJugadoresDeSala(sala)
+		);
+	}
 
-// 		io.to(data.sala).emit(
-// 			"usuarios-conectados-a-sala",
-// 			usuariosConectados.getUsuariosDeSala(data.sala)
-// 		);
-// 	});
+	io.sockets.emit("jugadores-conectados", jugadoresConectados.getJugadores());
 
-// 	socket.on("desconectar-de-sala", (data: { email: string; sala: string }) => {
-// 		usuariosConectados.addToSala(data.email, "");
-// 		socket.leave(data.sala);
+	socket.on("disconnect", () => {
+		const sala = jugadoresConectados.getSalaJugador(socket.id);
+		jugadoresConectados.removeJugador(socket.id);
+		io.emit("jugadores-conectados", jugadoresConectados.getJugadores());
+		io.to(sala).emit(
+			"jugadores-conectados-a-sala",
+			jugadoresConectados.getJugadoresDeSala(sala)
+		);
+	});
 
-// 		io.to(data.sala).emit(
-// 			"usuarios-conectados-a-sala",
-// 			usuariosConectados.getUsuariosDeSala(data.sala)
-// 		);
-// 	});
-// });
+	socket.on("conectar-a-sala", (data: { email: string; sala: string }) => {
+		jugadoresConectados.addToSala(data.email, data.sala);
+		socket.join(data.sala);
+
+		io.to(data.sala).emit(
+			"jugadores-conectados-a-sala",
+			jugadoresConectados.getJugadoresDeSala(data.sala)
+		);
+	});
+
+	socket.on("desconectar-de-sala", (data: { email: string; sala: string }) => {
+		jugadoresConectados.addToSala(data.email, "");
+		socket.leave(data.sala);
+
+		io.to(data.sala).emit(
+			"jugadores-conectados-a-sala",
+			jugadoresConectados.getJugadoresDeSala(data.sala)
+		);
+	});
+
+	socket.on(
+		"mensaje-privado",
+		(data: { from: string; to: string; texto: string }) => {
+			const mensaje = `Mensaje privado de: ${data.from} - ${data.texto}`;
+			io.to(data.to).emit("recibir-privado", { mensaje });
+		}
+	);
+});
 
 // Puesta en marcha
 httpServer.listen(port, () => {
