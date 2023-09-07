@@ -3,17 +3,17 @@
 import { createContext } from 'react';
 import { IJugadorInfo, IJugadorInfoContext } from '../interfaces/context.interface';
 
-// Comenzamos con un usuario vacío
-const usuarioInfo: IJugadorInfo = {
+// Comenzamos con un jugador vacío
+const jugadorInfo: IJugadorInfo = {
   email: '',
   socket: undefined
 };
 
 // Creamos el objeto que va a formar parte del context
-const usuarioInfoContext: IJugadorInfoContext = {
-  jugadorInfo: usuarioInfo,
+const jugadorInfoContext: IJugadorInfoContext = {
+  jugadorInfo: jugadorInfo,
   setJugadorInfo: () => null
 };
 
 // Y aquí creamos el context
-export const AppContext = createContext<IJugadorInfoContext>(usuarioInfoContext);
+export const AppContext = createContext<IJugadorInfoContext>(jugadorInfoContext);

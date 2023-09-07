@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SalasForm } from './SalasForm';
 import { SalasList } from './SalasList';
-import { UsersConnectedList } from '../../components/UsersConnectedList';
+import { UsersConnectedList } from '../../components/JugadoresConnectedList';
 
 export const SalasPage = () => {
   const [refreshSalas, setRefreshSalas] = useState<boolean>(true);

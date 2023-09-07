@@ -1,4 +1,4 @@
-import { IUsuarioConectado } from '../interfaces/usuarioConectado.interface';
+import { IJugadorConectado } from '../interfaces/jugadorConectado.interface';
 import { useState, useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { IJugadorInfoContext } from '../interfaces/context.interface';
