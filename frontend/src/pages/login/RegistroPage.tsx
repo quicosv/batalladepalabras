@@ -9,7 +9,6 @@ export const RegistroPage = () => {
   return (
     <>
       <h1>{h1Registro}</h1>
-      <hr />
       <div className="row">
         
         <div className="col">

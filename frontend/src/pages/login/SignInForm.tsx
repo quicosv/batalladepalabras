@@ -47,9 +47,6 @@ export const SignInForm = () => {
 
   return (
     <>
-      <h1>Login</h1>
-      <hr />
-
       <form onSubmit={login}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
