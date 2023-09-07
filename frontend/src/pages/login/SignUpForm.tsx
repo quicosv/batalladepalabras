@@ -50,8 +50,8 @@ export const SignUpForm = () => {
     <>
       <form onSubmit={singUp}>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" className="form-control" value={email} onChange={onInputChange} required />
+          <label htmlFor="email">Correo electrónico</label>
+          <input id="email" type="email" className="form-control" value={email} onChange={onInputChange} title='Este coreo actuará como su nombre de usuario.' required />
         </div>
         <div className="form-group">
           <label htmlFor="password">Contraseña</label>
@@ -61,6 +61,7 @@ export const SignUpForm = () => {
             className="form-control"
             value={password}
             onChange={onInputChange}
+            title='Debe tener un mínimo de 6 caracteres.'
             required
           />
         </div>
@@ -72,6 +73,7 @@ export const SignUpForm = () => {
             className="form-control"
             value={password2}
             onChange={onInputChange}
+            title='Debe coincidir con la que ha escrito en el campo anterior.'
             required
           />
         </div>
@@ -80,7 +82,7 @@ export const SignUpForm = () => {
             Las contraseñas no coinciden
           </div>
         )}
-        <button className="btn btn-primary" type="submit" disabled={email.trim() === '' || password.trim() === ''}>
+        <button className="btn btn-primary" type="submit">
           Crear cuenta
         </button>
       </form>

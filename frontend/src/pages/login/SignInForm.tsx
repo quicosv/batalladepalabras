@@ -49,8 +49,8 @@ export const SignInForm = () => {
     <>
       <form onSubmit={login}>
         <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input id="email" type="email" className="form-control" value={email} onChange={onInputChange} required />
+          <label htmlFor="email">Correo electrónico</label>
+          <input id="email" type="email" className="form-control" value={email} onChange={onInputChange} title='El correo que utilizó para registrarse.' required />
         </div>
         <div className="form-group">
           <label htmlFor="password">Contraseña</label>
@@ -60,10 +60,11 @@ export const SignInForm = () => {
             className="form-control"
             value={password}
             onChange={onInputChange}
+            title='El sistema distingue entre mayúsculas y minúsculas.'
             required
           />
         </div>
-        <button className="btn btn-success" type="submit" disabled={email.trim() === '' || password.trim() === ''}>
+        <button className="btn btn-success" type="submit">
           Iniciar sesión
         </button>
       </form>
