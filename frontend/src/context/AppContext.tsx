@@ -5,14 +5,14 @@ import { IJugadorInfo, IJugadorInfoContext } from '../interfaces/context.interfa
 
 // Comenzamos con un jugador vacío
 const jugadorInfo: IJugadorInfo = {
-  email: '',
-  socket: undefined
+	email: '',
+	socket: undefined
 };
 
 // Creamos el objeto que va a formar parte del context
 const jugadorInfoContext: IJugadorInfoContext = {
-  jugadorInfo: jugadorInfo,
-  setJugadorInfo: () => null
+	jugadorInfo: jugadorInfo,
+	setJugadorInfo: () => null
 };
 
 // Y aquí creamos el context

@@ -10,12 +10,12 @@ export const routerSalas = Router();
 routerSalas.get('/', getSalas);
 
 routerSalas.post(
-  '/',
-  [
-    validarJWT,
-    check('nombre', 'El nombre de la sala es obligatorio').not().isEmpty(),
-    check('nombre').custom(salaExiste),
-    validarCampos
-  ],
-  insertSala
+	'/',
+	[
+		validarJWT,
+		check('nombre', 'El nombre de la sala es obligatorio').not().isEmpty(),
+		check('nombre').custom(salaExiste),
+		validarCampos
+	],
+	insertSala
 );
