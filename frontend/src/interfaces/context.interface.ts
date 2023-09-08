@@ -7,5 +7,5 @@ export interface IJugadorInfo {
 
 export interface IJugadorInfoContext {
 	jugadorInfo: IJugadorInfo;
-	setJugadorInfo: (usuarioInfo: IJugadorInfo) => void;
+	setJugadorInfo: (jugadorInfo: IJugadorInfo) => void;
 }
