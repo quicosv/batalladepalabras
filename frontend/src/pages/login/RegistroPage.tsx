@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { h1Registro, tituloRegistro } from '../../variables';
 import { SignUpForm } from './SignUpForm';
 
