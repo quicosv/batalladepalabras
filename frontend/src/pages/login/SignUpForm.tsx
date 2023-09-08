@@ -9,7 +9,7 @@ import { IJugadorInfoContext } from '../../interfaces/context.interface';
 import { AppContext } from '../../context/AppContext';
 
 export const SignUpForm = () => {
-	const { setJugadorInfo: setUsuarioInfo } = useContext<IJugadorInfoContext>(AppContext);
+	const { setJugadorInfo: setJugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
@@ -28,13 +28,13 @@ export const SignUpForm = () => {
 		try {
 			setLoading(true);
 			setErrorMsg('');
-			const { data } = await clienteAxios.post<ILoginResponse>('/usuarios', { email, password });
-			const infoUsuarioStorage: ILocalStorageInfo = {
+			const { data } = await clienteAxios.post<ILoginResponse>('/jugadores', { email, password });
+			const infoJugadorStorage: ILocalStorageInfo = {
 				email: data.email,
 				token: data.token
 			};
-			localStorage.setItem('usuarioInfo', JSON.stringify(infoUsuarioStorage));
-			setUsuarioInfo({ email: data.email, socket: undefined });
+			localStorage.setItem('jugadorInfo', JSON.stringify(infoJugadorStorage));
+			setJugadorInfo({ email: data.email, socket: undefined });
 			setLoading(false);
 			navigate('/chat', {
 				replace: true
@@ -51,7 +51,7 @@ export const SignUpForm = () => {
 			<form onSubmit={singUp}>
 				<div className="form-group">
 					<label htmlFor="email">Correo electrónico</label>
-					<input id="email" type="email" className="form-control" value={email} onChange={onInputChange} title='Este coreo actuará como su nombre de usuario.' required />
+					<input id="email" type="email" className="form-control" value={email} onChange={onInputChange} title='Este coreo actuará como su nombre de jugador.' required />
 				</div>
 				<div className="form-group">
 					<label htmlFor="password">Contraseña</label>
@@ -91,7 +91,7 @@ export const SignUpForm = () => {
 					Creando cuenta ...
 				</div>
 			)}
-			{/* Si errorFetch es true, mostramos un mensaje de error al usuario */}
+			{/* Si errorFetch es true, mostramos un mensaje de error al jugador */}
 			{errorMsg && !loading && (
 				<div className="alert alert-danger" role="alert">
 					{errorMsg}

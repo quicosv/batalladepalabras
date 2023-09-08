@@ -4,14 +4,14 @@ import { AppContext } from '../context/AppContext';
 import { IJugadorInfoContext } from '../interfaces/context.interface';
 
 export const LogoutButton = () => {
-	const { jugadorInfo: usuarioInfo, setJugadorInfo: setUsuarioInfo } = useContext<IJugadorInfoContext>(AppContext);
-	const { socket } = usuarioInfo;
+	const { jugadorInfo: jugadorInfo, setJugadorInfo: setJugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
+	const { socket } = jugadorInfo;
 	const navigate = useNavigate();
 
 	const logout = () => {
-		localStorage.removeItem('usuarioInfo');
+		localStorage.removeItem('jugadorInfo');
 		socket?.disconnect();
-		setUsuarioInfo({ email: '', socket: undefined });
+		setJugadorInfo({ email: '', socket: undefined });
 		navigate('/', {
 			replace: true
 		});
@@ -20,7 +20,7 @@ export const LogoutButton = () => {
 	return (
 		<>
 			<button className="btn btn-warning" onClick={logout}>
-				Cerrar sesión de {usuarioInfo.email}
+				Cerrar sesión de {jugadorInfo.email}
 			</button>
 		</>
 	);

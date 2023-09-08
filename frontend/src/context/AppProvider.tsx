@@ -12,7 +12,7 @@ interface IPropsProvider {
 export const AppProvider: React.FC<IPropsProvider> = ({ children }) => {
 	// Este useState controla el estado del user y expone la función que lo cambiará.
 	// Son los dos valores que se le pasan al context
-	const [usuarioInfo, setUsuarioInfo] = useState<IJugadorInfo>({ email: '', socket: undefined });
+	const [jugadorInfo, setJugadorInfo] = useState<IJugadorInfo>({ email: '', socket: undefined });
 	// Y ahora conectamos este provider con el context pasándole los valores que necesita a todos los hijos (children)
-	return <AppContext.Provider value={{ jugadorInfo: usuarioInfo, setJugadorInfo: setUsuarioInfo }}>{children}</AppContext.Provider>;
+	return <AppContext.Provider value={{ jugadorInfo: jugadorInfo, setJugadorInfo: setJugadorInfo }}>{children}</AppContext.Provider>;
 };
