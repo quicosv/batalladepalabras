@@ -85,7 +85,7 @@ export const SignInForm = () => {
 					Autenticando...
 				</div>
 			)}
-			{/* Si errorFetch es true, mostramos un mensaje de error al usuario */}
+			{/* Si errorFetch es true, mostramos un mensaje de error al jugador */}
 			{errorMsg && !loading && (
 				<div className="alert alert-danger" role="alert">
 					{errorMsg}
