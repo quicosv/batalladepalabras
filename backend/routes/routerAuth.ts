@@ -6,11 +6,11 @@ import { login } from '../controllers/authController';
 export const routerAuth = Router();
 
 routerAuth.post(
-  '/login',
-  [
-    check('email', 'El email es obligatorio').isEmail(),
-    check('password', 'La contraseña es obligatoria').not().isEmpty(),
-    validarCampos
-  ],
-  login
+	'/login',
+	[
+		check('email', 'El email es obligatorio').isEmail(),
+		check('password', 'La contraseña es obligatoria').not().isEmpty(),
+		validarCampos
+	],
+	login
 );

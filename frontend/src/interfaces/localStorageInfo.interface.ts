@@ -1,4 +1,4 @@
 export interface ILocalStorageInfo {
-  email: string;
-  token: string;
+	email: string;
+	token: string;
 }

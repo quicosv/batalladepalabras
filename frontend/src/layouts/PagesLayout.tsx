@@ -9,85 +9,85 @@ import { IJugadorInfoContext } from '../interfaces/context.interface';
 import { aplicacion } from '../variables';
 
 export const PagesLayout = () => {
-  const { jugadorInfo: usuarioInfo, setJugadorInfo: setUsuarioInfo } = useContext<IJugadorInfoContext>(AppContext);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { socket } = usuarioInfo;
-  const { nombre } = useParams();
+	const { jugadorInfo: usuarioInfo, setJugadorInfo: setUsuarioInfo } = useContext<IJugadorInfoContext>(AppContext);
+	const navigate = useNavigate();
+	const location = useLocation();
+	const { socket } = usuarioInfo;
+	const { nombre } = useParams();
 
-  const [online, setOnline] = useState(false);
+	const [online, setOnline] = useState(false);
 
-  useEffect(() => {
-    if (!socket) {
-      const info = localStorage.getItem('usuarioInfo');
+	useEffect(() => {
+		if (!socket) {
+			const info = localStorage.getItem('usuarioInfo');
 
-      if (info) {
-        const email = (JSON.parse(info) as ILocalStorageInfo).email;
-        const token = (JSON.parse(info) as ILocalStorageInfo).token;
+			if (info) {
+				const email = (JSON.parse(info) as ILocalStorageInfo).email;
+				const token = (JSON.parse(info) as ILocalStorageInfo).token;
 
-        const queryObject = { email: email, 'x-token': token, sala: '' };
-        // Este ir es por si al actualizar la página se reconecta a una sala (actualiza chatpage)
-        if (location.pathname.includes('chat')) {
-          queryObject.sala = nombre || '';
-        }
+				const queryObject = { email: email, 'x-token': token, sala: '' };
+				// Este ir es por si al actualizar la página se reconecta a una sala (actualiza chatpage)
+				if (location.pathname.includes('chat')) {
+					queryObject.sala = nombre || '';
+				}
 
-        const newSocket = io(`${import.meta.env.VITE_BACKEND_SOCKET}`, {
-          transports: ['websocket'],
-          query: queryObject,
-          forceNew: true
-        });
+				const newSocket = io(`${import.meta.env.VITE_BACKEND_SOCKET}`, {
+					transports: ['websocket'],
+					query: queryObject,
+					forceNew: true
+				});
 
-        setUsuarioInfo({ email, socket: newSocket });
-      }
-    }
-  }, []);
+				setUsuarioInfo({ email, socket: newSocket });
+			}
+		}
+	}, []);
 
-  useEffect(() => {
-    if (socket) {
-      socket.on('connect', () => {
-        setOnline(true);
-      });
-      socket.on('disconnect', () => {
-        setOnline(false);
-      });
-      socket.on('recibir-privado', (data: { mensaje: string }) => {
-        alert(data.mensaje);
-      });
-    }
-  }, [socket]);
+	useEffect(() => {
+		if (socket) {
+			socket.on('connect', () => {
+				setOnline(true);
+			});
+			socket.on('disconnect', () => {
+				setOnline(false);
+			});
+			socket.on('recibir-privado', (data: { mensaje: string }) => {
+				alert(data.mensaje);
+			});
+		}
+	}, [socket]);
 
-  useEffect(() => {
-    if (!usuarioInfo.email && !location.pathname.includes('login')) {
-      navigate('/', {
-        replace: true
-      });
-    }
-  }, [location.pathname]);
+	useEffect(() => {
+		if (!usuarioInfo.email && !location.pathname.includes('login')) {
+			navigate('/', {
+				replace: true
+			});
+		}
+	}, [location.pathname]);
 
-  return (
-    <>
-      <header className="container">
-        <div className="row">
-          <div className="col-4">
-            <h1>{aplicacion}</h1>
-          </div>
-          <div className="col-4 mt-2">
-            <LogoutButton />
-          </div>
-        </div>
-      </header>
-      <main className="container">
-        <div className="row">
-          <div className="col">
-            <Outlet />
-          </div>
-        </div>
-      </main>
-      <footer>
-      <div className="col-4">
-            <SocketStatus online={online} />
-          </div>
-      </footer>
-    </>
-  );
+	return (
+		<>
+			<header className="container">
+				<div className="row">
+					<div className="col-4">
+						<h1>{aplicacion}</h1>
+					</div>
+					<div className="col-4 mt-2">
+						<LogoutButton />
+					</div>
+				</div>
+			</header>
+			<main className="container">
+				<div className="row">
+					<div className="col">
+						<Outlet />
+					</div>
+				</div>
+			</main>
+			<footer>
+			<div className="col-4">
+						<SocketStatus online={online} />
+					</div>
+			</footer>
+		</>
+	);
 };
