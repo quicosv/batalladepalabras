@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { h1Partida, tituloPartida } from '../../variables';
 
-interface AhorcadoProps {
+interface PartidaProps {
 	palabraProporcionada: string;
 }
 
-export const AhorcadoPage: React.FC<AhorcadoProps> = ({ palabraProporcionada }) => {
+export const PartidaPage: React.FC<PartidaProps> = ({ palabraProporcionada }) => {
 	const [letrasPorAdivinar, setLetrasPorAdivinar] = useState<string>('');
 	const [letra, setLetra] = useState<string>('');
 	const [letrasAdivinadas, setLetrasAdivinadas] = useState<string[]>([]);
