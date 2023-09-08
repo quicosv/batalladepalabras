@@ -8,27 +8,27 @@ interface IUsersConnectedToRoom {
 }
 
 export const UsersConnectedToRoomList = ({ sala }: IUsersConnectedToRoom) => {
-	const { jugadorInfo: usuarioInfo } = useContext<IJugadorInfoContext>(AppContext);
-	const [usuariosConectados, setUsuariosConectados] = useState<IUsuarioConectado[]>([]);
+	const { jugadorInfo: jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
+	const [jugadoresConectados, setJugadoresConectados] = useState<IJugadorConectado[]>([]);
 
-	const { socket } = usuarioInfo;
-	socket?.on(`usuarios-conectados-a-sala`, (usuariosConectados: IUsuarioConectado[]) => {
-		setUsuariosConectados(usuariosConectados);
+	const { socket } = jugadorInfo;
+	socket?.on(`jugadores-conectados-a-sala`, (jugadoresConectados: IJugadorConectado[]) => {
+		setJugadoresConectados(jugadoresConectados);
 	});
 
-	const enviarPrivado = (e: IUsuarioConectado) => {
+	const enviarPrivado = (e: IJugadorConectado) => {
 		const privado = prompt('Introduce mensaje');
-		socket?.emit('mensaje-privado', { from: usuarioInfo.email, to: e.idSesion, texto: privado });
+		socket?.emit('mensaje-privado', { from: jugadorInfo.email, to: e.idSesion, texto: privado });
 	};
 
 	return (
 		<>
-			<h2>Usuarios conectados a la sala {sala}</h2>
+			<h2>Jugadores conectados a la sala {sala}</h2>
 			<ul className="list-group">
-				{usuariosConectados.map((x) => (
+				{jugadoresConectados.map((x) => (
 					<li className="list-group-item" key={x.idSesion}>
 						{x.email}
-						{usuarioInfo.email !== x.email && (
+						{jugadorInfo.email !== x.email && (
 							<>
 								<button className="btn btn-warning" onClick={() => enviarPrivado(x)}>
 									Enviar privado
