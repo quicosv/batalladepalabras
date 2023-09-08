@@ -1,4 +1,4 @@
-// El context es un espacio para uso común de elementos de la aplicación. En este ejemplo, la información del usuario (usuarioInfo) es la que
+// El context es un espacio para uso común de elementos de la aplicación. En este ejemplo, la información del jugador (jugadorInfo) es la que
 // va formar parte de este espacio
 import { createContext } from 'react';
 import { IJugadorInfo, IJugadorInfoContext } from '../interfaces/context.interface';
