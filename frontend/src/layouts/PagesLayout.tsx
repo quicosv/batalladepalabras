@@ -1,65 +1,66 @@
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { LogoutButton } from '../components/LogoutButton';
-import { io } from 'socket.io-client';
-import { useContext, useEffect, useState } from 'react';
-import { SocketStatus } from '../components/SocketStatus';
-import { ILocalStorageInfo } from '../interfaces/localStorageInfo.interface';
-import { AppContext } from '../context/AppContext';
-import { IJugadorInfoContext } from '../interfaces/context.interface';
-import { aplicacion } from '../variables';
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import { LogoutButton } from "../components/LogoutButton";
+import { io } from "socket.io-client";
+import { useContext, useEffect, useState } from "react";
+import { SocketStatus } from "../components/SocketStatus";
+import { ILocalStorageInfo } from "../interfaces/localStorageInfo.interface";
+import { AppContext } from "../context/AppContext";
+import { IJugadorInfoContext } from "../interfaces/context.interface";
+import { aplicacion } from "../variables";
 
 export const PagesLayout = () => {
-	const { jugadorInfo: usuarioInfo, setJugadorInfo: setUsuarioInfo } = useContext<IJugadorInfoContext>(AppContext);
+	const { jugadorInfo: jugadorInfo, setJugadorInfo: setJugadorInfo } =
+		useContext<IJugadorInfoContext>(AppContext);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { socket } = usuarioInfo;
+	const { socket } = jugadorInfo;
 	const { nombre } = useParams();
 
 	const [online, setOnline] = useState(false);
 
 	useEffect(() => {
 		if (!socket) {
-			const info = localStorage.getItem('usuarioInfo');
+			const info = localStorage.getItem("jugadorInfo");
 
 			if (info) {
 				const email = (JSON.parse(info) as ILocalStorageInfo).email;
 				const token = (JSON.parse(info) as ILocalStorageInfo).token;
 
-				const queryObject = { email: email, 'x-token': token, sala: '' };
+				const queryObject = { email: email, "x-token": token, sala: "" };
 				// Este ir es por si al actualizar la página se reconecta a una sala (actualiza chatpage)
-				if (location.pathname.includes('chat')) {
-					queryObject.sala = nombre || '';
+				if (location.pathname.includes("chat")) {
+					queryObject.sala = nombre || "";
 				}
 
 				const newSocket = io(`${import.meta.env.VITE_BACKEND_SOCKET}`, {
-					transports: ['websocket'],
+					transports: ["websocket"],
 					query: queryObject,
-					forceNew: true
+					forceNew: true,
 				});
 
-				setUsuarioInfo({ email, socket: newSocket });
+				setJugadorInfo({ email, socket: newSocket });
 			}
 		}
 	}, []);
 
 	useEffect(() => {
 		if (socket) {
-			socket.on('connect', () => {
+			socket.on("connect", () => {
 				setOnline(true);
 			});
-			socket.on('disconnect', () => {
+			socket.on("disconnect", () => {
 				setOnline(false);
 			});
-			socket.on('recibir-privado', (data: { mensaje: string }) => {
+			socket.on("recibir-privado", (data: { mensaje: string }) => {
 				alert(data.mensaje);
 			});
 		}
 	}, [socket]);
 
 	useEffect(() => {
-		if (!usuarioInfo.email && !location.pathname.includes('login')) {
-			navigate('/', {
-				replace: true
+		if (!jugadorInfo.email && !location.pathname.includes("login")) {
+			navigate("/", {
+				replace: true,
 			});
 		}
 	}, [location.pathname]);
@@ -84,9 +85,9 @@ export const PagesLayout = () => {
 				</div>
 			</main>
 			<footer>
-			<div className="col-4">
-						<SocketStatus online={online} />
-					</div>
+				<div className="col-4">
+					<SocketStatus online={online} />
+				</div>
 			</footer>
 		</>
 	);
