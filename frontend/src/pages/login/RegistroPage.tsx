@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { h1Registro, tituloRegistro } from '../../variables';
 import { SignUpForm } from './SignUpForm';
+import { Link } from 'react-router-dom';
 
 export const RegistroPage = () => {
 	useEffect(() => {
@@ -21,6 +22,9 @@ export const RegistroPage = () => {
 					<SignUpForm />
 				</div>
 			</div>
+			<p>
+				¿Ya está registrado? <Link to="/login">Inicie sesión</Link>
+			</p>
 		</>
 	);
 };

@@ -1,23 +1,24 @@
-import { FormEvent, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useForm } from '../../hooks/useForm';
-import { ILoginResponse, ISignUp } from '../../interfaces/login.interface';
-import { ILocalStorageInfo } from '../../interfaces/localStorageInfo.interface';
-import { handlerAxiosError } from '../../helpers/handlerAxiosError';
-import { clienteAxios } from '../../config/clienteAxios';
-import { IJugadorInfoContext } from '../../interfaces/context.interface';
-import { AppContext } from '../../context/AppContext';
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "../../hooks/useForm";
+import { ILoginResponse, ISignUp } from "../../interfaces/login.interface";
+import { ILocalStorageInfo } from "../../interfaces/localStorageInfo.interface";
+import { handlerAxiosError } from "../../helpers/handlerAxiosError";
+import { clienteAxios } from "../../config/clienteAxios";
+import { IJugadorInfoContext } from "../../interfaces/context.interface";
+import { AppContext } from "../../context/AppContext";
 
 export const SignUpForm = () => {
-	const { setJugadorInfo: setJugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
-	const [errorMsg, setErrorMsg] = useState<string>('');
+	const { setJugadorInfo: setJugadorInfo } =
+		useContext<IJugadorInfoContext>(AppContext);
+	const [errorMsg, setErrorMsg] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 
 	const { form, onInputChange } = useForm<ISignUp>({
-		email: '',
-		password: '',
-		password2: ''
+		email: "",
+		password: "",
+		password2: "",
 	});
 
 	const { email, password, password2 } = form;
@@ -27,17 +28,20 @@ export const SignUpForm = () => {
 
 		try {
 			setLoading(true);
-			setErrorMsg('');
-			const { data } = await clienteAxios.post<ILoginResponse>('/jugadores', { email, password });
+			setErrorMsg("");
+			const { data } = await clienteAxios.post<ILoginResponse>("/jugadores", {
+				email,
+				password,
+			});
 			const infoJugadorStorage: ILocalStorageInfo = {
 				email: data.email,
-				token: data.token
+				token: data.token,
 			};
-			localStorage.setItem('jugadorInfo', JSON.stringify(infoJugadorStorage));
+			localStorage.setItem("jugadorInfo", JSON.stringify(infoJugadorStorage));
 			setJugadorInfo({ email: data.email, socket: undefined });
 			setLoading(false);
-			navigate('/chat', {
-				replace: true
+			navigate("/chat", {
+				replace: true,
 			});
 		} catch (error) {
 			setLoading(false);
@@ -45,13 +49,28 @@ export const SignUpForm = () => {
 			setErrorMsg(errores);
 		}
 	};
+	const loginRef = useRef<HTMLInputElement>(null);
+	useEffect(() => {
+		if (loginRef.current) {
+			loginRef.current.focus();
+		}
+	}, []);
 
 	return (
 		<>
 			<form onSubmit={singUp}>
 				<div className="form-group">
 					<label htmlFor="email">Correo electrónico</label>
-					<input id="email" type="email" className="form-control" value={email} onChange={onInputChange} title='Este coreo actuará como su nombre de jugador.' required />
+					<input
+						id="email"
+						type="email"
+						ref={loginRef}
+						className="form-control"
+						value={email}
+						onChange={onInputChange}
+						title="Este coreo actuará como su nombre de jugador."
+						required
+					/>
 				</div>
 				<div className="form-group">
 					<label htmlFor="password">Contraseña</label>
@@ -61,7 +80,7 @@ export const SignUpForm = () => {
 						className="form-control"
 						value={password}
 						onChange={onInputChange}
-						title='Debe tener un mínimo de 6 caracteres.'
+						title="Debe tener un mínimo de 6 caracteres."
 						required
 					/>
 				</div>
@@ -73,7 +92,7 @@ export const SignUpForm = () => {
 						className="form-control"
 						value={password2}
 						onChange={onInputChange}
-						title='Debe coincidir con la que ha escrito en el campo anterior.'
+						title="Debe coincidir con la que ha escrito en el campo anterior."
 						required
 					/>
 				</div>
