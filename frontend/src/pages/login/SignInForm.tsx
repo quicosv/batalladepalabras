@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { ILoginResponse, ISignIn } from "../../interfaces/login.interface";
@@ -48,6 +48,13 @@ export const SignInForm = () => {
 			setErrorMsg(errores);
 		}
 	};
+	const loginRef = useRef<HTMLInputElement>(null);
+
+	useEffect(() => {
+		if (loginRef.current) {
+		  loginRef.current.focus();
+		}
+	  },[]);
 
 	return (
 		<>
@@ -57,6 +64,7 @@ export const SignInForm = () => {
 					<input
 						id="email"
 						type="email"
+						ref={loginRef} 
 						className="form-control"
 						value={email}
 						onChange={onInputChange}
