@@ -41,7 +41,7 @@ export const SalasList = ({ refreshSalas, setRefreshSalas }: ISalasListProps) =>
 	};
 
 	const goToSala = async (sala: ISala) => {
-		const url = `/chat/${sala.idSala}/${sala.nombre}`;
+		const url = `/partida/${sala.idSala}/${sala.nombre}`;
 		navigate(url);
 	};
 

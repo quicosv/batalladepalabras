@@ -39,7 +39,7 @@ export const SignInForm = () => {
 			localStorage.setItem("jugadorInfo", JSON.stringify(infoJugadorStorage));
 			setJugadorInfo({ email: data.email, socket: undefined });
 			setLoading(false);
-			navigate("/chat", {
+			navigate("/partida", {
 				replace: true,
 			});
 		} catch (error) {

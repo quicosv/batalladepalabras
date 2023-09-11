@@ -8,7 +8,7 @@ import { ILocalStorageInfo } from '../interfaces/localStorageInfo.interface';
 import { AppContext } from '../context/AppContext';
 import { RegistroPage } from '../pages/login/RegistroPage';
 import { IJugadorInfoContext } from '../interfaces/context.interface';
-import { AhorcadoPage } from '../pages/juego/AhorcadoPage';
+import { PartidaPage } from '../pages/juego/PartidaPage';
 
 export const AppRouter = () => {
 	const { setJugadorInfo: setJugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
@@ -33,9 +33,9 @@ export const AppRouter = () => {
 					</Route>
 
 
-					<Route path="/ahorcado" element={<PagesLayout />}>
+					<Route path="/partida" element={<PagesLayout />}>
 						<Route index element={<SalasPage />} />
-			<Route path="/ahorcado/:idSala/:nombre" element={<AhorcadoPage palabraProporcionada={''} />} />
+			<Route path="/partida/:idSala/:nombre" element={<PartidaPage palabraProporcionada={''} />} />
 					</Route>
 				</Routes>
 			)}

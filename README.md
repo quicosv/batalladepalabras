@@ -95,7 +95,8 @@ Por último, abre el navegador de tu preferencia y ve a la dirección que te ind
 
 ## Estado del proyecto
 
-Este proyecto se encuentra en su fase inicial.
+- Hemos mejorado la accesibilidad de los formularios de login y del registro.
+- Se pueden registrar usuarios. Aunque no esté definida la ruta para que en el navegador se haga login, los usuarios sí que se añaden correctamente a la base de datos.
 
 ## Autores
 
