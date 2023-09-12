@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 export const PartidaPage: React.FC = () => {
-  const palabraProporcionada = 'gato';
+  const palabraProporcionada:string = 'gato';
   const [letrasPorAdivinar, setLetrasPorAdivinar] = useState<string>('');
   const [letra, setLetra] = useState<string>('');
   const [letrasAdivinadas, setLetrasAdivinadas] = useState<string[]>([]);
@@ -13,7 +13,7 @@ export const PartidaPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (letrasPorAdivinar === palabraProporcionada && palabraProporcionada !== '') {
+	if (letrasPorAdivinar === palabraProporcionada && palabraProporcionada !== '') {
       setMensaje('Felicidades, la palabra adivinada es ' + palabraProporcionada);
     }
   }, [letrasPorAdivinar]);
