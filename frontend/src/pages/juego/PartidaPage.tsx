@@ -30,7 +30,7 @@ const actualizarDescubierto = (letra: string): string => {
 		e.preventDefault();
 		letrasProbadas.push(letra);
 		if (palabra.includes(letra)) {
-			actualizarDescubierto(letra);
+			descubierto = actualizarDescubierto(letra);
 			if (descubierto === palabra) {
 				setHasGanado(true);
 			}
@@ -65,7 +65,7 @@ const actualizarDescubierto = (letra: string): string => {
 					{/* {
 					for (let i = 0; i <= descubierto.length; i++) {
 						<li>
-						{descubierto[i] === '_' ? ('Desconocido.') : (descubierto[i])}
+						{descubierto[i] === '_' ? ('Desconocida.') : (descubierto[i])}
 						</li>
 					}
 					} */}
