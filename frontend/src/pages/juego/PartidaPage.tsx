@@ -5,7 +5,7 @@ import { ILetra } from "../../interfaces/letra.interface";
 
 export const PartidaPage = () => {
 	const [tuTurno, setTuTurno] = useState<boolean>(true);
-	const [hasGanado, setHasGanado] = useState<boolean>(true);
+	const [hasGanado, setHasGanado] = useState<boolean>(false);
 	const palabra: string = 'gato';
 	let descubierto: string = palabra.replace(/[a-zA-Z]/g, '_');
 	const letrasProbadas: string[] = [];
