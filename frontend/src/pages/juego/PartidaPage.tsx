@@ -56,19 +56,11 @@ const actualizarDescubierto = (letra: string): void => {
 				<p>{descubierto}</p>
 				<ol>
 					{
-						[...descubierto].map(x=>(
-							<li>
-						{x === '_' ? 'Desconocida.' : x}
-						</li>
+						[...descubierto].map((x,i) => (
+						<li key={i}>x === '_' ? 'Desconocida.' : `${x}.`</li>
 						))
 					}
-					{/* {
-					for (let i = 0; i <= descubierto.length; i++) {
-						<li>
-						{descubierto[i] === '_' ? ('Desconocida.') : (descubierto[i])}
-						</li>
-					}
-					} */}
+
 				</ol>
 				{hasGanado && (<p>Has ganado.</p>)}
 </>
