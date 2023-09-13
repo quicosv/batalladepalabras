@@ -15,13 +15,12 @@ export const PartidaPage = () => {
 
 	const { letra } = form;
 
-const actualizarDescubierto = (letra: string): string => {
+const actualizarDescubierto = (letra: string): void => {
 	for (let i=0; i<palabra.length; i++){
 		if (letra === palabra[i]) {
 			descubierto = descubierto.substring(0,i) + letra + descubierto.substring(i+1);
 		}
 	}
-	return descubierto;
 }
 
 
@@ -30,7 +29,7 @@ const actualizarDescubierto = (letra: string): string => {
 		e.preventDefault();
 		letrasProbadas.push(letra);
 		if (palabra.includes(letra)) {
-			descubierto = actualizarDescubierto(letra);
+			actualizarDescubierto(letra);
 			if (descubierto === palabra) {
 				setHasGanado(true);
 			}
