@@ -54,11 +54,12 @@ const actualizarDescubierto = (letra: string): string => {
 					<button type="submit">Probar</button>
 				</form>
 				<h2>Estado de la palabra</h2>
+				<p>{descubierto}</p>
 				<ol>
 					{
 						[...descubierto].map(x=>(
 							<li>
-						{x === '_' ? 'Desconocido.' : x}
+						{x === '_' ? 'Desconocida.' : x}
 						</li>
 						))
 					}
