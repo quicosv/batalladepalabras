@@ -19,8 +19,8 @@ export const PartidaPage = () => {
 		const procesarDescubierto: string[] = [...descubierto];
 		console.log('Array original.');
 		console.log(procesarDescubierto);
-		for (let i=0;i<=procesarDescubierto.length;i++){
-			for (let j=0;j<=procesarPalabra.length;j++){
+		for (let i=0;i<procesarDescubierto.length;i++){
+			for (let j=0;j<procesarPalabra.length;j++){
 				if (letra === procesarPalabra[j]) {
 					procesarDescubierto[i] = letra;
 				}
