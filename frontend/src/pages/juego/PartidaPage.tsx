@@ -15,47 +15,36 @@ export const PartidaPage = () => {
 	const { letra } = form;
 
 	const actualizarDescubierto = (letra: string): void => {
+		// Desestructuramos los strings para convertirlos en arrays
 		const procesarPalabra: string[] = [...palabra];
 		const procesarDescubierto: string[] = [...descubierto];
-		const indices:number[] = [];
-        const caracteres: string[] = [];
-        for (let i = 0; i < procesarDescubierto.length; i++) {
-            caracteres.push(procesarDescubierto[i]);
-        }
-		console.log('Array original.');
-		console.log(procesarDescubierto);
-		for (let i=0;i<procesarDescubierto.length;i++){
-			for (let j=0;j<procesarPalabra.length;j++){
+		// Este array almacenará los índices de las coincidencias
+		const indices: number[] = [];
+		// Se crea un array original de strings para almacenar lo que hay en descubierto y poder procesarlo como un verdadero array
+		const caracteres: string[] = [];
+		// Copiamos el contenido de lo descubierto en el array de caracteres
+		for (let i = 0; i < procesarDescubierto.length; i++) {
+			caracteres.push(procesarDescubierto[i]);
+		}
+		// Recorremos el array de descubierto y el de la palabra original y lmacenamos en el array de índices la posición en la que coincide una letra
+		for (let i = 0; i < procesarDescubierto.length; i++) {
+			for (let j = 0; j < procesarPalabra.length; j++) {
 				if (letra === procesarPalabra[j]) {
-					// procesarDescubierto[i] = letra;
 					indices.push(j);
 				}
 			}
 		}
-
-		// procesarDescubierto.map((x) => (
-		// 	procesarPalabra.forEach((y) => {
-		// 		if (letra === y) {
-		// 			x = letra;
-		// 		}
-		// 	})
-		// ))
+// Recorriendo el array de índices se hacen las sustituciones
 		indices.forEach(x => {
-            caracteres[x] = letra;
-        })
-        console.log(caracteres.join(''))
-
-		console.log('Array modificado por la letra ' + letra + '.');
-		console.log(procesarDescubierto);
-		console.log(caracteres);
+			caracteres[x] = letra;
+		})
+// Con la función join actualizamos la cadena de lo que se ha descubierto con el array de caracteres
 		setDescubierto(caracteres.join(''));
-		// setDescubierto('');
-		// procesarDescubierto.forEach(x => setDescubierto(descubierto + x));
 	}
 
 	const pruebaLetra = (e: FormEvent) => {
 		e.preventDefault();
-		setLetrasProbadas ([...letrasProbadas, letra]);
+		setLetrasProbadas([...letrasProbadas, letra]);
 		if (palabra.includes(letra)) {
 			actualizarDescubierto(letra);
 		}
