@@ -19,14 +19,14 @@ export const PartidaPage = () => {
 		const procesarDescubierto: string[] = [...descubierto];
 		console.log('Array original.');
 		console.log(procesarDescubierto);
-		procesarDescubierto.forEach(x => {
-			procesarPalabra.forEach(y => {
+		procesarDescubierto.map((x) => (
+			procesarPalabra.forEach((y) => {
 				if (letra === y) {
 					x = letra;
 				}
-			});
-		});
-		console.log('Array modificado por la letra' + letra + '.');
+			})
+		))
+		console.log('Array modificado por la letra ' + letra + '.');
 		console.log(procesarDescubierto);
 		setDescubierto('');
 		procesarDescubierto.forEach(x => setDescubierto(descubierto + x));
