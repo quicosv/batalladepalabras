@@ -5,7 +5,6 @@ import { ILetra } from "../../interfaces/letra.interface";
 
 export const PartidaPage = () => {
 	const [tuTurno, setTuTurno] = useState<boolean>(true);
-	const [hasGanado, setHasGanado] = useState<boolean>(false);
 	const palabra: string = 'gato';
 	const [descubierto, setDescubierto] = useState<string>(palabra.replace(/[a-zA-Z]/g, '_'));
 	const letrasProbadas: string[] = [];
@@ -28,9 +27,6 @@ export const PartidaPage = () => {
 		letrasProbadas.push(letra);
 		if (palabra.includes(letra)) {
 			actualizarDescubierto(letra);
-			if (descubierto === palabra) {
-				setHasGanado(true);
-			}
 		}
 		else {
 			setTuTurno(false);
@@ -60,7 +56,7 @@ export const PartidaPage = () => {
 						}
 
 					</ol>
-					{hasGanado && (<p>Has ganado.</p>)}
+					{descubierto === palabra && (<p>Has ganado.</p>)}
 				</>
 			)
 				: (<p>El turno pasa al otro jugador.</p>)}
