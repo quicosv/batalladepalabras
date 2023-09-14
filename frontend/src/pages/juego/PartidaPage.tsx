@@ -17,13 +17,19 @@ export const PartidaPage = () => {
 	const actualizarDescubierto = (letra: string): void => {
 		const procesarPalabra: string[] = [...palabra];
 		const procesarDescubierto: string[] = [...descubierto];
-		console.log('Array original');
+		console.log('Array original.');
 		console.log(procesarDescubierto);
-procesarDescubierto.forEach((x,i) => procesarPalabra[i] === letra ? x = letra : x = '_');
-console.log('Array modificado');
-console.log(procesarDescubierto);
-setDescubierto('');
-procesarDescubierto.forEach(x => setDescubierto(descubierto + x));
+		procesarDescubierto.forEach(x => {
+			procesarPalabra.forEach(y => {
+				if (letra === y) {
+					x = letra;
+				}
+			});
+		});
+		console.log('Array modificado por la letra' + letra + '.');
+		console.log(procesarDescubierto);
+		setDescubierto('');
+		procesarDescubierto.forEach(x => setDescubierto(descubierto + x));
 	}
 
 	const pruebaLetra = (e: FormEvent) => {
