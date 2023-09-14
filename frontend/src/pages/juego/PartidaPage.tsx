@@ -20,7 +20,7 @@ export const PartidaPage = () => {
 		console.log('Array original.');
 		console.log(procesarDescubierto);
 		for (let i=0;i<=procesarDescubierto.length;i++){
-			for (let j=0;i<=procesarPalabra.length;j++){
+			for (let j=0;j<=procesarPalabra.length;j++){
 				if (letra === procesarPalabra[j]) {
 					procesarDescubierto[i] = letra;
 				}
