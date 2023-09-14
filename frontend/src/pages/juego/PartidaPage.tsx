@@ -7,7 +7,7 @@ export const PartidaPage = () => {
 	const [tuTurno, setTuTurno] = useState<boolean>(true);
 	const [hasGanado, setHasGanado] = useState<boolean>(false);
 	const palabra: string = 'gato';
-	let descubierto: string = palabra.replace(/[a-zA-Z]/g, '_');
+	const [descubierto, setDescubierto] = useState<string>(palabra.replace(/[a-zA-Z]/g, '_'));
 	const letrasProbadas: string[] = [];
 	const { form, onInputChange, onResetForm } = useForm<ILetra>({
 		letra: ''
@@ -15,15 +15,13 @@ export const PartidaPage = () => {
 
 	const { letra } = form;
 
-const actualizarDescubierto = (letra: string): void => {
-	for (let i=0; i<palabra.length; i++){
-		if (letra === palabra[i]) {
-			descubierto = descubierto.substring(0,i) + letra + descubierto.substring(i+1);
+	const actualizarDescubierto = (letra: string): void => {
+		for (let i = 0; i < palabra.length; i++) {
+			if (letra === palabra[i]) {
+				setDescubierto(descubierto.substring(0, i) + letra + descubierto.substring(i + 1));
+			}
 		}
 	}
-}
-
-
 
 	const pruebaLetra = (e: FormEvent) => {
 		e.preventDefault();
@@ -47,23 +45,23 @@ const actualizarDescubierto = (letra: string): void => {
 			<h1>{h1Partida}</h1>
 			{tuTurno ? (
 				<>
-				<form onSubmit={pruebaLetra}>
-					<label htmlFor="letra">Letra</label>
-					<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letra" value={letra} onChange={onInputChange} required />
-					<button type="submit">Probar</button>
-				</form>
-				<h2>Estado de la palabra</h2>
-				<p>{descubierto}</p>
-				<ol>
-					{
-						[...descubierto].map((x,i) => (
-						<li key={i}>{x === '_' ? 'Desconocida.' : `${x}.`}</li>
-						))
-					}
+					<form onSubmit={pruebaLetra}>
+						<label htmlFor="letra">Letra</label>
+						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letra" value={letra} onChange={onInputChange} required />
+						<button type="submit">Probar</button>
+					</form>
+					<h2>Estado de la palabra</h2>
+					<p>{descubierto}</p>
+					<ol>
+						{
+							[...descubierto].map((x, i) => (
+								<li key={i}>{x === '_' ? 'Desconocida.' : `${x}.`}</li>
+							))
+						}
 
-				</ol>
-				{hasGanado && (<p>Has ganado.</p>)}
-</>
+					</ol>
+					{hasGanado && (<p>Has ganado.</p>)}
+				</>
 			)
 				: (<p>El turno pasa al otro jugador.</p>)}
 		</>
