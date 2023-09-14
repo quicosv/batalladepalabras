@@ -15,11 +15,11 @@ export const PartidaPage = () => {
 	const { letra } = form;
 
 	const actualizarDescubierto = (letra: string): void => {
-		for (let i = 0; i < palabra.length; i++) {
-			if (letra === palabra[i]) {
-				setDescubierto(descubierto.substring(0, i) + letra + descubierto.substring(i + 1));
-			}
-		}
+		const procesarPalabra: string[] = [...palabra];
+		const procesarDescubierto: string[] = [...descubierto];
+procesarDescubierto.forEach((x,i) => procesarPalabra[i] === letra ? x = letra : x = '_');
+setDescubierto('');
+procesarDescubierto.forEach(x => setDescubierto(descubierto + x));
 	}
 
 	const pruebaLetra = (e: FormEvent) => {
