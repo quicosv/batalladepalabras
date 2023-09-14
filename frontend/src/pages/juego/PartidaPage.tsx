@@ -1,100 +1,85 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { h1Partida, tituloPartida } from '../../variables';
+import { FormEvent, useEffect, useState } from "react"
+import { h1Partida, tituloPartida } from "../../variables";
+import { useForm } from "../../hooks/useForm";
+import { ILetra } from "../../interfaces/letra.interface";
 
-interface PartidaProps {
-	palabraProporcionada: string;
-}
+export const PartidaPage = () => {
+	const [tuTurno, setTuTurno] = useState<boolean>(true);
+	const palabra: string = 'perrera';
+	const [descubierto, setDescubierto] = useState<string>(palabra.replace(/[a-zA-Z]/g, '_'));
+	const [letrasProbadas, setLetrasProbadas] = useState<string[]>([]);
+	const { form, onInputChange, onResetForm } = useForm<ILetra>({
+		letra: ''
+	});
 
-export const PartidaPage: React.FC<PartidaProps> = ({ palabraProporcionada }) => {
-	const [letrasPorAdivinar, setLetrasPorAdivinar] = useState<string>('');
-	const [letra, setLetra] = useState<string>('');
-	const [letrasAdivinadas, setLetrasAdivinadas] = useState<string[]>([]);
-	const [intentosRestantes, setIntentosRestantes] = useState<number>(6);
-	const [mensaje, setMensaje] = useState<string>('');
+	const { letra } = form;
 
-	useEffect(() => {
-		setLetrasPorAdivinar(palabraProporcionada.replace(/[a-zA-Z]/g, '_'));
-	}, [palabraProporcionada]);
-
-	useEffect(() => {
-		if (letrasPorAdivinar === palabraProporcionada && palabraProporcionada !== '') {
-			setMensaje('Felicidades, la palabra adivinada es ' + palabraProporcionada);
+	const actualizarDescubierto = (letra: string): void => {
+		// Desestructuramos los strings para convertirlos en arrays
+		const procesarPalabra: string[] = [...palabra];
+		const procesarDescubierto: string[] = [...descubierto];
+		// Este array almacenará los índices de las coincidencias
+		const indices: number[] = [];
+		// Se crea un array original de strings para almacenar lo que hay en descubierto y poder procesarlo como un verdadero array
+		const caracteres: string[] = [];
+		// Copiamos el contenido de lo descubierto en el array de caracteres
+		for (let i = 0; i < procesarDescubierto.length; i++) {
+			caracteres.push(procesarDescubierto[i]);
 		}
-	}, [letrasPorAdivinar, palabraProporcionada]);
-
-	const adivinarLetra = () => {
-		if (letrasAdivinadas.includes(letra)) {
-			setMensaje('Ya has probado con esta letra');
-			return;
-		}
-
-		setLetrasAdivinadas([...letrasAdivinadas, letra]);
-
-		let correcto = false;
-		let nuevaPalabra = letrasPorAdivinar;
-
-		for (let i = 0; i < palabraProporcionada.length; i++) {
-			if (letra === palabraProporcionada[i]) {
-				correcto = true;
-				nuevaPalabra = nuevaPalabra.substring(0, i) + letra + nuevaPalabra.substring(i + 1);
-				setMensaje('Letra correcta');
+		// Recorremos el array de descubierto y el de la palabra original y lmacenamos en el array de índices la posición en la que coincide una letra
+		for (let i = 0; i < procesarDescubierto.length; i++) {
+			for (let j = 0; j < procesarPalabra.length; j++) {
+				if (letra === procesarPalabra[j]) {
+					indices.push(j);
+				}
 			}
 		}
+// Recorriendo el array de índices se hacen las sustituciones
+		indices.forEach(x => {
+			caracteres[x] = letra;
+		})
+// Con la función join actualizamos la cadena de lo que se ha descubierto con el array de caracteres
+		setDescubierto(caracteres.join(''));
+	}
 
-		setLetrasPorAdivinar(nuevaPalabra);
-
-		if (!correcto) {
-			setMensaje('Letra incorrecta');
-			setIntentosRestantes(intentosRestantes - 1);
-			if (intentosRestantes === 0) {
-				setMensaje(`Perdiste: la palabra era ${palabraProporcionada}`);
-			}
+	const pruebaLetra = (e: FormEvent) => {
+		e.preventDefault();
+		setLetrasProbadas([...letrasProbadas, letra]);
+		if (palabra.includes(letra)) {
+			actualizarDescubierto(letra);
 		}
-
-		setLetra('');
-	};
-
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setMensaje('');
-		setLetra(event.currentTarget.value.trim());
-	};
-
+		else {
+			setTuTurno(false);
+		}
+		onResetForm();
+	}
 	useEffect(() => {
 		document.title = tituloPartida;
-	}, []);
-	const h1Ref = useRef<HTMLHeadingElement>(null);
-	useEffect(() => {
-		if (h1Ref.current) {
-			h1Ref.current.focus();
-		}
-	},[]);
+	})
 	return (
 		<>
-			<h1 ref={h1Ref} tabIndex={-1}>{h1Partida}</h1>
-			<hr />
-			<p>{letrasPorAdivinar}</p>
+			<h1>{h1Partida}</h1>
+			{tuTurno ? (
+				<>
+					<form onSubmit={pruebaLetra}>
+						<label htmlFor="letra">Letra</label>
+						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letra" value={letra} onChange={onInputChange} required />
+						<button type="submit">Probar</button>
+					</form>
+					<h2>Estado de la palabra</h2>
+					<p aria-hidden="true">{descubierto}</p>
+					<ol className="oculto-visualmente">
+						{
+							[...descubierto].map((x, i) => (
+								<li key={i}>{x === '_' ? 'Desconocida.' : `${x}.`}</li>
+							))
+						}
 
-			<form>
-				<div className="form-group">
-					<label htmlFor="letra">Introduce una letra</label>
-					<input id="letra" type="text" className="form-control" value={letra} onChange={handleChange} />
-				</div>
-				<button
-					className="btn btn-success"
-					type="button"
-					onClick={adivinarLetra}
-					disabled={letra.trim() === '' || letra.length !== 1}
-				>
-					Adivinar
-				</button>
-				<p>Intentos restantes: {intentosRestantes}</p>
-				<p>Letras utilizadas: {letrasAdivinadas.join(', ')}</p>
-			</form>
-			{mensaje && (
-				<div className="alert alert-danger" role="alert">
-					{mensaje}
-				</div>
-			)}
+					</ol>
+					{descubierto === palabra && (<p>Has ganado.</p>)}
+				</>
+			)
+				: (<p>El turno pasa al otro jugador.</p>)}
 		</>
-	);
-};
+	)
+}
