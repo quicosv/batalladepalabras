@@ -51,8 +51,8 @@ export const PartidaPage = () => {
 						<button type="submit">Probar</button>
 					</form>
 					<h2>Estado de la palabra</h2>
-					<p>{descubierto}</p>
-					<ol>
+					<p aria-hidden="true">{descubierto}</p>
+					<ol className="oculto-visualmente">
 						{
 							[...descubierto].map((x, i) => (
 								<li key={i}>{x === '_' ? 'Desconocida.' : `${x}.`}</li>
