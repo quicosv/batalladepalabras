@@ -7,7 +7,7 @@ export const PartidaPage = () => {
 	const [tuTurno, setTuTurno] = useState<boolean>(true);
 	const palabra: string = 'perrera';
 	const [descubierto, setDescubierto] = useState<string>(palabra.replace(/[a-zA-Z]/g, '_'));
-	const letrasProbadas: string[] = [];
+	const [letrasProbadas, setLetrasProbadas] = useState<string[]>([]);
 	const { form, onInputChange, onResetForm } = useForm<ILetra>({
 		letra: ''
 	});
@@ -19,13 +19,21 @@ export const PartidaPage = () => {
 		const procesarDescubierto: string[] = [...descubierto];
 		console.log('Array original.');
 		console.log(procesarDescubierto);
-		procesarDescubierto.map((x) => (
-			procesarPalabra.forEach((y) => {
-				if (letra === y) {
-					x = letra;
+		for (let i=0;i<=procesarDescubierto.length;i++){
+			for (let j=0;i<=procesarPalabra.length;j++){
+				if (letra === procesarPalabra[j]) {
+					procesarDescubierto[i] = letra;
 				}
-			})
-		))
+			}
+		}
+
+		// procesarDescubierto.map((x) => (
+		// 	procesarPalabra.forEach((y) => {
+		// 		if (letra === y) {
+		// 			x = letra;
+		// 		}
+		// 	})
+		// ))
 		console.log('Array modificado por la letra ' + letra + '.');
 		console.log(procesarDescubierto);
 		setDescubierto('');
@@ -34,7 +42,7 @@ export const PartidaPage = () => {
 
 	const pruebaLetra = (e: FormEvent) => {
 		e.preventDefault();
-		letrasProbadas.push(letra);
+		setLetrasProbadas ([...letrasProbadas, letra]);
 		if (palabra.includes(letra)) {
 			actualizarDescubierto(letra);
 		}
