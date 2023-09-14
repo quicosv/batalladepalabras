@@ -17,12 +17,18 @@ export const PartidaPage = () => {
 	const actualizarDescubierto = (letra: string): void => {
 		const procesarPalabra: string[] = [...palabra];
 		const procesarDescubierto: string[] = [...descubierto];
+		const indices:number[] = [];
+        const caracteres: string[] = [];
+        for (let i = 0; i < procesarDescubierto.length; i++) {
+            caracteres.push(procesarDescubierto[i]);
+        }
 		console.log('Array original.');
 		console.log(procesarDescubierto);
 		for (let i=0;i<procesarDescubierto.length;i++){
 			for (let j=0;j<procesarPalabra.length;j++){
 				if (letra === procesarPalabra[j]) {
-					procesarDescubierto[i] = letra;
+					// procesarDescubierto[i] = letra;
+					indices.push(j);
 				}
 			}
 		}
@@ -34,10 +40,17 @@ export const PartidaPage = () => {
 		// 		}
 		// 	})
 		// ))
+		indices.forEach(x => {
+            caracteres[x] = letra;
+        })
+        console.log(caracteres.join(''))
+
 		console.log('Array modificado por la letra ' + letra + '.');
 		console.log(procesarDescubierto);
-		setDescubierto('');
-		procesarDescubierto.forEach(x => setDescubierto(descubierto + x));
+		console.log(caracteres);
+		setDescubierto(caracteres.join(''));
+		// setDescubierto('');
+		// procesarDescubierto.forEach(x => setDescubierto(descubierto + x));
 	}
 
 	const pruebaLetra = (e: FormEvent) => {
