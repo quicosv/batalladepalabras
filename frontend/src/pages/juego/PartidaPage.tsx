@@ -9,11 +9,12 @@ export const PartidaPage = () => {
 	const palabra: string = 'perrería';
 	const [descubierto, setDescubierto] = useState<string>(palabra.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '_'));
 	const [letrasProbadas, setLetrasProbadas] = useState<string[]>([]);
+	const [letra, setLetra] = useState<string>('');
 	const { form, onInputChange, onResetForm } = useForm<ILetra>({
-		letra: ''
+		letraInput: ''
 	});
 
-	const { letra } = form;
+	const { letraInput } = form;
 
 	const actualizarDescubierto = (letra: string): void => {
 		// Desestructuramos los strings para convertirlos en arrays
@@ -52,6 +53,7 @@ export const PartidaPage = () => {
 
 	const pruebaLetra = (e: FormEvent) => {
 		e.preventDefault();
+		setLetra(letraInput.toLocaleLowerCase());
 		setLetrasProbadas([...letrasProbadas, letra.toLocaleLowerCase()]);
 		if (palabraSinAcentos(palabra).includes(letra) || palabra.includes(letra)) {
 			actualizarDescubierto(letra);
@@ -71,7 +73,7 @@ export const PartidaPage = () => {
 				<>
 					<form onSubmit={pruebaLetra}>
 						<label htmlFor="letra">Letra</label>
-						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letra" value={letra} onChange={onInputChange} required />
+						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letraInput" value={letraInput} onChange={onInputChange} required />
 						<button type="submit">Probar</button>
 					</form>
 					<h2>Estado de la palabra</h2>
