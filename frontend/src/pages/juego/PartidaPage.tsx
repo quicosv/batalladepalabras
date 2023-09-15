@@ -27,17 +27,17 @@ export const PartidaPage = () => {
 		for (let i = 0; i < procesarDescubierto.length; i++) {
 			caracteres.push(procesarDescubierto[i]);
 		}
-		// Recorremos el array de descubierto y el de la palabra original y lmacenamos en el array de índices la posición en la que coincide una letra
+		// Recorremos el array de descubierto y el de la palabra original y almacenamos en el array de índices la posición en la que coincide una letra
 		for (let i = 0; i < procesarDescubierto.length; i++) {
 			for (let j = 0; j < procesarPalabra.length; j++) {
-				if (!esAcentuada(letra)) {
-					if (letra === procesarPalabra[j]) {
+				if (esAcentuada(letra.toLowerCase()) || esAcentuada(palabra[j].toLowerCase())) {
+					if (letraSinAcentos(letra) === letraSinAcentos(palabra[j])) {
 						indices.push(j);
-					} else {
-						if (letraSinAcentos(letra) === letraSinAcentos(procesarPalabra[j])) {
-							indices.push(j);
-
-						}
+					}
+				}
+				else {
+					if (letra === palabra[j]) {
+						indices.push(j);
 					}
 				}
 			}
@@ -52,7 +52,7 @@ export const PartidaPage = () => {
 
 	const pruebaLetra = (e: FormEvent) => {
 		e.preventDefault();
-		setLetrasProbadas([...letrasProbadas, letra]);
+		setLetrasProbadas([...letrasProbadas, letra.toLocaleLowerCase()]);
 		if (palabraSinAcentos(palabra).includes(letra) || palabra.includes(letra)) {
 			actualizarDescubierto(letra);
 		}
