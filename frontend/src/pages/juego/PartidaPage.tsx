@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from "react"
 import { h1Partida, tituloPartida } from "../../variables";
 import { useForm } from "../../hooks/useForm";
 import { ILetra } from "../../interfaces/letra.interface";
-import { esAcentuada, letraSinAcentos } from "../../hooks/useLetra";
+import { esAcentuada, letraSinAcentos, palabraSinAcentos } from "../../hooks/useLetra";
 
 export const PartidaPage = () => {
 	const [tuTurno, setTuTurno] = useState<boolean>(true);
@@ -53,7 +53,7 @@ export const PartidaPage = () => {
 	const pruebaLetra = (e: FormEvent) => {
 		e.preventDefault();
 		setLetrasProbadas([...letrasProbadas, letra]);
-		if (palabra.includes(letra)) {
+		if (palabraSinAcentos(palabra).includes(letra) || palabra.includes(letra)) {
 			actualizarDescubierto(letra);
 		}
 		else {

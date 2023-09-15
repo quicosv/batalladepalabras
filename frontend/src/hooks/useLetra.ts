@@ -29,3 +29,21 @@ export const esAcentuada = (letra: string): boolean => {
 	const especiales: string = 'áéíóúü';
 	return especiales.includes(letra.toLowerCase());
 }
+
+export const cadenaAArray = (cadena: string): string[] => {
+	const array: string[] = [];
+	for (let i=0; i<cadena.length; i++) {
+		array.push(cadena[i]);
+	}
+	return array;
+}
+
+export const palabraSinAcentos = (original: string): string => {
+	let sinAcentos: string = ''
+	const arrayOriginal = cadenaAArray(original);
+	for (let i = 0; i < arrayOriginal.length; i++) {
+		arrayOriginal[i] = letraSinAcentos(arrayOriginal[i]);
+	}
+sinAcentos = arrayOriginal.join('');
+return sinAcentos;
+}
