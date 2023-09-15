@@ -9,7 +9,6 @@ export const PartidaPage = () => {
 	const palabra: string = 'perrería';
 	const [descubierto, setDescubierto] = useState<string>(palabra.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '_'));
 	const [letrasProbadas, setLetrasProbadas] = useState<string[]>([]);
-	const [letra, setLetra] = useState<string>('');
 	const { form, onInputChange, onResetForm } = useForm<ILetra>({
 		letraInput: ''
 	});
@@ -53,7 +52,7 @@ export const PartidaPage = () => {
 
 	const pruebaLetra = (e: FormEvent) => {
 		e.preventDefault();
-		setLetra(letraInput.toLocaleLowerCase());
+		const letra = letraInput.toLocaleLowerCase();
 		setLetrasProbadas([...letrasProbadas, letra.toLocaleLowerCase()]);
 		if (palabraSinAcentos(palabra).includes(letra) || palabra.includes(letra)) {
 			actualizarDescubierto(letra);
