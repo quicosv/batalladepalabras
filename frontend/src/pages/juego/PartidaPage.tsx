@@ -31,7 +31,7 @@ export const PartidaPage = () => {
 		// Recorremos el array de descubierto y el de la palabra original y almacenamos en el array de índices la posición en la que coincide una letra
 		for (let i = 0; i < procesarDescubierto.length; i++) {
 			for (let j = 0; j < procesarPalabra.length; j++) {
-				if (esAcentuada(letra.toLowerCase()) || esAcentuada(palabra[j].toLowerCase())) {
+				if (esAcentuada(letra) || esAcentuada(palabra[j].toLowerCase())) {
 					if (letraSinAcentos(letra) === letraSinAcentos(palabra[j])) {
 						indices.push(j);
 					}
