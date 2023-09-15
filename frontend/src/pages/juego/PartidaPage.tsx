@@ -44,7 +44,7 @@ export const PartidaPage = () => {
 		}
 		// Recorriendo el array de índices se hacen las sustituciones
 		indices.forEach(x => {
-			caracteres[x] = letra;
+			caracteres[x] = palabra[x];
 		})
 		// Con la función join actualizamos la cadena de lo que se ha descubierto con el array de caracteres
 		setDescubierto(caracteres.join(''));
