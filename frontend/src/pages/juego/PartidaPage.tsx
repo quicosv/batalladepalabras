@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from "react"
 import { h1Partida, tituloPartida } from "../../variables";
 import { useForm } from "../../hooks/useForm";
 import { ILetra } from "../../interfaces/letra.interface";
+import { esAcentuada, letraSinAcentos } from "../../hooks/useLetra";
 
 export const PartidaPage = () => {
 	const [tuTurno, setTuTurno] = useState<boolean>(true);
@@ -29,16 +30,23 @@ export const PartidaPage = () => {
 		// Recorremos el array de descubierto y el de la palabra original y lmacenamos en el array de índices la posición en la que coincide una letra
 		for (let i = 0; i < procesarDescubierto.length; i++) {
 			for (let j = 0; j < procesarPalabra.length; j++) {
-				if (letra === procesarPalabra[j]) {
-					indices.push(j);
+				if (!esAcentuada(letra)) {
+					if (letra === procesarPalabra[j]) {
+						indices.push(j);
+					} else {
+						if (letraSinAcentos(letra) === letraSinAcentos(procesarPalabra[j])) {
+							indices.push(j);
+
+						}
+					}
 				}
 			}
 		}
-// Recorriendo el array de índices se hacen las sustituciones
+		// Recorriendo el array de índices se hacen las sustituciones
 		indices.forEach(x => {
 			caracteres[x] = letra;
 		})
-// Con la función join actualizamos la cadena de lo que se ha descubierto con el array de caracteres
+		// Con la función join actualizamos la cadena de lo que se ha descubierto con el array de caracteres
 		setDescubierto(caracteres.join(''));
 	}
 
@@ -83,3 +91,4 @@ export const PartidaPage = () => {
 		</>
 	)
 }
+
