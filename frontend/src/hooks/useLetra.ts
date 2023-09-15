@@ -24,3 +24,8 @@ export const letraSinAcentos = (letra: string): string => {
 	}
 	return letraResultante;
 }
+
+export const esAcentuada = (letra: string): boolean => {
+	const especiales: string = 'áéíóúü';
+	return especiales.includes(letra.toLowerCase());
+}
