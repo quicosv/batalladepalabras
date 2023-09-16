@@ -1,3 +1,3 @@
 export interface ILetra {
-	letra: string;
+	letraInput: string;
 }

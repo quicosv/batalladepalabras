@@ -2,17 +2,18 @@ import { FormEvent, useEffect, useState } from "react"
 import { h1Partida, tituloPartida } from "../../variables";
 import { useForm } from "../../hooks/useForm";
 import { ILetra } from "../../interfaces/letra.interface";
+import { esAcentuada, letraSinAcentos, palabraSinAcentos } from "../../hooks/useLetra";
 
 export const PartidaPage = () => {
 	const [tuTurno, setTuTurno] = useState<boolean>(true);
-	const palabra: string = 'perrera';
-	const [descubierto, setDescubierto] = useState<string>(palabra.replace(/[a-zA-Z]/g, '_'));
+	const palabra: string = 'perrería';
+	const [descubierto, setDescubierto] = useState<string>(palabra.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '_'));
 	const [letrasProbadas, setLetrasProbadas] = useState<string[]>([]);
 	const { form, onInputChange, onResetForm } = useForm<ILetra>({
-		letra: ''
+		letraInput: ''
 	});
 
-	const { letra } = form;
+	const { letraInput } = form;
 
 	const actualizarDescubierto = (letra: string): void => {
 		// Desestructuramos los strings para convertirlos en arrays
@@ -26,26 +27,34 @@ export const PartidaPage = () => {
 		for (let i = 0; i < procesarDescubierto.length; i++) {
 			caracteres.push(procesarDescubierto[i]);
 		}
-		// Recorremos el array de descubierto y el de la palabra original y lmacenamos en el array de índices la posición en la que coincide una letra
+		// Recorremos el array de descubierto y el de la palabra original y almacenamos en el array de índices la posición en la que coincide una letra
 		for (let i = 0; i < procesarDescubierto.length; i++) {
 			for (let j = 0; j < procesarPalabra.length; j++) {
-				if (letra === procesarPalabra[j]) {
-					indices.push(j);
+				if (esAcentuada(letra) || esAcentuada(palabra[j].toLowerCase())) {
+					if (letraSinAcentos(letra) === letraSinAcentos(palabra[j])) {
+						indices.push(j);
+					}
+				}
+				else {
+					if (letra === palabra[j]) {
+						indices.push(j);
+					}
 				}
 			}
 		}
-// Recorriendo el array de índices se hacen las sustituciones
+		// Recorriendo el array de índices se hacen las sustituciones
 		indices.forEach(x => {
-			caracteres[x] = letra;
+			caracteres[x] = palabra[x];
 		})
-// Con la función join actualizamos la cadena de lo que se ha descubierto con el array de caracteres
+		// Con la función join actualizamos la cadena de lo que se ha descubierto con el array de caracteres
 		setDescubierto(caracteres.join(''));
 	}
 
 	const pruebaLetra = (e: FormEvent) => {
 		e.preventDefault();
-		setLetrasProbadas([...letrasProbadas, letra]);
-		if (palabra.includes(letra)) {
+		const letra = letraInput.toLocaleLowerCase();
+		setLetrasProbadas([...letrasProbadas, letra.toLocaleLowerCase()]);
+		if (palabraSinAcentos(palabra).includes(letra) || palabra.includes(letra)) {
 			actualizarDescubierto(letra);
 		}
 		else {
@@ -63,7 +72,7 @@ export const PartidaPage = () => {
 				<>
 					<form onSubmit={pruebaLetra}>
 						<label htmlFor="letra">Letra</label>
-						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letra" value={letra} onChange={onInputChange} required />
+						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letraInput" value={letraInput} onChange={onInputChange} required />
 						<button type="submit">Probar</button>
 					</form>
 					<h2>Estado de la palabra</h2>
