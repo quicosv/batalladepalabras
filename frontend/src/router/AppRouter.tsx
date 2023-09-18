@@ -36,6 +36,7 @@ export const AppRouter = () => {
 
 					<Route path="/" element={<PagesLayout />}>
 						<Route index element={<PartidasActivasPage />} />
+						<Route path='/partidasactivas' element={<PartidasActivasPage />} />
 						<Route path='/crearpartida' element={<CrearPartidasPage />} />
 			<Route path="/partida/:idPartida/:nombre" element={<PartidaPage  />} />
 					</Route>
