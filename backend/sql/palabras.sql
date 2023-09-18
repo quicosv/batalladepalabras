@@ -36,13 +36,14 @@ create table jugadores (
 	token varchar(500) not null
 );
 
-CREATE TABLE salas (
-	idSala INT UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE partidas (
+	idPartida INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	nombre VARCHAR(50) NOT NULL,
-	PRIMARY KEY (idSala)
+	numeroLetras TINYINT UNSIGNED not null,
+	PRIMARY KEY (idPartida)
 );
 
 INSERT INTO
-	salas
+	partidas
 VALUES
-	(default, "Principal");
+	(default, "Principal", 5);
