@@ -40,7 +40,7 @@ export const SignUpForm = () => {
 			localStorage.setItem("jugadorInfo", JSON.stringify(infoJugadorStorage));
 			setJugadorInfo({ email: data.email, socket: undefined });
 			setLoading(false);
-			navigate("/partida", {
+			navigate("/partidasactivas", {
 				replace: true,
 			});
 		} catch (error) {
