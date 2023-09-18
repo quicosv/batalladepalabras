@@ -64,7 +64,7 @@ export const PartidaPage = () => {
 	}
 	useEffect(() => {
 		document.title = tituloPartida;
-	})
+	},[]);
 	return (
 		<>
 			<h1>{h1Partida}</h1>
