@@ -1,38 +1,38 @@
 import { useEffect, useState } from 'react';
-import { ISala } from '../../interfaces/sala.interface';
+import { IPartida } from '../../interfaces/partida.interface';
 import { clienteAxios } from '../../config/clienteAxios';
 import { handlerAxiosError } from '../../helpers/handlerAxiosError';
 import { useNavigate } from 'react-router-dom';
 
-interface ISalasListProps {
-	setRefreshSalas: React.Dispatch<React.SetStateAction<boolean>>;
-	refreshSalas: boolean;
+interface IPartidasListProps {
+	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
+	refreshPartidas: boolean;
 }
 
-export const SalasList = ({ refreshSalas, setRefreshSalas }: ISalasListProps) => {
+export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshPartidas: setRefreshPartidas }: IPartidasListProps) => {
 	const navigate = useNavigate();
-	const [salas, setSalas] = useState<ISala[]>([]);
+	const [partidas, setPartidas] = useState<IPartida[]>([]);
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [ok, setOk] = useState<boolean>(true);
 
 	useEffect(() => {
-		if (refreshSalas) {
-			getSalas();
+		if (refreshPartidas) {
+			getPartidas();
 		}
-	}, [refreshSalas]);
+	}, [refreshPartidas]);
 
-	const getSalas = async () => {
+	const getPartidas = async () => {
 		try {
 			setLoading(true);
 			setErrorMsg('');
-			const { data } = await clienteAxios.get<ISala[]>('/salas');
-			setSalas(data);
-			setRefreshSalas(false);
+			const { data } = await clienteAxios.get<IPartida[]>('/partidas');
+			setPartidas(data);
+			setRefreshPartidas(false);
 			setLoading(false);
 			setOk(true);
 		} catch (error) {
-			setRefreshSalas(false);
+			setRefreshPartidas(false);
 			setOk(false);
 			setLoading(false);
 			const errores = await handlerAxiosError(error);
@@ -40,16 +40,16 @@ export const SalasList = ({ refreshSalas, setRefreshSalas }: ISalasListProps) =>
 		}
 	};
 
-	const goToSala = async (sala: ISala) => {
-		const url = `/partida/${sala.idSala}/${sala.nombre}`;
+	const goToPartida = async (partida: IPartida) => {
+		const url = `/partida/${partida.idPartida}/${partida.nombre}`;
 		navigate(url);
 	};
 
 	return (
 		<>
-			{salas?.length > 0 && (
+			{partidas?.length > 0 && (
 				<>
-					<h2>Total salas: {salas.length}</h2>
+					<h2>Total partidas: {partidas.length}</h2>
 					<table className="table">
 						<thead>
 							<tr>
@@ -58,11 +58,11 @@ export const SalasList = ({ refreshSalas, setRefreshSalas }: ISalasListProps) =>
 							</tr>
 						</thead>
 						<tbody>
-							{salas.map((x) => (
-								<tr key={x.idSala}>
+							{partidas.map((x) => (
+								<tr key={x.idPartida}>
 									<td>{x.nombre}</td>
 									<td>
-										<button className="btn btn-info" onClick={() => goToSala(x)}>
+										<button className="btn btn-info" onClick={() => goToPartida(x)}>
 											Entrar
 										</button>
 									</td>
@@ -72,12 +72,12 @@ export const SalasList = ({ refreshSalas, setRefreshSalas }: ISalasListProps) =>
 					</table>
 				</>
 			)}
-			{refreshSalas && loading && (
+			{refreshPartidas && loading && (
 				<div className="alert alert-warning" role="status" aria-live="polite">
-					Actualizando salas...
+					Actualizando partidas...
 				</div>
 			)}
-			{!ok && errorMsg && !refreshSalas && (
+			{!ok && errorMsg && !refreshPartidas && (
 				<div className="alert alert-danger" role="status" aria-live="polite">
 					{errorMsg}
 				</div>
