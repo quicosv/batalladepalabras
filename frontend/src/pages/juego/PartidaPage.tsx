@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, useEffect, useRef, useState } from "react"
 import { h1Partida, tituloPartida } from "../../variables";
 import { useForm } from "../../hooks/useForm";
 import { ILetra } from "../../interfaces/letra.interface";
@@ -64,7 +64,13 @@ export const PartidaPage = () => {
 	}
 	useEffect(() => {
 		document.title = tituloPartida;
-	})
+	},[]);
+	const inputRef = useRef<HTMLInputElement>(null);
+	useEffect(() => {
+		if (inputRef.current) {
+			inputRef.current.focus();
+		}
+	},[]);
 	return (
 		<>
 			<h1>{h1Partida}</h1>
@@ -72,7 +78,7 @@ export const PartidaPage = () => {
 				<>
 					<form onSubmit={pruebaLetra}>
 						<label htmlFor="letra">Letra</label>
-						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letraInput" value={letraInput} onChange={onInputChange} required />
+						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letraInput" value={letraInput} onChange={onInputChange} ref={inputRef} required />
 						<button type="submit">Probar</button>
 					</form>
 					<h2>Estado de la palabra</h2>
