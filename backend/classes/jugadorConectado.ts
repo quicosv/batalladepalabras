@@ -1,11 +1,11 @@
 export class JugadorConectado {
 	email: string;
 	idSesion: string;
-	sala: string;
+	partida: string;
 
 	constructor(email: string, idSesion: string) {
 		this.idSesion = idSesion;
 		this.email = email;
-		this.sala = '';
+		this.partida = '';
 	}
 }

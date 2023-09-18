@@ -18,10 +18,10 @@ export class JugadoresConectadosLista {
 		}
 	}
 
-	addToSala(email: string, sala: string): void {
+	addToPartida(email: string, partida: string): void {
 		const jugador = this.jugadoresConectados.find((x) => x.email === email);
 		if (jugador) {
-			jugador.sala = sala;
+			jugador.partida = partida;
 		}
 	}
 
@@ -33,12 +33,18 @@ export class JugadoresConectadosLista {
 		return this.jugadoresConectados;
 	}
 
-	getSalaJugador(idSesion: string): string {
-		return this.jugadoresConectados.find((x) => x.idSesion === idSesion)?.sala || '';
+	getPartidaJugador(idSesion: string): string {
+		return this.jugadoresConectados.find((x) => x.idSesion === idSesion)?.partida || '';
 	}
 
-	getJugadoresDeSala(sala: string): JugadorConectado[] {
-		const jugadoresDeSala = this.jugadoresConectados.filter((x) => x.sala === sala);
-		return jugadoresDeSala;
+	getJugadoresDePartida(partida: string): JugadorConectado[] {
+		const jugadoresDePartida = this.jugadoresConectados.filter((x) => x.partida === partida);
+		return jugadoresDePartida;
 	}
+
+	esPartidaCompleta(partida: string): boolean {
+		const jugadoresDePartida = this.jugadoresConectados.filter((x) => x.partida === partida);
+		return jugadoresDePartida.length >= 2;
+	}
+
 }
