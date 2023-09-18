@@ -1,34 +1,35 @@
 import { FormEvent, useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { handlerAxiosError } from '../../helpers/handlerAxiosError';
-import { ISala } from '../../interfaces/sala.interface';
+import { IPartida } from '../../interfaces/partida.interface';
 import { clienteAxios } from '../../config/clienteAxios';
 
-interface ISalasFormProps {
-	setRefreshSalas: React.Dispatch<React.SetStateAction<boolean>>;
+interface IPartidasFormProps {
+	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const SalasForm = ({ setRefreshSalas }: ISalasFormProps) => {
+export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartidasFormProps) => {
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [ok, setOk] = useState<boolean>(true);
-	const { form, onInputChange, onResetForm } = useForm<ISala>({
-		nombre: ''
+	const { form, onInputChange, onResetForm } = useForm<IPartida>({
+		nombre: '',
+		numeroLetras: 0
 	});
 
 	const { nombre } = form;
 
-	const crearSala = async (e: FormEvent) => {
+	const crearPartida = async (e: FormEvent) => {
 		e.preventDefault();
 
 		try {
 			setLoading(true);
 			setErrorMsg('');
-			await clienteAxios.post<ISala>('/salas', { nombre });
+			await clienteAxios.post<IPartida>('/Partidas', { nombre });
 			onResetForm();
 			setOk(true);
 			setLoading(false);
-			setRefreshSalas(true);
+			setRefreshPartidas(true);
 		} catch (error) {
 			setOk(false);
 			setLoading(false);
@@ -39,26 +40,20 @@ export const SalasForm = ({ setRefreshSalas }: ISalasFormProps) => {
 
 	return (
 		<>
-			<h1>Crear sala</h1>
-			<hr />
+			<h1>Crear partida</h1>
 
-			<form onSubmit={crearSala}>
+			<form onSubmit={crearPartida}>
 				<div className="form-group">
-					<label htmlFor="nombre">Nombre de la sala</label>
+					<label htmlFor="nombre">Nombre de la partida</label>
 					<input id="nombre" type="text" className="form-control" value={nombre} onChange={onInputChange} required />
 				</div>
-				{nombre === '' && (
-					<div className="alert alert-danger" role="alert">
-						El nombre de la sala es obligatorio
-					</div>
-				)}
 				<button className="btn btn-primary" type="submit" disabled={nombre.trim() === ''}>
-					Crear sala
+					Crear partida
 				</button>
 			</form>
 			{loading && (
 				<div className="alert alert-warning" role="alert">
-					Creando sala ...
+					Creando partida ...
 				</div>
 			)}
 			{!ok && errorMsg && !loading && (

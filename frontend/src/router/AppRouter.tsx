@@ -2,13 +2,14 @@ import { Route, Routes } from 'react-router-dom';
 import { AuthLayout } from '../layouts/AuthLayout';
 import { LoginPage } from '../pages/login/LoginPage';
 import { PagesLayout } from '../layouts/PagesLayout';
-import { SalasPage } from '../pages/salas/SalasPage';
 import { useContext, useEffect, useState } from 'react';
 import { ILocalStorageInfo } from '../interfaces/localStorageInfo.interface';
 import { AppContext } from '../context/AppContext';
 import { RegistroPage } from '../pages/login/RegistroPage';
 import { IJugadorInfoContext } from '../interfaces/context.interface';
 import { PartidaPage } from '../pages/juego/PartidaPage';
+import { PartidasActivasPage } from '../pages/partidas/PartidasActivasPage';
+import { CrearPartidasPage } from '../pages/partidas/CrearPartidasPage';
 
 export const AppRouter = () => {
 	const { setJugadorInfo: setJugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
@@ -33,9 +34,10 @@ export const AppRouter = () => {
 					</Route>
 
 
-					<Route path="/partida" element={<PagesLayout />}>
-						<Route index element={<SalasPage />} />
-			<Route path="/partida/:idSala/:nombre" element={<PartidaPage palabraProporcionada={''} />} />
+					<Route path="/" element={<PagesLayout />}>
+						<Route index element={<PartidasActivasPage />} />
+						<Route path='/crearpartida' element={<CrearPartidasPage />} />
+			<Route path="/partida/:idPartida/:nombre" element={<PartidaPage  />} />
 					</Route>
 				</Routes>
 			)}
