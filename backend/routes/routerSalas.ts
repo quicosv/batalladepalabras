@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import { validarCampos } from '../middlewares/validarCampos';
-import { getSalas, insertSala } from '../controllers/salasController';
+import { getPartidas, insertPartida } from '../controllers/partidasController';
 import { salaExiste } from '../helpers/dbValidators';
 import { validarJWT } from '../middlewares/validarJWT';
 
 export const routerSalas = Router();
 
-routerSalas.get('/', getSalas);
+routerSalas.get('/', getPartidas);
 
 routerSalas.post(
 	'/',
@@ -17,5 +17,5 @@ routerSalas.post(
 		check('nombre').custom(salaExiste),
 		validarCampos
 	],
-	insertSala
+	insertPartida
 );

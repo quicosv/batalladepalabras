@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { Palabra } from "../models/palabra";
 
-export const getPalabra = async (req: Request, res: Response) => {
+export const existePalabra = async (req: Request, res: Response) => {
 	const { palabra } = req.params;
 	try {
 		const palabraRegistrada = await Palabra.findOne({
