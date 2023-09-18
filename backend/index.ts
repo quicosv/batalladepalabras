@@ -26,7 +26,7 @@ app.use(express.json());
 app.use("/api/auth", routerAuth);
 app.use("/api/jugadores", routerJugadores);
 app.use("/api/palabras", routerPalabras);
-app.use("/api/salas", validarJWT, routerPartidas);
+app.use("/api/partidas", validarJWT, routerPartidas);
 
 const httpServer = http.createServer(app);
 export const io = new Server(httpServer, {
@@ -49,50 +49,53 @@ io.on("connection", (socket: Socket) => {
 	console.log("Cliente conectado");
 
 	const email = socket.handshake.query["email"]?.toString() || "";
-	const sala = socket.handshake.query["sala"]?.toString() || "";
+	const partida = socket.handshake.query["partida"]?.toString() || "";
 	jugadoresConectados.addJugador(email, socket.id);
 
-	if (sala !== "") {
-		jugadoresConectados.addToSala(email, sala);
-		socket.join(sala);
+	if (partida !== "") {
+		jugadoresConectados.addToPartida(email, partida);
+		socket.join(partida);
 
-		io.to(sala).emit(
-			"jugadores-conectados-a-sala",
-			jugadoresConectados.getJugadoresDeSala(sala)
+		io.to(partida).emit(
+			"jugadores-conectados-a-partida",
+			jugadoresConectados.getJugadoresDePartida(partida)
 		);
 	}
 
 	io.sockets.emit("jugadores-conectados", jugadoresConectados.getJugadores());
 
 	socket.on("disconnect", () => {
-		const sala = jugadoresConectados.getSalaJugador(socket.id);
+		const partida = jugadoresConectados.getPartidaJugador(socket.id);
 		jugadoresConectados.removeJugador(socket.id);
 		io.emit("jugadores-conectados", jugadoresConectados.getJugadores());
-		io.to(sala).emit(
+		io.to(partida).emit(
 			"jugadores-conectados-a-sala",
-			jugadoresConectados.getJugadoresDeSala(sala)
+			jugadoresConectados.getJugadoresDePartida(partida)
 		);
 	});
 
-	socket.on("conectar-a-sala", (data: { email: string; sala: string }) => {
-		jugadoresConectados.addToSala(data.email, data.sala);
-		socket.join(data.sala);
+	socket.on("conectar-a-partida", (data: { email: string; partida: string }) => {
+		jugadoresConectados.addToPartida(data.email, data.partida);
+		socket.join(data.partida);
 
-		io.to(data.sala).emit(
-			"jugadores-conectados-a-sala",
-			jugadoresConectados.getJugadoresDeSala(data.sala)
+		io.to(data.partida).emit(
+			"jugadores-conectados-a-partida",
+			jugadoresConectados.getJugadoresDePartida(data.partida)
 		);
 	});
 
-	socket.on("desconectar-de-sala", (data: { email: string; sala: string }) => {
-		jugadoresConectados.addToSala(data.email, "");
-		socket.leave(data.sala);
+	socket.on(
+		"desconectar-de-partida",
+		(data: { email: string; partida: string }) => {
+			jugadoresConectados.addToPartida(data.email, "");
+			socket.leave(data.partida);
 
-		io.to(data.sala).emit(
-			"jugadores-conectados-a-sala",
-			jugadoresConectados.getJugadoresDeSala(data.sala)
-		);
-	});
+			io.to(data.partida).emit(
+				"jugadores-conectados-a-partida",
+				jugadoresConectados.getJugadoresDePartida(data.partida)
+			);
+		}
+	);
 
 	socket.on(
 		"mensaje-privado",
