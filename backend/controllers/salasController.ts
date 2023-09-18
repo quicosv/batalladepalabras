@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Sala } from '../models/sala';
+import { Sala } from '../models/partida';
 
 export const getSalas = async (req: Request, res: Response) => {
 	try {

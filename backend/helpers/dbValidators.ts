@@ -1,4 +1,4 @@
-import { Sala } from '../models/sala';
+import { Sala } from '../models/partida';
 import { Jugador } from '../models/jugador';
 
 export const emailExiste = async (email = '') => {
