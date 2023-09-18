@@ -8,7 +8,7 @@ import { routerJugadores } from "./routes/routerJugadores";
 import { Server, Socket } from "socket.io";
 import { validarJWT, validarJWTSocket } from "./middlewares/validarJWT";
 import { routerPalabras } from "./routes/routerPalabras";
-import { routerSalas } from "./routes/routerSalas";
+import { routerPartidas } from "./routes/routerPartidas";
 import { JugadoresConectadosLista } from "./classes/jugadoresConectadosLista";
 
 const app: Express = express();
@@ -26,7 +26,7 @@ app.use(express.json());
 app.use("/api/auth", routerAuth);
 app.use("/api/jugadores", routerJugadores);
 app.use("/api/palabras", routerPalabras);
-app.use("/api/salas", validarJWT, routerSalas);
+app.use("/api/salas", validarJWT, routerPartidas);
 
 const httpServer = http.createServer(app);
 export const io = new Server(httpServer, {

@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import { Partida } from '../models/partida';
+import { Request, Response } from "express";
+import { Partida } from "../models/partida";
 
 export const getPartidas = async (req: Request, res: Response) => {
 	try {
@@ -7,7 +7,7 @@ export const getPartidas = async (req: Request, res: Response) => {
 		res.status(200).json(partidas);
 	} catch (error) {
 		res.status(500).json({
-			msg: 'Error en el acceso a datos'
+			msg: "Error en el acceso a datos",
 		});
 	}
 };
@@ -18,16 +18,16 @@ export const insertPartida = async (req: Request, res: Response) => {
 	try {
 		const partida = await Partida.create({
 			nombre,
-			numeroLetras
+			numeroLetras,
 		});
 
 		res.status(200).json({
-			partida
+			partida,
 		});
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({
-			msg: 'Hable con el administrador'
+			msg: "Hable con el administrador",
 		});
 	}
 };

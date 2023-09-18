@@ -6,6 +6,6 @@ export class JugadorConectado {
 	constructor(email: string, idSesion: string) {
 		this.idSesion = idSesion;
 		this.email = email;
-		this.partida = '';
+		this.partida = "";
 	}
 }
