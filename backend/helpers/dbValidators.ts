@@ -1,26 +1,36 @@
-import { Sala } from '../models/sala';
-import { Jugador } from '../models/jugador';
+import { Partida } from "../models/partida";
+import { Jugador } from "../models/jugador";
 
-export const emailExiste = async (email = '') => {
-  const existeEmail = await Jugador.findOne({
-    where: {
-      email: email
-    }
-  });
+export const emailExiste = async (email = "") => {
+	const existeEmail = await Jugador.findOne({
+		where: {
+			email: email,
+		},
+	});
 
-  if (existeEmail) {
-    throw new Error(`El email: ${email}, ya está registrado`);
-  }
+	if (existeEmail) {
+		throw new Error(`El email: ${email}, ya está registrado`);
+	}
 };
 
-export const salaExiste = async (nombre = '') => {
-  const existeSala = await Sala.findOne({
-    where: {
-      nombre: nombre
-    }
-  });
+export const partidaExiste = async (nombre = "") => {
+	const existePartida = await Partida.findOne({
+		where: {
+			nombre: nombre,
+		},
+	});
 
-  if (existeSala) {
-    throw new Error(`La sala: ${nombre}, ya está creada`);
-  }
+	if (existePartida) {
+		throw new Error(
+			`No se puede crear. La partida ${nombre} ya existe. Elija otro diferente`
+		);
+	}
+};
+
+export const numeroLetrasValidoPartida = async (numeroLetras = 0) => {
+	if (numeroLetras < 1 || numeroLetras > 23) {
+		throw new Error(
+			`No se puede crear la partida. El número de letras debe estar entre 1 y 23`
+		);
+	}
 };

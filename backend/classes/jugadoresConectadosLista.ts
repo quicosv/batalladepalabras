@@ -1,4 +1,4 @@
-import { JugadorConectado } from './jugadorConectado';
+import { JugadorConectado } from "./jugadorConectado";
 
 export class JugadoresConectadosLista {
 	private jugadoresConectados: JugadorConectado[];
@@ -10,7 +10,9 @@ export class JugadoresConectadosLista {
 		if (email) {
 			const jugador = this.jugadoresConectados.find((x) => x.email === email);
 			if (jugador) {
-				this.jugadoresConectados = this.jugadoresConectados.filter((x) => x.email !== email);
+				this.jugadoresConectados = this.jugadoresConectados.filter(
+					(x) => x.email !== email
+				);
 			}
 
 			const nuevoJugador = new JugadorConectado(email, idSesion);
@@ -18,27 +20,41 @@ export class JugadoresConectadosLista {
 		}
 	}
 
-	addToSala(email: string, sala: string): void {
+	addToPartida(email: string, partida: string): void {
 		const jugador = this.jugadoresConectados.find((x) => x.email === email);
 		if (jugador) {
-			jugador.sala = sala;
+			jugador.partida = partida;
 		}
 	}
 
 	removeJugador(idSesion: string): void {
-		this.jugadoresConectados = this.jugadoresConectados.filter((x) => x.idSesion !== idSesion);
+		this.jugadoresConectados = this.jugadoresConectados.filter(
+			(x) => x.idSesion !== idSesion
+		);
 	}
 
 	getJugadores(): JugadorConectado[] {
 		return this.jugadoresConectados;
 	}
 
-	getSalaJugador(idSesion: string): string {
-		return this.jugadoresConectados.find((x) => x.idSesion === idSesion)?.sala || '';
+	getPartidaJugador(idSesion: string): string {
+		return (
+			this.jugadoresConectados.find((x) => x.idSesion === idSesion)?.partida ||
+			""
+		);
 	}
 
-	getJugadoresDeSala(sala: string): JugadorConectado[] {
-		const jugadoresDeSala = this.jugadoresConectados.filter((x) => x.sala === sala);
-		return jugadoresDeSala;
+	getJugadoresDePartida(partida: string): JugadorConectado[] {
+		const jugadoresDePartida = this.jugadoresConectados.filter(
+			(x) => x.partida === partida
+		);
+		return jugadoresDePartida;
+	}
+
+	esPartidaCompleta(partida: string): boolean {
+		const jugadoresDePartida = this.jugadoresConectados.filter(
+			(x) => x.partida === partida
+		);
+		return jugadoresDePartida.length >= 2;
 	}
 }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPalabra } from "../controllers/palabrasController";
+import { existePalabra } from "../controllers/palabrasController";
 
 export const routerPalabras = Router();
-routerPalabras.get('/:palabra', getPalabra);
+routerPalabras.get("/:palabra", existePalabra);
