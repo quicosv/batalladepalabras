@@ -27,10 +27,10 @@ export const partidaExiste = async (nombre = "") => {
 	}
 };
 
-export const numeroLetrasValidoPartida = async (numeroLetras = 0) => {
+export const numeroLetrasValidoPartida = async (numeroLetras: number) => {
 	if (numeroLetras < 1 || numeroLetras > 23) {
 		throw new Error(
-			`No se puede crear la partida. El número de letras debe estar entre 1 y 23`
+			`No se puede crear la partida. El número de letras (${numeroLetras}) debe estar entre 1 y 23.`
 		);
 	}
 };
