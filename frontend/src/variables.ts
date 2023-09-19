@@ -9,3 +9,6 @@ export const tituloRegistro = h1Registro + ' - ' + aplicacion;
 export const tituloPartida = h1Partida + ' - ' + aplicacion;
 export const tituloPartidasActivas = h1PartidasActivas + ' - ' + aplicacion;
 export const tituloCrearPartida = h1CrearPartida + ' - ' + aplicacion;
+export const h1Palabra = 'Tu palabra';
+export const tituloPalabra = h1Palabra + ' - ' + h1Partida + ' - ' + aplicacion;
+
