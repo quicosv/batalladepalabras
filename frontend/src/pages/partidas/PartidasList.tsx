@@ -44,7 +44,7 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 		const url = `/partida/${partida.idPartida}/${partida.nombre}`;
 		navigate(url);
 	};
-
+	
 	return (
 		<>
 			{partidas?.length > 0 && (

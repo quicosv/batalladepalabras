@@ -1,8 +1,9 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { handlerAxiosError } from '../../helpers/handlerAxiosError';
 import { IPartida } from '../../interfaces/partida.interface';
 import { clienteAxios } from '../../config/clienteAxios';
+import { h1CrearPartida } from '../../variables';
 
 interface IPartidasFormProps {
 	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,17 +38,24 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 			setErrorMsg(errores);
 		}
 	};
-
+	
+	const inputRef = useRef<HTMLInputElement>(null);
+	useEffect(() => {
+		if (inputRef.current) {
+			inputRef.current.focus();
+		}
+	},[]);
+	
 	return (
 		<>
-			<h1>Crear partida</h1>
+			<h1>{h1CrearPartida}</h1>
 
 			<form onSubmit={crearPartida}>
 				<div className="form-group">
 					<label htmlFor="nombre">Nombre de la partida</label>
-					<input id="nombre" type="text" className="form-control" value={nombre} onChange={onInputChange} required />
+					<input id="nombre" type="text" className="form-control" value={nombre} onChange={onInputChange} ref={inputRef}required />
 					<label htmlFor="numeroLetras">Número de letras</label>
-<input id="numeroLetras" type="number" min={1} max={23} step={1} required/>
+<input id="numeroLetras" type="number" min={1} max={23} step={1} title='Número de letras que tendrá la palabra con la que vas ajugar'required/>
 				</div>
 				<button className="btn btn-primary" type="submit" disabled={nombre.trim() === ''}>
 					Crear partida
