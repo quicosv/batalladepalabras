@@ -46,6 +46,8 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 				<div className="form-group">
 					<label htmlFor="nombre">Nombre de la partida</label>
 					<input id="nombre" type="text" className="form-control" value={nombre} onChange={onInputChange} required />
+					<label htmlFor="numeroLetras">Número de letras</label>
+<input id="numeroLetras" type="number" min={1} max={23} step={1} required/>
 				</div>
 				<button className="btn btn-primary" type="submit" disabled={nombre.trim() === ''}>
 					Crear partida
