@@ -58,9 +58,9 @@ export const SignInForm = () => {
 
 	return (
 		<>
-			<form onSubmit={login}>
+			<form className="row g-3" onSubmit={login}>
 				<div className="form-group">
-					<label htmlFor="email">Correo electrónico</label>
+					<label className="form-label" htmlFor="email">Correo electrónico</label>
 					<input
 						id="email"
 						type="email"
@@ -73,7 +73,7 @@ export const SignInForm = () => {
 					/>
 				</div>
 				<div className="form-group">
-					<label htmlFor="password">Contraseña</label>
+					<label className="form-label" htmlFor="password">Contraseña</label>
 					<input
 						id="password"
 						type="password"
@@ -84,7 +84,7 @@ export const SignInForm = () => {
 						required
 					/>
 				</div>
-				<button className="btn btn-success" type="submit">
+				<button className="btn btn-success btn-lg" type="submit">
 					Iniciar sesión
 				</button>
 			</form>
