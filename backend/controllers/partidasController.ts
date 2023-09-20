@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Partida } from "../models/partida";
+import { Op, where } from "sequelize";
 
 export const getPartidas = async (req: Request, res: Response) => {
 	try {
@@ -28,6 +29,22 @@ export const insertPartida = async (req: Request, res: Response) => {
 		console.log(error);
 		res.status(500).json({
 			msg: "Hable con el administrador",
+		});
+	}
+};
+export const getPartidasPorLetras = async (req: Request, res: Response) => {
+	const { letras } = req.params;
+	try {
+		const partidas = await Partida.findAll({
+			where: {
+				numeroLetras: parseInt(letras),
+			},
+		});
+		res.status(200).json(partidas);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({
+			msg: "Se ha producido un error al mostrar las partidas",
 		});
 	}
 };
