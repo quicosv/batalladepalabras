@@ -59,7 +59,7 @@ export const SignInForm = () => {
 	return (
 		<>
 			<form className="row g-3" onSubmit={login}>
-				<div className="form-group">
+				<div className="form-group col-6">
 					<label className="form-label" htmlFor="email">Correo electrónico</label>
 					<input
 						id="email"
@@ -72,7 +72,7 @@ export const SignInForm = () => {
 						required
 					/>
 				</div>
-				<div className="form-group">
+				<div className="form-group col-6">
 					<label className="form-label" htmlFor="password">Contraseña</label>
 					<input
 						id="password"
