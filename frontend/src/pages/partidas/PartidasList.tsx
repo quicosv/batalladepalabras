@@ -15,7 +15,7 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [ok, setOk] = useState<boolean>(true);
-
+const numeros = [1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19,20,21,22,23];
 	useEffect(() => {
 		if (refreshPartidas) {
 			getPartidas();
@@ -39,6 +39,16 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 			setErrorMsg(errores);
 		}
 	};
+
+const buscaPartidas = (cantidadDeLetras: number): boolean => {
+	let hayPartidas = false;
+for (const partida of partidas) {
+	if (partida.numeroLetras === cantidadDeLetras) {
+		hayPartidas = true;
+	}
+}
+	return hayPartidas;
+}
 
 	const goToPartida = async (partida: IPartida) => {
 		const url = `/partida/${partida.idPartida}/${partida.nombre}`;
