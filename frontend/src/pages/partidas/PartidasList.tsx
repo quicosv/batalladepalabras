@@ -58,29 +58,23 @@ for (const partida of partidas) {
 	return (
 		<>
 			{partidas?.length > 0 && (
-				<>
-					<h2>Total partidas: {partidas.length}</h2>
-					<table className="table">
-						<thead>
-							<tr>
-								<th>Nombre</th>
-								<th>Acciones</th>
-							</tr>
-						</thead>
-						<tbody>
-							{partidas.map((x) => (
-								<tr key={x.idPartida}>
-									<td>{x.nombre}</td>
-									<td>
+				numeros.map((numero) => (
+					buscaPartidas(numero) && (
+						<>
+							<h2>Numero de letras: {numero}</h2>
+							<ul>
+								{partidas.filter(partida => partida.numeroLetras === numero).map((x) => (
+									<li key={x.idPartida}>
+										Nombre: {x.nombre}
 										<button className="btn btn-info" onClick={() => goToPartida(x)}>
 											Entrar
 										</button>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</>
+									</li>
+								))}
+							</ul>
+						</>
+					)
+				))
 			)}
 			{refreshPartidas && loading && (
 				<div className="alert alert-warning" role="status" aria-live="polite">
