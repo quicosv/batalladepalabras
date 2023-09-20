@@ -1,7 +1,11 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { validarCampos } from "../middlewares/validarCampos";
-import { getPartidas, insertPartida } from "../controllers/partidasController";
+import {
+	getPartidas,
+	getPartidasPorLetras,
+	insertPartida,
+} from "../controllers/partidasController";
 import {
 	numeroLetrasValidoPartida,
 	partidaExiste,
@@ -9,8 +13,19 @@ import {
 import { validarJWT } from "../middlewares/validarJWT";
 
 export const routerPartidas = Router();
+routerPartidas.get("/", [validarJWT, validarCampos], getPartidas);
 
-routerPartidas.get("/", getPartidas);
+routerPartidas.get(
+	"/:letras",
+	[
+		validarJWT,
+		check("letras", "El número de letras es obligatorio").not().isEmpty(),
+		check("letras", "El número de letras debe de ser numérico").isInt(),
+		check("letras").custom(numeroLetrasValidoPartida),
+		validarCampos,
+	],
+	getPartidasPorLetras
+);
 
 routerPartidas.post(
 	"/",
