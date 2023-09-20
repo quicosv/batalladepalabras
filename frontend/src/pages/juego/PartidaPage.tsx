@@ -76,10 +76,12 @@ export const PartidaPage = () => {
 			<h1>{h1Partida}</h1>
 			{tuTurno ? (
 				<>
-					<form onSubmit={pruebaLetra}>
-						<label htmlFor="letra">Letra</label>
-						<input type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letraInput" value={letraInput} onChange={onInputChange} ref={inputRef} required />
-						<button type="submit">Probar</button>
+					<form className="row g-3" onSubmit={pruebaLetra}>
+						<div className="form-group">
+							<label className="form-label" htmlFor="letra">Letra</label>
+							<input className="form-control" type="text" maxLength={1} pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1}" id="letraInput" value={letraInput} onChange={onInputChange} ref={inputRef} required />
+						</div>
+						<button className="btn btn-success btn-lg" type="submit">Probar</button>
 					</form>
 					<h2>Estado de la palabra</h2>
 					<p aria-hidden="true">{descubierto}</p>

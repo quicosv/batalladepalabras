@@ -58,9 +58,9 @@ export const SignUpForm = () => {
 
 	return (
 		<>
-			<form onSubmit={singUp}>
-				<div className="form-group">
-					<label htmlFor="email">Correo electrónico</label>
+			<form className="row g-3" onSubmit={singUp}>
+				<div className="form-group col-12">
+					<label className="form-label" htmlFor="email">Correo electrónico</label>
 					<input
 						id="email"
 						type="email"
@@ -72,8 +72,8 @@ export const SignUpForm = () => {
 						required
 					/>
 				</div>
-				<div className="form-group">
-					<label htmlFor="password">Contraseña</label>
+				<div className="form-group col-6">
+					<label className="form-label" htmlFor="password">Contraseña</label>
 					<input
 						id="password"
 						type="password"
@@ -84,8 +84,8 @@ export const SignUpForm = () => {
 						required
 					/>
 				</div>
-				<div className="form-group">
-					<label htmlFor="password2">Confirmar contraseña</label>
+				<div className="form-group col-6">
+					<label className="form-label" htmlFor="password2">Confirmar contraseña</label>
 					<input
 						id="password2"
 						type="password"
@@ -96,12 +96,7 @@ export const SignUpForm = () => {
 						required
 					/>
 				</div>
-				{password !== password2 && (
-					<div className="alert alert-danger" role="alert">
-						Las contraseñas no coinciden
-					</div>
-				)}
-				<button className="btn btn-primary" type="submit">
+				<button className="btn btn-success btn-lg" type="submit">
 					Crear cuenta
 				</button>
 			</form>

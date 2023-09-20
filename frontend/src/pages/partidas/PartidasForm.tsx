@@ -52,13 +52,15 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 		<>
 			<h1>{h1CrearPartida}</h1>
 
-			<form onSubmit={crearPartida}>
+			<form className='row g-3' onSubmit={crearPartida}>
 				<div className="form-group">
-					<label htmlFor="nombre">Nombre de la partida</label>
+					<label className='form-label' htmlFor="nombre">Nombre de la partida</label>
 					<input id="nombre" type="text" className="form-control" value={nombre} onChange={onInputChange} ref={inputRef} required />
-					<label htmlFor="numeroLetras">Número de letras</label>
-<input id="numeroLetras" type="number" min={1} max={23}  step={1} title='Número de letras que tendrá la palabra con la que vas a jugar' onChange={onInputChange} value={numeroLetras} required />
-				</div>
+					</div>
+					<div className="form-group">
+						<label className='form-label' htmlFor="numeroLetras">Número de letras</label>
+						<input className='form-control' id="numeroLetras" type="number" min={1} max={23} step={1} title='Número de letras que tendrá la palabra con la que vas a jugar' onChange={onInputChange} value={numeroLetras} required />
+					</div>
 				<button className="btn btn-primary" type="submit">
 					Crear partida
 				</button>

@@ -58,19 +58,22 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 	return (
 		<>
 			<h1>{h1Palabra}</h1>
-			<form onSubmit={procesaPalabra}>
-				<label htmlFor="palabra">Introduce una palabra:</label>
-				<input
-					type="text"
-					maxLength={23}
-					pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1,23}"
-					id="palabra"
-					value={tuPalabra}
-					onChange={onInputChange}
-					ref={inputRef}
-					required
-				/>
-				<button type="submit">Enviar</button>
+			<form className="row g-3" onSubmit={procesaPalabra}>
+				<div className="form-group">
+					<label className="form-label" htmlFor="palabra">Introduce una palabra:</label>
+					<input
+					className="form-control"
+						type="text"
+						maxLength={23}
+						pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1,23}"
+						id="palabra"
+						value={tuPalabra}
+						onChange={onInputChange}
+						ref={inputRef}
+						required
+					/>
+				</div>
+				<button className="btn btn-success btn-lg" type="submit">Enviar</button>
 			</form>
 			{loading && (
 				<div className="alert alert-warning" role="alert">
