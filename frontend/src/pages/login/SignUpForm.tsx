@@ -59,7 +59,7 @@ export const SignUpForm = () => {
 	return (
 		<>
 			<form className="row g-3" onSubmit={singUp}>
-				<div className="form-group">
+				<div className="form-group col-12">
 					<label className="form-label" htmlFor="email">Correo electrónico</label>
 					<input
 						id="email"
@@ -72,7 +72,7 @@ export const SignUpForm = () => {
 						required
 					/>
 				</div>
-				<div className="form-group">
+				<div className="form-group col-6">
 					<label className="form-label" htmlFor="password">Contraseña</label>
 					<input
 						id="password"
@@ -84,7 +84,7 @@ export const SignUpForm = () => {
 						required
 					/>
 				</div>
-				<div className="form-group">
+				<div className="form-group col-6">
 					<label className="form-label" htmlFor="password2">Confirmar contraseña</label>
 					<input
 						id="password2"
