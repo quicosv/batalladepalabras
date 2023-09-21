@@ -61,7 +61,11 @@ for (const partida of partidas) {
 				numeros.map((numero) => (
 					buscaPartidas(numero) && (
 						<>
+						{numero === 1 ? (
+							<h2>Partidas de una letra</h2>
+						) : (
 							<h2>Partidas de {numero} letras</h2>
+						)}
 							<ul className='sin-binietas'>
 								{partidas.filter(partida => partida.numeroLetras === numero).map((x) => (
 									<li key={x.idPartida}>
