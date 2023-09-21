@@ -1,4 +1,4 @@
-import { Partida } from "./partida";
+import { Partida } from "./Partida";
 
 export class JugadorConectado {
 	email: string;
