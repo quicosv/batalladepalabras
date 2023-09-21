@@ -51,7 +51,7 @@ for (const partida of partidas) {
 }
 
 	const goToPartida = async (partida: IPartida) => {
-		const url = `/partida/${partida.idPartida}/${partida.nombre}`;
+		const url = `/palabra/`;
 		navigate(url);
 	};
 	
