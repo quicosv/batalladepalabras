@@ -1,8 +1,8 @@
 export class Partida {
-	private numeroJugadores: number;
-	private idPartida: number;
-	private nombre: string;
-	private numeroLetras: number;
+	numeroJugadores: number;
+	idPartida: number;
+	nombre: string;
+	numeroLetras: number;
 
 	constructor(idPartida: number, nombre: string, numeroLetras: number) {
 		this.idPartida = idPartida;
