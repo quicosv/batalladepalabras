@@ -61,7 +61,7 @@ for (const partida of partidas) {
 				numeros.map((numero) => (
 					buscaPartidas(numero) && (
 						<>
-							<h2>{numero} : Letras</h2>
+							<h2>Partidas de : {numero} : letras</h2>
 							<ul>
 								{partidas.filter(partida => partida.numeroLetras === numero).map((x) => (
 									<li key={x.idPartida}>
