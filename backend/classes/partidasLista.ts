@@ -2,8 +2,8 @@ import { Partida } from "./Partida";
 
 export class partidasLista {
 	private partidas: Partida[];
-	constructor(){
-this.partidas = [];
+	constructor() {
+		this.partidas = [];
 	}
 	addPartida(id: number, nombre: string, numeroLetras: number): void {
 		// La partida sólo se añade si viene un id
@@ -19,5 +19,8 @@ this.partidas = [];
 			// Y se añade al array.
 			this.partidas.push(nuevaPartida);
 		}
+	}
+	eliminarPartida(id: number): void {
+		this.partidas = this.partidas.filter((x) => x.idPartida !== id);
 	}
 }
