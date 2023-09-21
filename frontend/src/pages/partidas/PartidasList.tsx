@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { IPartida } from '../../interfaces/partida.interface';
 import { clienteAxios } from '../../config/clienteAxios';
 import { handlerAxiosError } from '../../helpers/handlerAxiosError';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface IPartidasListProps {
 	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
@@ -50,10 +50,10 @@ for (const partida of partidas) {
 	return hayPartidas;
 }
 
-	const goToPartida = async (partida: IPartida) => {
-		const url = `/palabra/`;
-		navigate(url);			
-	};
+	// const goToPartida = async (partida: IPartida) => {
+	// 	const url = `/palabra/`;
+	// 	navigate(url);			
+	// };
 	
 	return (
 		<>
@@ -70,10 +70,8 @@ for (const partida of partidas) {
 								{partidas.filter(partida => partida.numeroLetras === numero).map((x) => (
 									<li key={x.idPartida}>
 										{x.nombre} :
-										<button className="btn btn-info" onClick={() => goToPartida(x)}>
-											Entrar
-										</button>
-									</li>
+										<Link to="/palabra">Entrar</Link>
+																			</li>
 								))}
 							</ul>
 						</>
