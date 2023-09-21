@@ -23,4 +23,7 @@ export class partidasLista {
 	eliminarPartida(id: number): void {
 		this.partidas = this.partidas.filter((x) => x.idPartida !== id);
 	}
+	getPartidas (): Partida[] {
+		return this.partidas;
+	}
 }
