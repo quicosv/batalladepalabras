@@ -4,6 +4,7 @@ import { handlerAxiosError } from '../../helpers/handlerAxiosError';
 import { IPartida } from '../../interfaces/partida.interface';
 import { clienteAxios } from '../../config/clienteAxios';
 import { h1CrearPartida } from '../../variables';
+import { useNavigate } from 'react-router-dom';
 
 interface IPartidasFormProps {
 	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,6 +13,7 @@ interface IPartidasFormProps {
 export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartidasFormProps) => {
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
+	const navigate = useNavigate();
 	const [ok, setOk] = useState<boolean>(true);
 	const { form, onInputChange, onResetForm } = useForm<IPartida>({
 		nombre: '',
@@ -30,7 +32,9 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 			onResetForm();
 			setOk(true);
 			setLoading(false);
-			setRefreshPartidas(true);
+			navigate("/palabra", {
+				replace: true,
+			});
 		} catch (error) {
 			setOk(false);
 			setLoading(false);

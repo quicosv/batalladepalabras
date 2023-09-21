@@ -10,6 +10,7 @@ import { IJugadorInfoContext } from '../interfaces/context.interface';
 import { PartidaPage } from '../pages/juego/PartidaPage';
 import { PartidasActivasPage } from '../pages/partidas/PartidasActivasPage';
 import { CrearPartidasPage } from '../pages/partidas/CrearPartidasPage';
+import { PalabraPage } from '../pages/juego/PalabraPage';
 
 export const AppRouter = () => {
 	const { setJugadorInfo: setJugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
@@ -39,6 +40,7 @@ export const AppRouter = () => {
 						<Route path='/partidasactivas' element={<PartidasActivasPage />} />
 						<Route path='/crearpartida' element={<CrearPartidasPage />} />
 			<Route path="/partida/:idPartida/:nombre" element={<PartidaPage  />} />
+			<Route path='/palabra' element={<PalabraPage idPartida={0} palabra={''} />} />
 					</Route>
 				</Routes>
 			)}

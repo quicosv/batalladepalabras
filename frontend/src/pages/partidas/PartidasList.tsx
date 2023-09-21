@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { IPartida } from '../../interfaces/partida.interface';
 import { clienteAxios } from '../../config/clienteAxios';
 import { handlerAxiosError } from '../../helpers/handlerAxiosError';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface IPartidasListProps {
 	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,7 +15,7 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [ok, setOk] = useState<boolean>(true);
-
+const numeros = [1,2,3,4,5,6,7,8,9,0,11,12,13,14,15,16,17,18,19,20,21,22,23];
 	useEffect(() => {
 		if (refreshPartidas) {
 			getPartidas();
@@ -40,37 +40,43 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 		}
 	};
 
-	const goToPartida = async (partida: IPartida) => {
-		const url = `/partida/${partida.idPartida}/${partida.nombre}`;
-		navigate(url);
-	};
+const buscaPartidas = (cantidadDeLetras: number): boolean => {
+	let hayPartidas = false;
+for (const partida of partidas) {
+	if (partida.numeroLetras === cantidadDeLetras) {
+		hayPartidas = true;
+	}
+}
+	return hayPartidas;
+}
+
+	// const goToPartida = async (partida: IPartida) => {
+	// 	const url = `/palabra/`;
+	// 	navigate(url);			
+	// };
 	
 	return (
 		<>
 			{partidas?.length > 0 && (
-				<>
-					<h2>Total partidas: {partidas.length}</h2>
-					<table className="table">
-						<thead>
-							<tr>
-								<th>Nombre</th>
-								<th>Acciones</th>
-							</tr>
-						</thead>
-						<tbody>
-							{partidas.map((x) => (
-								<tr key={x.idPartida}>
-									<td>{x.nombre}</td>
-									<td>
-										<button className="btn btn-info" onClick={() => goToPartida(x)}>
-											Entrar
-										</button>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</>
+				numeros.map((numero) => (
+					buscaPartidas(numero) && (
+						<>
+						{numero === 1 ? (
+							<h2>Partidas de una letra</h2>
+						) : (
+							<h2>Partidas de {numero} letras</h2>
+						)}
+							<ul className='sin-binietas'>
+								{partidas.filter(partida => partida.numeroLetras === numero).map((x) => (
+									<li key={x.idPartida}>
+										<Link to="/palabra">										{x.nombre} :
+</Link>
+																			</li>
+								))}
+							</ul>
+						</>
+					)
+				))
 			)}
 			{refreshPartidas && loading && (
 				<div className="alert alert-warning" role="status" aria-live="polite">
