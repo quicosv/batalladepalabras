@@ -61,11 +61,11 @@ for (const partida of partidas) {
 				numeros.map((numero) => (
 					buscaPartidas(numero) && (
 						<>
-							<h2>Numero de letras: {numero}</h2>
+							<h2>{numero} : Letras</h2>
 							<ul>
 								{partidas.filter(partida => partida.numeroLetras === numero).map((x) => (
 									<li key={x.idPartida}>
-										Nombre: {x.nombre}
+										{x.nombre} :
 										<button className="btn btn-info" onClick={() => goToPartida(x)}>
 											Entrar
 										</button>
