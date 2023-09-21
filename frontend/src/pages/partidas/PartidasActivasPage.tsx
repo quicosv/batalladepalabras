@@ -27,7 +27,7 @@ export const PartidasActivasPage = () => {
 				<div className="col">
 					<PartidasList refreshPartidas={refreshPartidas} setRefreshPartidas={setRefreshPartidas} />
 				</div>
-				<Link to="/crearpartida">También puedes crear tu partida</Link>
+				<Link to="/crearpartida">También puedes crear tu partida.</Link>
 				<div className="col">{<UsersConnectedList />}</div>
 			</div>
 		</>
