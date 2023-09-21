@@ -69,8 +69,8 @@ for (const partida of partidas) {
 							<ul className='sin-binietas'>
 								{partidas.filter(partida => partida.numeroLetras === numero).map((x) => (
 									<li key={x.idPartida}>
-										{x.nombre} :
-										<Link to="/palabra">Entrar</Link>
+										<Link to="/palabra">										{x.nombre} :
+</Link>
 																			</li>
 								))}
 							</ul>
