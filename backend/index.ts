@@ -10,12 +10,13 @@ import { validarJWT, validarJWTSocket } from "./middlewares/validarJWT";
 import { routerPalabras } from "./routes/routerPalabras";
 import { routerPartidas } from "./routes/routerPartidas";
 import { JugadoresConectadosLista } from "./classes/jugadoresConectadosLista";
+import { partidasLista } from "./classes/partidasLista";
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
 const jugadoresConectados = new JugadoresConectadosLista();
-
+const listaDePartidas = new partidasLista();
 dbConnection();
 
 // Middlewares
@@ -62,7 +63,7 @@ io.on("connection", (socket: Socket) => {
 		);
 	}
 
-	io.sockets.emit("jugadores-conectados", jugadoresConectados.getJugadores());
+	io.sockets.emit("lista-partidas", listaDePartidas.getPartidas());
 
 	socket.on("disconnect", () => {
 		const partida = jugadoresConectados.getPartidaJugador(socket.id);
