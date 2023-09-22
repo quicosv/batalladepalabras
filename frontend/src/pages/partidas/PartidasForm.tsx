@@ -1,16 +1,20 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { handlerAxiosError } from '../../helpers/handlerAxiosError';
 import { IPartida } from '../../interfaces/partida.interface';
 import { clienteAxios } from '../../config/clienteAxios';
 import { h1CrearPartida } from '../../variables';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../../context/AppContext';
+import { IJugadorInfoContext } from '../../interfaces/context.interface';
 
 interface IPartidasFormProps {
 	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartidasFormProps) => {
+	const { jugadorInfo: jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
+	const { socket } = jugadorInfo;
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
@@ -24,8 +28,8 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 
 	const crearPartida = async (e: FormEvent) => {
 		e.preventDefault();
-
-		try {
+socket?.emit('crear-partida', {nombre, numeroLetras});
+/* 		try {
 			setLoading(true);
 			setErrorMsg('');
 			await clienteAxios.post<IPartida>('/partidas', { nombre, numeroLetras });
@@ -40,7 +44,7 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 			setLoading(false);
 			const errores = await handlerAxiosError(error);
 			setErrorMsg(errores);
-		}
+		} */
 	};
 	
 	const inputRef = useRef<HTMLInputElement>(null);
