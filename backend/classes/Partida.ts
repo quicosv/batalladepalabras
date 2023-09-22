@@ -14,4 +14,10 @@ export class Partida {
 	esPartidaLlena(): boolean {
 		return this.numeroJugadores >= 2;
 	}
+
+	addJugador(): void {
+		if (!this.esPartidaLlena()) {
+			this.numeroJugadores++;
+		}
+	}
 }
