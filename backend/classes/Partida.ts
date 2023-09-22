@@ -20,4 +20,8 @@ export class Partida {
 			this.numeroJugadores++;
 		}
 	}
+
+	esPartidaVacia(): Boolean {
+		return this.numeroJugadores === 0;
+	}
 }
