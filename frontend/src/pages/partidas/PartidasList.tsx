@@ -15,37 +15,37 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 	// Creamos el useState de las partidas con un array vacío
 	const [partidas, setPartidas] = useState<IPartida[]>([]);
 	// Sacamos el socket
-	const {socket} = jugadorInfo;
-socket?.on('lista-partidas', (partidas: IPartida[]) => {
-	setPartidas(partidas);
-});
+	const { socket } = jugadorInfo;
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [ok, setOk] = useState<boolean>(true);
 	const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
 	useEffect(() => {
 		if (refreshPartidas) {
-			// getPartidas();
+			getPartidas();
 		}
 	}, [refreshPartidas]);
 
-/* 	const getPartidas = async () => {
-		try {
-			setLoading(true);
-			setErrorMsg('');
-			const { data } = await clienteAxios.get<IPartida[]>('/partidas');
-			setPartidas(data);
-			setRefreshPartidas(false);
-			setLoading(false);
-			setOk(true);
-		} catch (error) {
-			setRefreshPartidas(false);
-			setOk(false);
-			setLoading(false);
-			const errores = await handlerAxiosError(error);
-			setErrorMsg(errores);
-		}
-	}; */
+	const getPartidas = async () => {
+		socket?.on('lista-partidas', (partidas: IPartida[]) => {
+			setPartidas(partidas);
+		});
+		/* 		try {
+					setLoading(true);
+					setErrorMsg('');
+					const { data } = await clienteAxios.get<IPartida[]>('/partidas');
+					setPartidas(data);
+					setRefreshPartidas(false);
+					setLoading(false);
+					setOk(true);
+				} catch (error) {
+					setRefreshPartidas(false);
+					setOk(false);
+					setLoading(false);
+					const errores = await handlerAxiosError(error);
+					setErrorMsg(errores);
+				} */
+	};
 
 	const buscaPartidas = (cantidadDeLetras: number): boolean => {
 		let hayPartidas = false;
@@ -85,8 +85,8 @@ socket?.on('lista-partidas', (partidas: IPartida[]) => {
 					)
 				))
 			)
-		: (<p>Ahora mismo no hay partidas.</p>)
-		}
+				: (<p>Ahora mismo no hay partidas.</p>)
+			}
 			{refreshPartidas && loading && (
 				<div className="alert alert-warning" role="status" aria-live="polite">
 					Actualizando partidas...
