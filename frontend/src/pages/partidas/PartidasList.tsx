@@ -27,24 +27,10 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 	}, [refreshPartidas]);
 
 	const getPartidas = async () => {
-		socket?.on('lista-partidas', (partidas: IPartida[]) => {
-			setPartidas(partidas);
-		});
-		/* 		try {
-					setLoading(true);
-					setErrorMsg('');
-					const { data } = await clienteAxios.get<IPartida[]>('/partidas');
-					setPartidas(data);
-					setRefreshPartidas(false);
-					setLoading(false);
-					setOk(true);
-				} catch (error) {
-					setRefreshPartidas(false);
-					setOk(false);
-					setLoading(false);
-					const errores = await handlerAxiosError(error);
-					setErrorMsg(errores);
-				} */
+	    socket?.on('lista-partidas', (partidas: IPartida[]) => {
+	        console.log('Evento lista-partidas recibido con los datos:', partidas); // es para comprobar que la lista si se actualiza
+	        setPartidas(partidas);
+	    });
 	};
 
 	const buscaPartidas = (cantidadDeLetras: number): boolean => {
@@ -56,11 +42,6 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 		}
 		return hayPartidas;
 	}
-
-	// const goToPartida = async (partida: IPartida) => {
-	// 	const url = `/palabra/`;
-	// 	navigate(url);			
-	// };
 
 	return (
 		<>
@@ -97,6 +78,6 @@ export const PartidasList = ({ refreshPartidas: refreshPartidas, setRefreshParti
 					{errorMsg}
 				</div>
 			)}
-		</>
-	);
+        </>
+    );
 };

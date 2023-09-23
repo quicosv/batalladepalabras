@@ -70,7 +70,7 @@ io.on("connection", (socket: Socket) => {
 		jugadoresConectados.removeJugador(socket.id);
 		io.emit("jugadores-conectados", jugadoresConectados.getJugadores());
 		io.to(partida).emit(
-			"jugadores-conectados-a-sala",
+			"jugadores-conectados-a-partida",
 			jugadoresConectados.getJugadoresDePartida(partida)
 		);
 	});
