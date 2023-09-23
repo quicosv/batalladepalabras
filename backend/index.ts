@@ -86,6 +86,7 @@ io.on("connection", (socket: Socket) => {
 	});
 socket.on("crear-partida", ({nombre, numeroLetras}) => {
 	listaDePartidas.addPartida(nombre,numeroLetras);
+	io.sockets.emit("lista-partidas", listaDePartidas.getPartidas());
 });
 	socket.on(
 		"desconectar-de-partida",

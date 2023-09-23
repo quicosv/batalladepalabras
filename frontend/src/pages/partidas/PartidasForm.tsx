@@ -29,7 +29,7 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 	const crearPartida = async (e: FormEvent) => {
 		e.preventDefault();
 socket?.emit('crear-partida', {nombre, numeroLetras});
-navigate("/palabra", {
+navigate("/partidasactivas", {
 	replace: true,
 });
 /* 		try {
