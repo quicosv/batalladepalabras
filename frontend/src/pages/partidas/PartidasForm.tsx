@@ -12,8 +12,8 @@ interface IPartidasFormProps {
 	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartidasFormProps) => {
-	const { jugadorInfo: jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
+export const PartidasForm = ({ setRefreshPartidas }: IPartidasFormProps) => {
+	const { jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
 	const { socket } = jugadorInfo;
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
@@ -28,26 +28,15 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 
 	const crearPartida = async (e: FormEvent) => {
 		e.preventDefault();
-socket?.emit('crear-partida', {nombre, numeroLetras});
-navigate("/partidasactivas", {
-	replace: true,
-});
-/* 		try {
-			setLoading(true);
-			setErrorMsg('');
-			await clienteAxios.post<IPartida>('/partidas', { nombre, numeroLetras });
-			onResetForm();
-			setOk(true);
-			setLoading(false);
-			navigate("/palabra", {
-				replace: true,
-			});
-		} catch (error) {
-			setOk(false);
-			setLoading(false);
-			const errores = await handlerAxiosError(error);
-			setErrorMsg(errores);
-		} */
+		setLoading(true); // Activa la carga antes de crear la partida
+		setErrorMsg(''); // Limpia cualquier mensaje de error anterior
+		socket?.emit('crear-partida', {nombre, numeroLetras});
+		onResetForm(); // Restablece el formulario después de crear la partida
+		setOk(true); // Asume que todo está bien hasta que se demuestre lo contrario
+		setLoading(false); // Desactiva la carga después de crear la partida
+		navigate("/partidasactivas", {
+			replace: true,
+		});
 	};
 	
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -83,9 +72,13 @@ navigate("/partidasactivas", {
 			)}
 			{!ok && errorMsg && !loading && (
 				<div className="alert alert-danger" role="alert">
-					{errorMsg}
+					Ha ocurrido un error al crear la partida.
 				</div>
 			)}
-		</>
-	);
+			{ok && !errorMsg && !loading && (
+				setRefreshPartidas(true), // Activa el refresco después de crear la partida
+				null
+			)}
+        </>
+    );
 };

@@ -84,10 +84,11 @@ io.on("connection", (socket: Socket) => {
 			jugadoresConectados.getJugadoresDePartida(data.partida)
 		);
 	});
-socket.on("crear-partida", ({nombre, numeroLetras}) => {
-	listaDePartidas.addPartida(nombre,numeroLetras);
-	io.sockets.emit("lista-partidas", listaDePartidas.getPartidas());
-});
+
+	socket.on("crear-partida", ({nombre, numeroLetras}) => {
+		listaDePartidas.addPartida(nombre,numeroLetras);
+		io.sockets.emit("lista-partidas", listaDePartidas.getPartidas());
+	});
 	socket.on(
 		"desconectar-de-partida",
 		(data: { email: string; partida: string }) => {

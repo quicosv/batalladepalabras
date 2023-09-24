@@ -24,9 +24,10 @@ export class Partida {
 	esPartidaVacia(): Boolean {
 		return this.numeroJugadores === 0;
 	}
-eliminarJuagdor (): void {
-	if (!this.esPartidaVacia()) {
-		this.numeroJugadores--;
+
+	eliminarJugador(): void {
+		if (!this.esPartidaVacia()) {
+			this.numeroJugadores--;
+		}
 	}
-}
 }
