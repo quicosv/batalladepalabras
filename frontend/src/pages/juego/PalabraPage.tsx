@@ -17,7 +17,7 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 
 	const [errorMsg, setErrorMsg] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
-
+	const [empiezaPartida, setEmpiezaPartida] = useState<boolean>(false);
 	const { form, onInputChange, onResetForm } = useForm<ITuPalabra>({
 		jugadores_email: jugadorInfo.email,
 		tuPalabra: "",
@@ -58,11 +58,12 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 	return (
 		<>
 			<h1>{h1Palabra}</h1>
+{empiezaPartida ? (
 			<form className="row g-3" onSubmit={procesaPalabra}>
 				<div className="form-group">
 					<label className="form-label" htmlFor="palabra">Introduce una palabra:</label>
 					<input
-					className="form-control"
+						className="form-control"
 						type="text"
 						maxLength={23}
 						pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1,23}"
@@ -75,6 +76,8 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 				</div>
 				<button className="btn btn-success btn-lg" type="submit">Enviar</button>
 			</form>
+)
+: (<p>Esperando a tu oponente.</p>)}
 			{loading && (
 				<div className="alert alert-warning" role="alert">
 					Enviando palabra...
