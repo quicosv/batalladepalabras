@@ -1,5 +1,7 @@
+import { JugadorConectado } from "./jugadorConectado";
+
 export class Partida {
-	numeroJugadores: number;
+	jugadores: JugadorConectado[];
 	idPartida: number;
 	nombre: string;
 	numeroLetras: number;
@@ -8,26 +10,32 @@ export class Partida {
 		this.idPartida = idPartida;
 		this.nombre = nombre;
 		this.numeroLetras = numeroLetras;
-		this.numeroJugadores = 1;
+		this.jugadores = [];
 	}
 
 	esPartidaLlena(): boolean {
-		return this.numeroJugadores >= 2;
+		return this.jugadores.length >= 2;
 	}
 
-	addJugador(): void {
+	addJugador(jugador: JugadorConectado): void {
 		if (!this.esPartidaLlena()) {
-			this.numeroJugadores++;
+			if (!this.jugadores.find((x) => x.idSesion === jugador.idSesion)) {
+				this.jugadores.push(jugador);
+			}
+		}
+		}
+
+		esPartidaVacia(): Boolean {
+			return this.jugadores.length === 0;
+		}
+
+		eliminarJugador(jugador: JugadorConectado): void {
+			if(!this.esPartidaVacia()) {
+			this.jugadores = this.jugadores.filter((x) => x.idSesion !== jugador.idSesion);
 		}
 	}
-
-	esPartidaVacia(): Boolean {
-		return this.numeroJugadores === 0;
+	esPartidaLibre(): boolean {
+		return this.jugadores.length < 2;
 	}
 
-	eliminarJugador(): void {
-		if (!this.esPartidaVacia()) {
-			this.numeroJugadores--;
-		}
-	}
 }

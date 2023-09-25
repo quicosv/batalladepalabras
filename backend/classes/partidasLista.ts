@@ -18,4 +18,8 @@ if (!this.partidas.find((x) => x.nombre === nombre)) {
 	getPartidas (): Partida[] {
 		return this.partidas;
 	}
+	getPartidasConHuecos (): Partida[] {
+		return this.partidas.filter((x) => x.esPartidaLibre());
+	}
+
 }
