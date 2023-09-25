@@ -32,6 +32,8 @@ export const PartidasForm = ({ setRefreshPartidas }: IPartidasFormProps) => {
 		setErrorMsg(''); // Limpia cualquier mensaje de error anterior
 		socket?.emit('crear-partida', {nombre, numeroLetras});
 		onResetForm(); // Restablece el formulario después de crear la partida
+		setLoading(false);
+		setRefreshPartidas(true);
 		setOk(true); // Asume que todo está bien hasta que se demuestre lo contrario
 		setLoading(false); // Desactiva la carga después de crear la partida
 		navigate("/partidasactivas", {

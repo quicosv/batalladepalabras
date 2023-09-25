@@ -9,6 +9,7 @@ export class partidasLista {
 // La partida sólo se crea si el nombre no existe.
 if (!this.partidas.find((x) => x.nombre === nombre)) {
 	const nuevaPartida = new Partida(this.partidas.length + 1, nombre, numeroLetras);
+	this.partidas.push(nuevaPartida);
 }
 	}
 	eliminarPartida(id: number): void {
