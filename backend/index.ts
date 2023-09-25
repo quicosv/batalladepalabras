@@ -87,10 +87,10 @@ io.on("connection", (socket: Socket) => {
 
 	socket.on("crear-partida", ({nombre, numeroLetras}) => {
 		listaDePartidas.addPartida(nombre,parseInt(numeroLetras));
-		console.log('Me ha llegado esto.');
-		console.log(listaDePartidas.getPartidas());
-		console.log('Una partida llamada ',nombre,' con ',numeroLetras,' letras.');
 		io.sockets.emit("lista-partidas", listaDePartidas.getPartidas());
+	});
+	socket.on("unirse-a-partida",(jugador) => {
+		
 	});
 	socket.on(
 		"desconectar-de-partida",
