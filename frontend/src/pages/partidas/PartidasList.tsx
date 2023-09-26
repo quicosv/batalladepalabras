@@ -38,7 +38,9 @@ export const PartidasList = ({ refreshPartidas, setRefreshPartidas }: IPartidasL
 	const buscaPartidas = (cantidadDeLetras: number): boolean => {
 		return partidas.some(partida => partida.numeroLetras === cantidadDeLetras);
 	}
-
+const generarDireccion = (partida: IPartida): string => {
+	return `/palabra/${partida.idPartida}`;
+}
 	return (
 		<>
 			{loading ? (
@@ -54,7 +56,7 @@ export const PartidasList = ({ refreshPartidas, setRefreshPartidas }: IPartidasL
 								<ul className='sin-binietas'>
 									{partidas.filter(partida => partida.numeroLetras === numero).map((x) => (
 																<li className="list-group-item" key={x.idPartida}>
-											<Link to="/palabra">{x.nombre}</Link>
+											<Link to={generarDireccion(x)}>{x.nombre}</Link>
 										</li>
 									))}
 								</ul>
