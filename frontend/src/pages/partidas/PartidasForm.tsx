@@ -36,7 +36,7 @@ export const PartidasForm = ({ setRefreshPartidas }: IPartidasFormProps) => {
 		setRefreshPartidas(true);
 		setOk(true); // Asume que todo está bien hasta que se demuestre lo contrario
 		setLoading(false); // Desactiva la carga después de crear la partida
-		navigate("/palabra", {
+		navigate("/palabra/0", {
 			replace: true,
 		});
 	};
