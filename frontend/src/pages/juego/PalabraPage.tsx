@@ -7,6 +7,7 @@ import { ITuPalabra } from "../../interfaces/tuPalabra.interface";
 import { clienteAxios } from "../../config/clienteAxios";
 import { handlerAxiosError } from "../../helpers/handlerAxiosError";
 import { useParams } from "react-router-dom";
+import { IPartida } from "../../interfaces/partida.interface";
 
 interface IPalabraFormProps {
 	idPartida: number;
@@ -19,8 +20,9 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 	const [errorMsg, setErrorMsg] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [empiezaPartida, setEmpiezaPartida] = useState<boolean>(false);
-	const {id} = useParams();
+	const { id } = useParams();
 	const [idVerdadero, setIdVerdadero] = useState<number>(-1);
+	const [partidas, setPartidas] = useState<IPartida[]>([]);
 	const { form, onInputChange, onResetForm } = useForm<ITuPalabra>({
 		jugadores_email: jugadorInfo.email,
 		tuPalabra: "",
@@ -48,6 +50,18 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 
 		onResetForm();
 	};
+
+const calcularId = (): void => {
+	if (id === 0) {
+socket?.on("lista-partidas", (partidasActualizadas: IPartida[]) => {
+	setPartidas(partidasActualizadas);
+});
+setIdVerdadero(partidas.length -1);
+	}
+	else {
+		setIdVerdadero(id);
+	}
+}
 
 	useEffect(() => {
 		socket?.emit("unirse-a-partida", jugadorInfo.email);
