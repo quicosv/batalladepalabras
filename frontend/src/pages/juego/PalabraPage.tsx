@@ -20,6 +20,7 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [empiezaPartida, setEmpiezaPartida] = useState<boolean>(false);
 	const {id} = useParams();
+	const [idVerdadero, setIdVerdadero] = useState<number>(-1);
 	const { form, onInputChange, onResetForm } = useForm<ITuPalabra>({
 		jugadores_email: jugadorInfo.email,
 		tuPalabra: "",
