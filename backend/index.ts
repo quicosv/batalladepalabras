@@ -89,8 +89,9 @@ io.on("connection", (socket: Socket) => {
 		listaDePartidas.addPartida(nombre,parseInt(numeroLetras));
 		io.sockets.emit("lista-partidas", listaDePartidas.getPartidas());
 	});
-	socket.on("unirse-a-partida",(jugador) => {
-		
+	socket.on("unirse-a-partida",({email, idVerdadero}) => {
+		listaDePartidas.getPartida(idVerdadero).addJugador({email, idSesion:socket.id});
+		socket.emit('lista-partidas');
 	});
 	socket.on(
 		"desconectar-de-partida",
