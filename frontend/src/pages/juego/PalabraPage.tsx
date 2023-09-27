@@ -16,7 +16,7 @@ interface IPalabraFormProps {
 
 export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 	const { jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
-	const { socket } = jugadorInfo;
+	const { email, socket } = jugadorInfo;
 	const [errorMsg, setErrorMsg] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const [empiezaPartida, setEmpiezaPartida] = useState<boolean>(false);
@@ -64,7 +64,8 @@ setIdVerdadero(partidas.length -1);
 }
 
 	useEffect(() => {
-		socket?.emit("unirse-a-partida", jugadorInfo.email);
+		calcularId();
+		socket?.emit("unirse-a-partida", {email, idVerdadero});
 	}, []);
 
 	useEffect(() => {
