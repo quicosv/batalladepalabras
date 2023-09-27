@@ -67,7 +67,11 @@ setIdVerdadero(partidas.length -1);
 		calcularId();
 		socket?.emit("unirse-a-partida", {email, idVerdadero});
 	}, []);
-
+useEffect(() => {
+	socket?.on('partida-llena',(idVerdadero) => {
+		
+	})
+},[]);
 	useEffect(() => {
 		document.title = tituloPalabra;
 	}, []);
