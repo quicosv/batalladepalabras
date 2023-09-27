@@ -52,14 +52,14 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 	};
 
 const calcularId = (): void => {
-	if (id === 0) {
+	if (parseInt(id!) === 0) {
 socket?.on("lista-partidas", (partidasActualizadas: IPartida[]) => {
 	setPartidas(partidasActualizadas);
 });
 setIdVerdadero(partidas.length -1);
 	}
 	else {
-		setIdVerdadero(id);
+		setIdVerdadero(parseInt(id!));
 	}
 }
 
