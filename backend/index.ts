@@ -93,6 +93,7 @@ io.on("connection", (socket: Socket) => {
 		listaDePartidas.getPartida(idVerdadero).addJugador({email, idSesion:socket.id});
 		socket.emit('lista-partidas');
 	});
+	socket.emit('partida-llena', (id: number) => listaDePartidas.getPartida(id).esPartidaLlena());
 	socket.on(
 		"desconectar-de-partida",
 		(data: { email: string; partida: string }) => {
