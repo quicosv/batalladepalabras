@@ -68,8 +68,9 @@ setIdVerdadero(partidas.length -1);
 		socket?.emit("unirse-a-partida", {email, idVerdadero});
 	}, []);
 useEffect(() => {
-	socket?.on('partida-llena',(idVerdadero) => {
-		
+	socket?.on('comienza-juego',(partida:IPartida) => {
+		console.log('partida iniciada');
+		setEmpiezaPartida(true);
 	})
 },[]);
 	useEffect(() => {

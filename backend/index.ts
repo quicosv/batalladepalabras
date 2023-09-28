@@ -91,7 +91,10 @@ io.on("connection", (socket: Socket) => {
 	});
 	socket.on("unirse-a-partida",({email, idVerdadero}) => {
 		listaDePartidas.getPartida(idVerdadero).addJugador({email, idSesion:socket.id});
-		socket.emit('lista-partidas');
+		const partida = listaDePartidas.getPartida(idVerdadero);
+		io.sockets.emit('lista-partidas', listaDePartidas.getPartidas());
+		socket.emit('comienza-juego',listaDePartidas.getPartida(idVerdadero));
+		socket.broadcast.to(partida.jugadores[0].idSesion).emit('comienza-juego',listaDePartidas.getPartida(idVerdadero));
 	});
 	socket.emit('partida-llena', (id: number) => listaDePartidas.getPartida(id).esPartidaLlena());
 	socket.on(
