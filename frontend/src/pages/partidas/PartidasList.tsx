@@ -45,12 +45,13 @@ export const PartidasList = ({ refreshPartidas, setRefreshPartidas }: IPartidasL
             buscaPartidas(numero) && (
               <>
                 <div key={numero}>
-                  <h2>
+                  {/* <h2>
                     Partidas de {numero === 1 ? 'una' : numero} letra{numero > 1 ? 's' : ''}
-                  </h2>
+                  </h2> */}
                   <ul className="sin-binietas">
                     {partidas
-                      .filter((partida) => partida.numeroLetras === numero && partida.jugadores && partida.jugadores.length===1)
+                      .filter((partida) => partida.numeroLetras === numero && partida.jugadores && 
+                      partida.jugadores.length===1)
                       .map((x) => (
                         <li className="list-group-item" key={x.idPartida}>
                           <Link to={generarDireccion(x)}>{x.nombre}</Link>
