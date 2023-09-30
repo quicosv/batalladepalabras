@@ -13,37 +13,37 @@ import { CrearPartidasPage } from '../pages/partidas/CrearPartidasPage';
 import { PalabraPage } from '../pages/juego/PalabraPage';
 
 export const AppRouter = () => {
-	const { setJugadorInfo: setJugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
-	const [loading, setLoading] = useState<boolean>(true);
+  const { setJugadorInfo: setJugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
+  const [loading, setLoading] = useState<boolean>(true);
 
-	useEffect(() => {
-		const infoStorage: ILocalStorageInfo = JSON.parse(localStorage.getItem('jugadorInfo')!);
-		if (infoStorage) {
-			setJugadorInfo({ email: infoStorage.email, socket: undefined });
-		}
-		setLoading(false);
-	}, []);
+  useEffect(() => {
+    const infoStorage: ILocalStorageInfo = JSON.parse(localStorage.getItem('jugadorInfo')!);
+    if (infoStorage) {
+      setJugadorInfo({ email: infoStorage.email, socket: undefined });
+    }
+    setLoading(false);
+  }, []);
 
-	return (
-		<>
-			{!loading && (
-				<Routes>
-					<Route path="/" element={<AuthLayout />}>
-						<Route index element={<LoginPage />} />
-						<Route path="/login" element={<LoginPage />} />
-						<Route path='/registro' element={<RegistroPage />} />
-					</Route>
+  return (
+    <>
+      {!loading && (
+        <Routes>
+          <Route path="/" element={<AuthLayout />}>
+            <Route index element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/registro" element={<RegistroPage />} />
+          </Route>
 
+          <Route path="/" element={<PagesLayout />}>
+            <Route index element={<PartidasActivasPage />} />
+            <Route path="/partidasactivas" element={<PartidasActivasPage />} />
+            <Route path="/crearpartida" element={<CrearPartidasPage />} />
+            <Route path="/partida/:nombre/:numeroLetras" element={<PartidaPage />} />
 
-					<Route path="/" element={<PagesLayout />}>
-						<Route index element={<PartidasActivasPage />} />
-						<Route path='/partidasactivas' element={<PartidasActivasPage />} />
-						<Route path='/crearpartida' element={<CrearPartidasPage />} />
-			<Route path="/partida/:idPartida/:nombre" element={<PartidaPage  />} />
-			<Route path='/palabra/:idPartida' element={<PalabraPage idPartida={0} palabra={''} />} />
-					</Route>
-				</Routes>
-			)}
-		</>
-	);
+            <Route path="/palabra/:idPartida" element={<PalabraPage />} />
+          </Route>
+        </Routes>
+      )}
+    </>
+  );
 };

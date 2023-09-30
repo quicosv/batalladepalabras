@@ -35,3 +35,15 @@ create table jugadores (
 	password varchar(150) not null,
 	token varchar(500) not null
 );
+
+CREATE TABLE partidas (
+	idPartida INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	nombre VARCHAR(50) NOT NULL,
+	numeroLetras TINYINT UNSIGNED not null,
+	PRIMARY KEY (idPartida)
+);
+
+INSERT INTO
+	partidas
+VALUES
+	(default, "Principal", 5);
