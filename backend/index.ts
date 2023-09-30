@@ -8,9 +8,10 @@ import { routerJugadores } from './routes/routerJugadores';
 import { Server, Socket } from 'socket.io';
 import { validarJWT, validarJWTSocket } from './middlewares/validarJWT';
 import { routerPalabras } from './routes/routerPalabras';
-import { routerPartidas } from './routes/routerPartidas';
+//import { routerPartidas } from './routes/routerPartidas';
 import { JugadoresConectadosLista } from './classes/jugadoresConectadosLista';
 import { partidasLista } from './classes/partidasLista';
+import { Palabra } from './models/palabra';
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
@@ -27,7 +28,7 @@ app.use(express.json());
 app.use('/api/auth', routerAuth);
 app.use('/api/jugadores', routerJugadores);
 app.use('/api/palabras', routerPalabras);
-app.use('/api/partidas', validarJWT, routerPartidas);
+// app.use('/api/partidas', validarJWT, routerPartidas);
 
 const httpServer = http.createServer(app);
 export const io = new Server(httpServer, {
@@ -77,8 +78,9 @@ io.on('connection', (socket: Socket) => {
   // io.to(data.partida).emit('jugadores-conectados-a-partida', jugadoresConectados.getJugadoresDePartida(data.partida));
   // });
 
-  socket.on('crear-partida', ({ nombre, numeroLetras, email }) => {
-    const idPartida = listaDePartidas.addPartida(nombre, socket.id, email, parseInt(numeroLetras));
+  socket.on('crear-partida', async ({ nombre, numeroLetras, email }) => {
+    const palabraPartida = await palabraAleatoria();
+    const idPartida= listaDePartidas.addPartida(nombre,socket.id,email,palabraAleatoria.length,palabraPartida);
     if (idPartida !== 0) {
       jugadoresConectados.addJugador(email, socket.id, idPartida);
       io.sockets.emit('lista-partidas', listaDePartidas.getPartidas());
@@ -115,3 +117,16 @@ io.on('connection', (socket: Socket) => {
 httpServer.listen(port, () => {
   console.log(`Servidor en ejecución en puerto ${port}`);
 });
+
+const palabraAleatoria = async ():Promise<string> => {
+  try {
+   
+    const total=Palabra.count();
+    // calcular nº aleatorio
+    const palabraTabla = await Palabra.findByPk(5);
+
+    return palabraTabla!.dataValues.palabra;
+  } catch (error) {
+    return 'palabra';
+  }
+};

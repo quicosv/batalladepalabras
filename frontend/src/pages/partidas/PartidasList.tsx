@@ -50,7 +50,7 @@ export const PartidasList = ({ refreshPartidas, setRefreshPartidas }: IPartidasL
                   </h2>
                   <ul className="sin-binietas">
                     {partidas
-                      .filter((partida) => partida.numeroLetras === numero)
+                      .filter((partida) => partida.numeroLetras === numero && partida.jugadores.length===1)
                       .map((x) => (
                         <li className="list-group-item" key={x.idPartida}>
                           <Link to={generarDireccion(x)}>{x.nombre}</Link>
