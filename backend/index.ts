@@ -121,9 +121,9 @@ httpServer.listen(port, () => {
 const palabraAleatoria = async ():Promise<string> => {
   try {
    
-    const total=Palabra.count();
+   	 const total: number = Palabra.count();
     // calcular nº aleatorio
-    const palabraTabla = await Palabra.findByPk(5);
+    const palabraTabla = await Palabra.findByPk(Math.floor(Math.random() * total +1));
 
     return palabraTabla!.dataValues.palabra;
   } catch (error) {
