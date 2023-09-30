@@ -30,7 +30,7 @@ export const PartidasList = ({ refreshPartidas, setRefreshPartidas }: IPartidasL
   };
 
   const generarDireccion = (partida: IPartida): string => {
-    return `/palabra/${partida.idPartida}`;
+    return `/partida/${partida.nombre}`;
   };
 
   return (
@@ -50,7 +50,7 @@ export const PartidasList = ({ refreshPartidas, setRefreshPartidas }: IPartidasL
                   </h2>
                   <ul className="sin-binietas">
                     {partidas
-                      .filter((partida) => partida.numeroLetras === numero && partida.jugadores.length===1)
+                      .filter((partida) => partida.numeroLetras === numero && partida.jugadores && partida.jugadores.length===1)
                       .map((x) => (
                         <li className="list-group-item" key={x.idPartida}>
                           <Link to={generarDireccion(x)}>{x.nombre}</Link>
