@@ -10,12 +10,13 @@ import { validarJWT, validarJWTSocket } from "./middlewares/validarJWT";
 import { routerPalabras } from "./routes/routerPalabras";
 import { routerPartidas } from "./routes/routerPartidas";
 import { JugadoresConectadosLista } from "./classes/jugadoresConectadosLista";
+import { partidasLista } from "./classes/partidasLista";
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
 
 const jugadoresConectados = new JugadoresConectadosLista();
-
+const listaDePartidas = new partidasLista();
 dbConnection();
 
 // Middlewares
@@ -62,14 +63,14 @@ io.on("connection", (socket: Socket) => {
 		);
 	}
 
-	io.sockets.emit("jugadores-conectados", jugadoresConectados.getJugadores());
+	io.sockets.emit("lista-partidas", listaDePartidas.getPartidas());
 
 	socket.on("disconnect", () => {
 		const partida = jugadoresConectados.getPartidaJugador(socket.id);
 		jugadoresConectados.removeJugador(socket.id);
 		io.emit("jugadores-conectados", jugadoresConectados.getJugadores());
 		io.to(partida).emit(
-			"jugadores-conectados-a-sala",
+			"jugadores-conectados-a-partida",
 			jugadoresConectados.getJugadoresDePartida(partida)
 		);
 	});
@@ -84,6 +85,18 @@ io.on("connection", (socket: Socket) => {
 		);
 	});
 
+	socket.on("crear-partida", ({nombre, numeroLetras}) => {
+		listaDePartidas.addPartida(nombre,parseInt(numeroLetras));
+		io.sockets.emit("lista-partidas", listaDePartidas.getPartidas());
+	});
+	socket.on("unirse-a-partida",({email, idVerdadero}) => {
+		listaDePartidas.getPartida(idVerdadero).addJugador({email, idSesion:socket.id});
+		const partida = listaDePartidas.getPartida(idVerdadero);
+		io.sockets.emit('lista-partidas', listaDePartidas.getPartidas());
+		socket.emit('comienza-juego',listaDePartidas.getPartida(idVerdadero));
+		socket.broadcast.to(partida.jugadores[0].idSesion).emit('comienza-juego',listaDePartidas.getPartida(idVerdadero));
+	});
+	socket.emit('partida-llena', (id: number) => listaDePartidas.getPartida(id).esPartidaLlena());
 	socket.on(
 		"desconectar-de-partida",
 		(data: { email: string; partida: string }) => {

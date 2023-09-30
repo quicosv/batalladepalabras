@@ -1,16 +1,20 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { handlerAxiosError } from '../../helpers/handlerAxiosError';
 import { IPartida } from '../../interfaces/partida.interface';
 import { clienteAxios } from '../../config/clienteAxios';
 import { h1CrearPartida } from '../../variables';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../../context/AppContext';
+import { IJugadorInfoContext } from '../../interfaces/context.interface';
 
 interface IPartidasFormProps {
 	setRefreshPartidas: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartidasFormProps) => {
+export const PartidasForm = ({ setRefreshPartidas }: IPartidasFormProps) => {
+	const { jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
+	const { socket } = jugadorInfo;
 	const [errorMsg, setErrorMsg] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
@@ -24,23 +28,17 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 
 	const crearPartida = async (e: FormEvent) => {
 		e.preventDefault();
-
-		try {
-			setLoading(true);
-			setErrorMsg('');
-			await clienteAxios.post<IPartida>('/partidas', { nombre, numeroLetras });
-			onResetForm();
-			setOk(true);
-			setLoading(false);
-			navigate("/palabra", {
-				replace: true,
-			});
-		} catch (error) {
-			setOk(false);
-			setLoading(false);
-			const errores = await handlerAxiosError(error);
-			setErrorMsg(errores);
-		}
+		setLoading(true); // Activa la carga antes de crear la partida
+		setErrorMsg(''); // Limpia cualquier mensaje de error anterior
+		socket?.emit('crear-partida', {nombre, numeroLetras});
+		onResetForm(); // Restablece el formulario después de crear la partida
+		setLoading(false);
+		setRefreshPartidas(true);
+		setOk(true); // Asume que todo está bien hasta que se demuestre lo contrario
+		setLoading(false); // Desactiva la carga después de crear la partida
+		navigate("/palabra/0", {
+			replace: true,
+		});
 	};
 	
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -76,9 +74,13 @@ export const PartidasForm = ({ setRefreshPartidas: setRefreshPartidas }: IPartid
 			)}
 			{!ok && errorMsg && !loading && (
 				<div className="alert alert-danger" role="alert">
-					{errorMsg}
+					Ha ocurrido un error al crear la partida.
 				</div>
 			)}
-		</>
-	);
+			{ok && !errorMsg && !loading && (
+				setRefreshPartidas(true), // Activa el refresco después de crear la partida
+				null
+			)}
+        </>
+    );
 };

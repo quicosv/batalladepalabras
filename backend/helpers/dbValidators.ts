@@ -26,7 +26,6 @@ export const partidaExiste = async (nombre = "") => {
 		);
 	}
 };
-
 export const numeroLetrasValidoPartida = async (numeroLetras: number) => {
 	if (numeroLetras < 1 || numeroLetras > 23) {
 		throw new Error(

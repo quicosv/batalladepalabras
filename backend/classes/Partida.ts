@@ -1,32 +1,57 @@
+import { IPalabraDeJugador } from "../interfaces/palabraDeJugador.interface";
+import { JugadorConectado } from "./jugadorConectado";
+
 export class Partida {
-	numeroJugadores: number;
+	jugadores: JugadorConectado[];
 	idPartida: number;
 	nombre: string;
 	numeroLetras: number;
+	palabraActual: IPalabraDeJugador;
 
 	constructor(idPartida: number, nombre: string, numeroLetras: number) {
 		this.idPartida = idPartida;
 		this.nombre = nombre;
 		this.numeroLetras = numeroLetras;
-		this.numeroJugadores = 1;
+		this.jugadores = [];
+		this.palabraActual = { idSesion: "", palabra: "" };
 	}
 
 	esPartidaLlena(): boolean {
-		return this.numeroJugadores >= 2;
+		return this.jugadores.length >= 2;
 	}
 
-	addJugador(): void {
+	addJugador(jugador: JugadorConectado): void {
 		if (!this.esPartidaLlena()) {
-			this.numeroJugadores++;
+			if (!this.jugadores.find((x) => x.idSesion === jugador.idSesion)) {
+				this.jugadores.push(jugador);
+			}
 		}
 	}
 
 	esPartidaVacia(): Boolean {
-		return this.numeroJugadores === 0;
+		return this.jugadores.length === 0;
 	}
-eliminarJuagdor (): void {
-	if (!this.esPartidaVacia()) {
-		this.numeroJugadores--;
+
+	eliminarJugador(jugador: JugadorConectado): void {
+		if (!this.esPartidaVacia()) {
+			this.jugadores = this.jugadores.filter(
+				(x) => x.idSesion !== jugador.idSesion
+			);
+		}
 	}
-}
+	esPartidaLibre(): boolean {
+		return this.jugadores.length < 2;
+	}
+	addPalabraAJugador(palabra: string, jugador: JugadorConectado): void {
+		if (this.jugadores.find((x) => x.idSesion === jugador.idSesion)) {
+			this.palabraActual = { idSesion: jugador.idSesion, palabra: palabra };
+		}
+	}
+	getPalabraDeJugador(jugador: JugadorConectado): string {
+		if (this.jugadores.find((x) => x.idSesion === jugador.idSesion)) {
+			return this.palabraActual.palabra;
+		} else {
+			return "";
+		}
+	}
 }

@@ -5,20 +5,12 @@ export class partidasLista {
 	constructor() {
 		this.partidas = [];
 	}
-	addPartida(id: number, nombre: string, numeroLetras: number): void {
-		// La partida sólo se añade si viene un id
-		if (id) {
-			// Buscamos el id en la lista de patidas
-			const partida = this.partidas.find((x) => x.idPartida === id);
-			if (partida) {
-				// Se crea un array nuevo con filter
-				this.partidas = this.partidas.filter((x) => x.idPartida !== id);
-			}
-			// Se crea la partida
-			const nuevaPartida = new Partida(id, nombre, numeroLetras);
-			// Y se añade al array.
-			this.partidas.push(nuevaPartida);
-		}
+	addPartida(nombre: string, numeroLetras: number): void {
+// La partida sólo se crea si el nombre no existe.
+if (!this.partidas.find((x) => x.nombre === nombre)) {
+	const nuevaPartida = new Partida(this.partidas.length + 1, nombre, numeroLetras);
+	this.partidas.push(nuevaPartida);
+}
 	}
 	eliminarPartida(id: number): void {
 		this.partidas = this.partidas.filter((x) => x.idPartida !== id);
@@ -26,4 +18,13 @@ export class partidasLista {
 	getPartidas (): Partida[] {
 		return this.partidas;
 	}
+
+	getPartida (id: number): Partida {
+		return this.partidas.find(x=>x.idPartida===id)!;
+	}
+	
+	getPartidasConHuecos (): Partida[] {
+		return this.partidas.filter((x) => x.esPartidaLibre());
+	}
+
 }

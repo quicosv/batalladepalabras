@@ -6,6 +6,8 @@ import { IJugadorInfoContext } from "../../interfaces/context.interface";
 import { ITuPalabra } from "../../interfaces/tuPalabra.interface";
 import { clienteAxios } from "../../config/clienteAxios";
 import { handlerAxiosError } from "../../helpers/handlerAxiosError";
+import { useParams } from "react-router-dom";
+import { IPartida } from "../../interfaces/partida.interface";
 
 interface IPalabraFormProps {
 	idPartida: number;
@@ -14,10 +16,13 @@ interface IPalabraFormProps {
 
 export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 	const { jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
-
+	const { email, socket } = jugadorInfo;
 	const [errorMsg, setErrorMsg] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
-
+	const [empiezaPartida, setEmpiezaPartida] = useState<boolean>(false);
+	const { id } = useParams();
+	const [idVerdadero, setIdVerdadero] = useState<number>(-1);
+	const [partidas, setPartidas] = useState<IPartida[]>([]);
 	const { form, onInputChange, onResetForm } = useForm<ITuPalabra>({
 		jugadores_email: jugadorInfo.email,
 		tuPalabra: "",
@@ -46,6 +51,28 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 		onResetForm();
 	};
 
+const calcularId = (): void => {
+	if (parseInt(id!) === 0) {
+socket?.on("lista-partidas", (partidasActualizadas: IPartida[]) => {
+	setPartidas(partidasActualizadas);
+});
+setIdVerdadero(partidas.length -1);
+	}
+	else {
+		setIdVerdadero(parseInt(id!));
+	}
+}
+
+	useEffect(() => {
+		calcularId();
+		socket?.emit("unirse-a-partida", {email, idVerdadero});
+	}, []);
+useEffect(() => {
+	socket?.on('comienza-juego',(partida:IPartida) => {
+		console.log('partida iniciada');
+		setEmpiezaPartida(true);
+	})
+},[]);
 	useEffect(() => {
 		document.title = tituloPalabra;
 	}, []);
@@ -58,23 +85,26 @@ export const PalabraPage = ({ idPartida, palabra }: IPalabraFormProps) => {
 	return (
 		<>
 			<h1>{h1Palabra}</h1>
-			<form className="row g-3" onSubmit={procesaPalabra}>
-				<div className="form-group">
-					<label className="form-label" htmlFor="palabra">Introduce una palabra:</label>
-					<input
-					className="form-control"
-						type="text"
-						maxLength={23}
-						pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1,23}"
-						id="palabra"
-						value={tuPalabra}
-						onChange={onInputChange}
-						ref={inputRef}
-						required
-					/>
-				</div>
-				<button className="btn btn-success btn-lg" type="submit">Enviar</button>
-			</form>
+			{empiezaPartida ? (
+				<form className="row g-3" onSubmit={procesaPalabra}>
+					<div className="form-group">
+						<label className="form-label" htmlFor="palabra">Introduce una palabra:</label>
+						<input
+							className="form-control"
+							type="text"
+							maxLength={23}
+							pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]{1,23}"
+							id="palabra"
+							value={tuPalabra}
+							onChange={onInputChange}
+							ref={inputRef}
+							required
+						/>
+					</div>
+					<button className="btn btn-success btn-lg" type="submit">Enviar</button>
+				</form>
+			)
+				: (<p>Esperando a tu oponente.</p>)}
 			{loading && (
 				<div className="alert alert-warning" role="alert">
 					Enviando palabra...
