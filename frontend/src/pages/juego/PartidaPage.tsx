@@ -31,11 +31,13 @@ export const PartidaPage = () => {
 			setIdPartida(partida.idPartida!);
 			const contrincante = partida.jugadores!.find((x) => x.email !== jugadorInfo.email)!;
 			setContrincante(contrincante.email);
-			setPalabra(partida.palabraActual);
-			setDescubierto(palabra.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '_'))
-			console.log('Tienes que adivinar la palabra ' + palabra + '.');
+			if (partida.palabraActual !== '') {
+				setPalabra(partida.palabraActual);
+				setDescubierto(palabra.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '_'))
+				console.log('Tienes que adivinar la palabra ' + palabra + '.');
+			}
 		});
-	},[]);
+	}, []);
 
 	socket?.on('has-ganado', () => {
 		setHasGanado(true);
@@ -88,15 +90,15 @@ export const PartidaPage = () => {
 		if (palabraSinAcentos(palabra).includes(letra) || palabra.includes(letra)) {
 			actualizarDescubierto(letra);
 		} else {
-					setHasGanado(false);
+			setHasGanado(false);
 		}
 		onResetForm();
 	};
 
-//   const ganar = () => {
-//     setHasGanado(true);
-//     socket?.emit('has-perdido', { email: jugadorInfo.email, idPartida });
-//   };
+	//   const ganar = () => {
+	//     setHasGanado(true);
+	//     socket?.emit('has-perdido', { email: jugadorInfo.email, idPartida });
+	//   };
 
 	useEffect(() => {
 		document.title = nombre + " - " + tituloPartida;
