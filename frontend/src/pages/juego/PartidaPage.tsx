@@ -1,5 +1,5 @@
 import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
-import { h1Partida, tituloPartida } from '../../variables';
+import { aplicacion, h1Partida, tituloPartida } from '../../variables';
 import { useForm } from '../../hooks/useForm';
 import { ILetra } from '../../interfaces/letra.interface';
 import { esAcentuada, letraSinAcentos, palabraSinAcentos } from '../../hooks/useLetra';
@@ -101,7 +101,7 @@ export const PartidaPage = () => {
 	//   };
 
 	useEffect(() => {
-		document.title = nombre + " - " + tituloPartida;
+		document.title = `${h1Partida ${nombre}} - ${aplicacion}`;
 		socket?.emit('crear-partida', {
 			nombre,
 			numeroLetras: 0,
