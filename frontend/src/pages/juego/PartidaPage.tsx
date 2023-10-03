@@ -1,38 +1,48 @@
-import { FormEvent, useContext, useEffect, useRef, useState } from "react";
-import { h1Partida, tituloPartida } from "../../variables";
-import { useForm } from "../../hooks/useForm";
-import { ILetra } from "../../interfaces/letra.interface";
-import {
-	esAcentuada,
-	letraSinAcentos,
-	palabraSinAcentos,
-} from "../../hooks/useLetra";
-import { useParams } from "react-router-dom";
-import { IJugadorInfoContext } from "../../interfaces/context.interface";
-import { AppContext } from "../../context/AppContext";
-import { IPartida } from "../../interfaces/partida.interface";
+import { FormEvent, useContext, useEffect, useRef, useState } from 'react';
+import { h1Partida, tituloPartida } from '../../variables';
+import { useForm } from '../../hooks/useForm';
+import { ILetra } from '../../interfaces/letra.interface';
+import { esAcentuada, letraSinAcentos, palabraSinAcentos } from '../../hooks/useLetra';
+import { useParams } from 'react-router-dom';
+import { IJugadorInfoContext } from '../../interfaces/context.interface';
+import { AppContext } from '../../context/AppContext';
+import { IPartida } from '../../interfaces/partida.interface';
 
 export const PartidaPage = () => {
 	const { jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
-	const [contrincante, setContrincante] = useState<string>("");
-	const [hayGanador, setHayGanador] = useState<boolean>(true);
-	const [palabra, setPalabra] = useState<string>("");
-	const [descubierto, setDescubierto] = useState<string>(
-		palabra.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, "_")
-	);
+	const [contrincante, setContrincante] = useState<string>('');
+	const [hasGanado, setHasGanado] = useState<boolean>(false);
+	const [hasPerdido, setHasPerdido] = useState<boolean>(false);
+	const [palabra, setPalabra] = useState<string>('');
+	const [idPartida, setIdPartida] = useState<number>(0);
+	const [descubierto, setDescubierto] = useState<string>('');
 	const [letrasProbadas, setLetrasProbadas] = useState<string[]>([]);
 	const { form, onInputChange, onResetForm } = useForm<ILetra>({
-		letraInput: "",
+		letraInput: ''
 	});
 	const { socket } = jugadorInfo;
 	const { nombre } = useParams();
 
 	const { letraInput } = form;
 
-	socket?.on("comienza-juego", (partida: IPartida) => {
-		console.log("partida iniciada", partida);
-		setContrincante(partida.jugadores![1].email);
-		setPalabra(partida.palabra);
+	useEffect(() => {
+		socket?.on('comienza-juego', (partida: IPartida) => {
+			console.log('partida iniciada', partida);
+			setIdPartida(partida.idPartida!);
+			const contrincante = partida.jugadores!.find((x) => x.email !== jugadorInfo.email)!;
+			setContrincante(contrincante.email);
+			setPalabra(partida.palabraActual);
+			setDescubierto(palabra.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '_'))
+			console.log('Tienes que adivinar la palabra ' + palabra + '.');
+		});
+	},[]);
+
+	socket?.on('has-ganado', () => {
+		setHasGanado(true);
+	});
+
+	socket?.on('has-perdido', () => {
+		setHasPerdido(true);
 	});
 
 	const actualizarDescubierto = (letra: string): void => {
@@ -47,6 +57,7 @@ export const PartidaPage = () => {
 		for (let i = 0; i < procesarDescubierto.length; i++) {
 			caracteres.push(procesarDescubierto[i]);
 		}
+
 		// Recorremos el array de descubierto y el de la palabra original y almacenamos en el array de índices la posición en la que coincide una letra
 		for (let i = 0; i < procesarDescubierto.length; i++) {
 			for (let j = 0; j < procesarPalabra.length; j++) {
@@ -66,7 +77,8 @@ export const PartidaPage = () => {
 			caracteres[x] = palabra[x];
 		});
 		// Con la función join actualizamos la cadena de lo que se ha descubierto con el array de caracteres
-		setDescubierto(caracteres.join(""));
+		console.log(indices);
+		setDescubierto(caracteres.join(''));
 	};
 
 	const pruebaLetra = (e: FormEvent) => {
@@ -76,17 +88,22 @@ export const PartidaPage = () => {
 		if (palabraSinAcentos(palabra).includes(letra) || palabra.includes(letra)) {
 			actualizarDescubierto(letra);
 		} else {
-			setHayGanador(false);
+					setHasGanado(false);
 		}
 		onResetForm();
 	};
 
+//   const ganar = () => {
+//     setHasGanado(true);
+//     socket?.emit('has-perdido', { email: jugadorInfo.email, idPartida });
+//   };
+
 	useEffect(() => {
-		document.title = tituloPartida;
-		socket?.emit("crear-partida", {
+		document.title = nombre + " - " + tituloPartida;
+		socket?.emit('crear-partida', {
 			nombre,
-			numeroLetras:0,
-			email: jugadorInfo.email,
+			numeroLetras: 0,
+			email: jugadorInfo.email
 		});
 	}, []);
 
@@ -99,12 +116,15 @@ export const PartidaPage = () => {
 	return (
 		<>
 			<h1>{h1Partida}</h1>
-			<p>
-				{contrincante === ""
-					? "Esperando a tu oponente"
-					: "Tu oponente es: " + contrincante}
+			{/* <button className="btn btn-success btn-lg" type="button" onClick={ganar}>
+				Ganar
+			</button> */}
+			<p className="fs-4 text-primary">
+				{contrincante === '' ? 'Esperando a tu oponente' : 'Tu oponente es: ' + contrincante}
 			</p>
-			{contrincante!== "" && !hayGanador ? (
+			{hasGanado && <p className="fs-4 text-success">Has ganado!!!</p>}
+			{hasPerdido && <p className="fs-4 text-danger">Has perdido!!! La palabra era: {palabra}</p>}
+			{contrincante !== '' && !hasGanado && !hasPerdido ? (
 				<>
 					<form className="row g-3" onSubmit={pruebaLetra}>
 						<div className="form-group">
@@ -131,13 +151,13 @@ export const PartidaPage = () => {
 					<p aria-hidden="true">{descubierto}</p>
 					<ol className="oculto-visualmente">
 						{[...descubierto].map((x, i) => (
-							<li key={i}>{x === "_" ? "Desconocida." : `${x}.`}</li>
+							<li key={i}>{x === '_' ? 'Desconocida.' : `${x}.`}</li>
 						))}
 					</ol>
 					{descubierto === palabra && <p>Has ganado.</p>}
 				</>
 			) : (
-				<p>El turno pasa al otro jugador.</p>
+				<p></p>
 			)}
 		</>
 	);

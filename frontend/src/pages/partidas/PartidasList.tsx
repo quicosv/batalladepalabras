@@ -25,12 +25,16 @@ export const PartidasList = ({ refreshPartidas, setRefreshPartidas }: IPartidasL
     setLoading(false); // Desactiva la carga después de obtener las partidas
   });
 
-  const buscaPartidas = (cantidadDeLetras: number): boolean => {
-    return partidas.some((partida) => partida.numeroLetras === cantidadDeLetras);
-  };
+  // const buscaPartidas = (cantidadDeLetras: number): boolean => {
+  //   return partidas.some((partida) => partida.numeroLetras === cantidadDeLetras);
+  // };
 
   const generarDireccion = (partida: IPartida): string => {
     return `/partida/${partida.nombre}`;
+  };
+
+  const unirAPartida = (partida: IPartida) => {
+    socket?.emit('unirse-a-partida', { email: jugadorInfo.email, idPartida: partida.idPartida });
   };
 
   return (
@@ -40,29 +44,39 @@ export const PartidasList = ({ refreshPartidas, setRefreshPartidas }: IPartidasL
           Esperando partidas...
         </div>
       ) : partidas?.length > 0 ? (
-        numeros.map(
-          (numero) =>
-            buscaPartidas(numero) && (
-              <>
-                <div key={numero}>
-                  {/* <h2>
-                    Partidas de {numero === 1 ? 'una' : numero} letra{numero > 1 ? 's' : ''}
-                  </h2> */}
-                  <ul className="sin-binietas">
-                    {partidas
-                      .filter((partida) => partida.numeroLetras === numero && partida.jugadores && 
-                      partida.jugadores.length===1)
-                      .map((x) => (
-                        <li className="list-group-item" key={x.idPartida}>
-                          <Link to={generarDireccion(x)}>{x.nombre}</Link>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              </>
-            )
-        )
+        <ul>
+          {partidas
+            .filter((partida) => partida.jugadores && partida.jugadores.length === 1)
+            .map((x) => (
+              <li className="list-group-item" key={x.idPartida}>
+                <Link onClick={() => unirAPartida(x)} to={generarDireccion(x)}>
+                  {x.nombre}
+                </Link>
+              </li>
+            ))}
+        </ul>
       ) : (
+        // numeros.map(
+        //   (numero) =>
+        //     buscaPartidas(numero) && (
+        //       <>
+        //         <div key={numero}>
+        //           <h2>
+        //             Partidas de {numero === 1 ? 'una' : numero} letra{numero > 1 ? 's' : ''}
+        //           </h2>
+        //           <ul className="sin-binietas">
+        //             {partidas
+        //               .filter((partida) => partida.jugadores && partida.jugadores.length === 1)
+        //               .map((x) => (
+        //                 <li className="list-group-item" key={x.idPartida}>
+        //                   <Link to={generarDireccion(x)}>{x.nombre}</Link>
+        //                 </li>
+        //               ))}
+        //           </ul>
+        //         </div>
+        //       </>
+        //     )
+        // )
         <p>Ahora mismo no hay partidas.</p>
       )}
       {!ok &&

@@ -11,7 +11,7 @@ interface IPartidasFormProps {
 }
 
 export const PartidasForm = ({ setRefreshPartidas }: IPartidasFormProps) => {
-	const { jugadorInfo } = useContext<IJugadorInfoContext>(AppContext);
+	useContext<IJugadorInfoContext>(AppContext);
 	// const { socket } = jugadorInfo;
 	const [errorMsg, setErrorMsg] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
@@ -19,6 +19,7 @@ export const PartidasForm = ({ setRefreshPartidas }: IPartidasFormProps) => {
 	const [ok, setOk] = useState<boolean>(true);
 	const { form, onInputChange, onResetForm } = useForm<IPartida>({
 		nombre: "",
+		palabraActual: ""
 	});
 
 	const { nombre } = form;

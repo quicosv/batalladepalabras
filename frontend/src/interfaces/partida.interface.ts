@@ -3,7 +3,7 @@ export interface IPartida {
   nombre: string;
   numeroLetras?: number;
   jugadores?: IJugador[];
-  palabra: string;
+  palabraActual: string;
 }
 
 export interface IJugador {

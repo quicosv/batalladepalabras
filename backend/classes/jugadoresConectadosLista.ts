@@ -33,8 +33,10 @@ export class JugadoresConectadosLista {
     return this.jugadoresConectados;
   }
 
-  getPartidaJugador(idSesion: string): number {
-    return this.jugadoresConectados.find((x) => x.idSesion === idSesion)!.partida;
+  getPartidaJugador(idSesion: string): number | undefined {
+    console.log(idSesion);
+    console.log(this.jugadoresConectados);
+    return this.jugadoresConectados.find((x) => x.idSesion === idSesion)?.partida;
   }
 
   // getJugadoresDePartida(partida: string): JugadorConectado[] {
