@@ -108,6 +108,13 @@ export const PartidaPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (descubierto === palabra && descubierto !== '') {
+      setHasGanado(true);
+      socket?.emit('notificar-has-perdido', { email: jugadorInfo.email, idPartida });
+    }
+  }, [descubierto]);
+
   return (
     <>
       <h1>{h1Partida}</h1>
