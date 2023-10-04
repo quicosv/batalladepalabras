@@ -120,16 +120,16 @@ export const PartidaPage = () => {
     <>
       <h1>{h1Partida}</h1>
       <p className="fs-4 text-primary">
-        {contrincante === '' ? 'Esperando a tu oponente' : 'Tu oponente es: ' + contrincante}
+        {contrincante === '' ? 'Esperando a tu oponente.' : 'Tu oponente es: ' + contrincante + '.'}
       </p>
 	  {hasGanado && 	  <div role='status' aria-live='polite'>
-	  <p className="fs-4 text-success">Has ganado!!!</p>
-	  <Link to="/partidasactivas">Ir a partidas activas.</Link>
+	  <p className="fs-4 text-success">¡¡¡Has ganado!!!</p>
+	  <Link to="/partidasactivas">Buscar otra partida.</Link>
 	  </div>}
 
 	  {hasPerdido && 	  <div role='status' aria-live='polite'>
-      <p className="fs-4 text-danger">Has perdido!!! La palabra era: {palabra}</p>
-	  <Link to="/partidasactivas">Ir a partidas activas.</Link>
+      <p className="fs-4 text-danger">¡¡¡Has perdido!!! La palabra era: {palabra}.</p>
+	  <Link to="/partidasactivas">Buscar otra partida.</Link>
 	  </div>}
 
       {contrincante !== '' && !hasGanado && !hasPerdido ? (
