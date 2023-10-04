@@ -32,13 +32,14 @@ export const PartidaPage = () => {
       const contrincante = partida.jugadores!.find((x) => x.email !== jugadorInfo.email)!;
       setContrincante(contrincante.email);
       if (partida.palabraActual !== '') {
-        setPalabra(partida.palabraActual);
-        setDescubierto(partida.palabraActual.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '_'));
-        console.log('Tienes que adivinar la palabra ' + partida.palabraActual + '.');
+        let palabraLimpia = partida.palabraActual.replace(/\r/g, "");
+        setPalabra(palabraLimpia);
+        setDescubierto(palabraLimpia.replace(/[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '_'));
+        console.log('Tienes que adivinar la palabra ' + palabraLimpia + '.');
       }
     });
   }, []);
-
+  
   socket?.on('has-ganado', () => {
     setHasGanado(true);
   });
