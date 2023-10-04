@@ -3,7 +3,7 @@ import { aplicacion, h1Partida } from '../../variables';
 import { useForm } from '../../hooks/useForm';
 import { ILetra } from '../../interfaces/letra.interface';
 import { esAcentuada, letraSinAcentos, palabraSinAcentos } from '../../hooks/useLetra';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { IJugadorInfoContext } from '../../interfaces/context.interface';
 import { AppContext } from '../../context/AppContext';
 import { IPartida } from '../../interfaces/partida.interface';
@@ -122,8 +122,16 @@ export const PartidaPage = () => {
       <p className="fs-4 text-primary">
         {contrincante === '' ? 'Esperando a tu oponente' : 'Tu oponente es: ' + contrincante}
       </p>
-      {hasGanado && <p className="fs-4 text-success">Has ganado!!!</p>}
-      {hasPerdido && <p className="fs-4 text-danger">Has perdido!!! La palabra era: {palabra}</p>}
+	  {hasGanado && 	  <div role='status' aria-live='polite'>
+	  <p className="fs-4 text-success">Has ganado!!!</p>
+	  <Link to="/partidasactivas">Ir a partidas activas.</Link>
+	  </div>}
+
+	  {hasPerdido && 	  <div role='status' aria-live='polite'>
+      <p className="fs-4 text-danger">Has perdido!!! La palabra era: {palabra}</p>
+	  <Link to="/partidasactivas">Ir a partidas activas.</Link>
+	  </div>}
+
       {contrincante !== '' && !hasGanado && !hasPerdido ? (
         <>
           <form className="row g-3" onSubmit={pruebaLetra}>
