@@ -1,0 +1,38 @@
+Bilal
+
+Reutilización de componentes.
+Estructura de carpetas en el frontend.
+Componente base del formulario en el que se adivina la palabra.
+Separación de login y registro en páginas diferentes.
+Rutas del frontend.
+Correcciones en formularios.
+Accesibilidad de la notificación sobre el ganador de la partida.
+
+Javi
+
+Ajustes iniciales.
+Archivo .gitignore.
+Interfaz de palabras en el frontend.
+Reestructuración de la base de datos cambiando la clave de la tabla de palabras.
+Hacer que el foco caiga en el primer input.
+Clases en el backend.
+Correcciones de errores en el backend antes de implementar el tiempo real.
+Protección de rutas en el backend.
+
+Quico
+
+Creación del proyecto.
+Documentación (readme.md).
+Modificación de los títulos de las páginas.
+Tablas de usuarios y palabras en la base de datos.
+Modelo, router y controller de palabras en el backend.
+Archivo propio de estilos css.
+Plantilla del return de PagesLayout.
+Mensajes de ayuda en formularios con el atributo title.
+Llevar el foco a los h1 de los componentes.
+Clases de Bootstrap en los formularios.
+
+Entre todos
+
+Componente que permite adivinar letras de la palabra.
+Gestión del tiempo real.

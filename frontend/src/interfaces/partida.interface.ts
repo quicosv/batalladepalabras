@@ -1,5 +1,12 @@
 export interface IPartida {
   idPartida?: number;
   nombre: string;
-  numeroLetras: number;
+  numeroLetras?: number;
+  jugadores?: IJugador[];
+  palabraActual: string;
+}
+
+export interface IJugador {
+  email: string;
+  idSesion: string;
 }
