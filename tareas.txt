@@ -3,7 +3,7 @@ Bilal
 Reutilización de componentes.
 Estructura de carpetas en el frontend.
 Componente base del formulario en el que se adivina la palabra.
-Separación de login y registro en áginas diferentes.
+Separación de login y registro en páginas diferentes.
 Rutas del frontend.
 Correcciones en formularios.
 Accesibilidad de la notificación sobre el ganador de la partida.
